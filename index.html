@@ -80,6 +80,15 @@
       margin-left: 6px;
       opacity: 0.6;
     }
+
+    td a {
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+
+    td a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 
@@ -154,7 +163,7 @@
 
         tr.innerHTML = `
       <td><img class="avatar" src="${item.image_url}" alt=""></td>
-      <td>${item.steam_name}</td>
+      <td><a href="https://vtcpanel.com/id${item.id_user}" target="_blank">${item.steam_name}</a></td>
       <td>${item.name}</td>
       <td>${item.family}</td>
       <td>${item.country}</td>
@@ -193,7 +202,6 @@
       renderTable();
     }
 
-    // обработка кликов по заголовкам
     document.querySelectorAll('th').forEach(th => {
       const key = th.dataset.key;
       if (!key || key === 'image_url') return;
