@@ -9,9 +9,14 @@ h1 {
   margin-bottom: 10px;
 }
 
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
 select {
   padding: 6px 10px;
-  margin-bottom: 15px;
   background: #1a1d24;
   color: #fff;
   border: 1px solid #2a2e39;
@@ -33,10 +38,10 @@ thead {
 th,
 td {
   padding: 10px;
-  text-align: left;
   border-bottom: 1px solid #2a2e39;
   border-right: 1px solid #2a2e39;
   font-size: 14px;
+  white-space: nowrap;
 }
 
 th:last-child,
@@ -47,7 +52,6 @@ td:last-child {
 th {
   cursor: pointer;
   user-select: none;
-  white-space: nowrap;
 }
 
 th:hover {
@@ -69,11 +73,6 @@ img.avatar {
   text-align: right;
 }
 
-.sort-indicator {
-  margin-left: 6px;
-  opacity: 0.6;
-}
-
 td a {
   color: #4fc3f7;
   text-decoration: none;
@@ -81,4 +80,19 @@ td a {
 
 td a:hover {
   text-decoration: underline;
+}
+
+.diff {
+  margin-left: 6px;
+  font-size: 12px;
+}
+
+.plus {
+  color: #4caf50;
+}
+.minus {
+  color: #f44336;
+}
+.zero {
+  color: #9e9e9e;
 }
