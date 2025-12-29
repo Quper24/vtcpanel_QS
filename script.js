@@ -32,89 +32,102 @@ function initApp() {
   const app = document.querySelector(".app");
 
   app.innerHTML = `
-    <div class="container">
-      <h1>Сотрудники — сравнение по датам</h1>
-      
-      <div class="controls">
-        <div class="date-selectors">
-          <div class="date-group">
-            <label>Основная дата:</label>
-            <select id="dateMain"></select>
-          </div>
-          <div class="date-group">
-            <label>Дата сравнения:</label>
-            <select id="dateCompare"></select>
-          </div>
-        </div>
+      <div class="container">
+        <h1>Сотрудники — сравнение по датам</h1>
         
-        <div class="filters">
-          <div class="filter-group">
-            <label>Фильтр по изменению показателя:</label>
-            <div class="filter-buttons">
-              <button class="filter-btn active" data-filter="all">Все</button>
-              <button class="filter-btn" data-filter="increased">Вырос</button>
-              <button class="filter-btn" data-filter="decreased">Упал</button>
-              <button class="filter-btn" data-filter="unchanged">Без изменений</button>
+        <div class="controls">
+          <div class="date-selectors">
+            <div class="date-group">
+              <label>Основная дата:</label>
+              <select id="dateMain"></select>
+            </div>
+            <div class="date-group">
+              <label>Дата сравнения:</label>
+              <select id="dateCompare"></select>
             </div>
           </div>
           
-          <div class="filter-group">
-            <label>Фильтр по должности:</label>
-            <div class="role-filters" id="roleFilters">
-              <button class="role-filter-btn active" data-role="all">Все</button>
-              <!-- Роли будут добавлены динамически -->
+          <div class="filters">
+            <div class="filter-group">
+              <label>Фильтр по изменению показателя:</label>
+              <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Все</button>
+                <button class="filter-btn" data-filter="increased">Вырос</button>
+                <button class="filter-btn" data-filter="decreased">Упал</button>
+                <button class="filter-btn" data-filter="unchanged">Без изменений</button>
+              </div>
+            </div>
+            
+            <div class="filter-group">
+              <label>Фильтр по должности:</label>
+              <div class="role-filters" id="roleFilters">
+                <button class="role-filter-btn active" data-role="all">Все</button>
+                <!-- Роли будут добавлены динамически -->
+              </div>
+            </div>
+            
+            <div class="filter-group">
+              <label>Фильтр по изменению должности:</label>
+              <div class="change-filters">
+                <button class="change-filter-btn active" data-change="all">Все</button>
+                <button class="change-filter-btn" data-change="changed">Должность изменилась</button>
+                <button class="change-filter-btn" data-change="unchanged">Должность не менялась</button>
+              </div>
             </div>
           </div>
         </div>
+        
+        <div class="stats">
+          <div class="stat-card">
+            <span class="stat-label">Всего сотрудников:</span>
+            <span class="stat-value" id="totalEmployees">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Показатель вырос:</span>
+            <span class="stat-value increased" id="increasedEmployees">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Показатель упал:</span>
+            <span class="stat-value decreased" id="decreasedEmployees">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Без изменений:</span>
+            <span class="stat-value unchanged" id="unchangedEmployees">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Повысились:</span>
+            <span class="stat-value role-increased" id="roleIncreased">0</span>
+          </div>
+        </div>
+        
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Аватар</th>
+                <th data-key="steam_name">Steam</th>
+                <th data-key="name">Имя</th>
+                <th data-key="family">Фамилия</th>
+                <th data-key="country">Страна</th>
+                <th data-key="city">Город</th>
+                <th data-key="active_role" data-diff="true">Должность Δ</th>
+                <th data-key="pokazatel">Показатель</th>
+                <th data-key="pokazatel" data-diff="true">Δ</th>
+                <th data-key="karma">Карма</th>
+                <th data-key="karma" data-diff="true">Δ</th>
+                <th data-key="karma_vtc">Карма VTC</th>
+                <th data-key="karma_vtc" data-diff="true">Δ</th>
+                <th data-key="point_m">Очки мес</th>
+                <th data-key="point_m" data-diff="true">Δ</th>
+                <th data-key="point">Очки</th>
+                <th data-key="point" data-diff="true">Δ</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
-      
-      <div class="stats">
-        <div class="stat-card">
-          <span class="stat-label">Всего сотрудников:</span>
-          <span class="stat-value" id="totalEmployees">0</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-label">Показатель вырос:</span>
-          <span class="stat-value increased" id="increasedEmployees">0</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-label">Показатель упал:</span>
-          <span class="stat-value decreased" id="decreasedEmployees">0</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-label">Без изменений:</span>
-          <span class="stat-value unchanged" id="unchangedEmployees">0</span>
-        </div>
-      </div>
-      
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Аватар</th>
-              <th data-key="steam_name">Steam</th>
-              <th data-key="name">Имя</th>
-              <th data-key="family">Фамилия</th>
-              <th data-key="country">Страна</th>
-              <th data-key="city">Город</th>
-              <th data-key="active_role">Должность</th>
-              <th data-key="pokazatel">Показатель</th>
-              <th data-key="pokazatel" data-diff="true">Δ</th>
-              <th data-key="karma">Карма</th>
-              <th data-key="karma" data-diff="true">Δ</th>
-              <th data-key="karma_vtc">Карма VTC</th>
-              <th data-key="karma_vtc" data-diff="true">Δ</th>
-              <th data-key="point_m">Очки мес</th>
-              <th data-key="point_m" data-diff="true">Δ</th>
-              <th data-key="point">Очки</th>
-              <th data-key="point" data-diff="true">Δ</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
-  `;
+    `;
 
   initDates();
   setupEventListeners();
@@ -163,6 +176,8 @@ function initRoleFilters() {
   });
 }
 
+let filterRoleChange = "all";
+
 function setupEventListeners() {
   document.getElementById("dateMain").onchange = () => {
     currentDate = document.getElementById("dateMain").value;
@@ -203,6 +218,18 @@ function setupEventListeners() {
     const key = th.dataset.key;
     if (!key) return;
     th.onclick = () => sortBy(key, th.dataset.diff === "true");
+  });
+
+  // Фильтры по изменению должности
+  document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("change-filter-btn")) {
+      document
+        .querySelectorAll(".change-filter-btn")
+        .forEach((b) => b.classList.remove("active"));
+      e.target.classList.add("active");
+      filterRoleChange = e.target.dataset.change;
+      updateData();
+    }
   });
 }
 
@@ -370,10 +397,23 @@ function applyFilter(employee) {
 
   // Фильтр по должности
   if (filterRole !== "all") {
-    // Получаем свежие данные для отображения
     const displayData = getDisplayData(employee.id_user);
     if (!displayData || displayData.active_role.toString() !== filterRole) {
       return false;
+    }
+  }
+
+  // Фильтр по изменению должности
+  if (filterRoleChange !== "all") {
+    const roleChange = getRoleChange(employee.id_user);
+
+    switch (filterRoleChange) {
+      case "changed":
+        if (!roleChange.changed || roleChange.type !== "normal") return false;
+        break;
+      case "unchanged":
+        if (roleChange.changed) return false;
+        break;
     }
   }
 
@@ -385,6 +425,7 @@ function updateStats() {
   let increased = 0;
   let decreased = 0;
   let unchanged = 0;
+  let roleIncreased = 0;
 
   currentData.forEach((employee) => {
     const diff = getDiff(employee.id_user, "pokazatel");
@@ -393,12 +434,110 @@ function updateStats() {
       else if (diff.rawDiff < 0) decreased++;
       else unchanged++;
     }
+
+    // Считаем повышения по должности
+    const roleChange = getRoleChange(employee.id_user);
+    if (
+      roleChange.changed &&
+      roleChange.type === "normal" &&
+      roleChange.currentRole > roleChange.previousRole
+    ) {
+      roleIncreased++;
+    }
   });
 
   document.getElementById("totalEmployees").textContent = total;
   document.getElementById("increasedEmployees").textContent = increased;
   document.getElementById("decreasedEmployees").textContent = decreased;
   document.getElementById("unchangedEmployees").textContent = unchanged;
+  document.getElementById("roleIncreased").textContent = roleIncreased;
+}
+
+function getRoleChange(id) {
+  const cur = rawData[currentDate]?.find((u) => u.id_user === id);
+  const cmp = rawData[compareDate]?.find((u) => u.id_user === id);
+
+  // Если нет в текущей дате - новый сотрудник
+  if (!cur && cmp) {
+    return {
+      type: "new",
+      currentRole: cmp.active_role,
+      previousRole: null,
+      changed: true,
+    };
+  }
+
+  // Если нет в дате сравнения - ушел
+  if (cur && !cmp) {
+    return {
+      type: "left",
+      currentRole: cur.active_role,
+      previousRole: null,
+      changed: false,
+    };
+  }
+
+  // Есть в обеих датах
+  const currentRole = cmp?.active_role ?? cur?.active_role;
+  const previousRole = cur?.active_role;
+
+  return {
+    type: "normal",
+    currentRole: currentRole,
+    previousRole: previousRole,
+    changed: currentRole !== previousRole,
+  };
+}
+
+// Функция для форматирования отображения должности с изменениями
+function formatRoleDisplay(id) {
+  const roleChange = getRoleChange(id);
+
+  if (roleChange.type === "new") {
+    return `
+      <span class="role-badge role-${roleChange.currentRole} new-role">
+        ${
+          roleNames[roleChange.currentRole] || "Неизвестно"
+        } <span class="role-change-indicator">NEW</span>
+      </span>
+    `;
+  }
+
+  if (roleChange.type === "left") {
+    return `
+      <span class="role-badge role-${roleChange.currentRole} left-role">
+        ${
+          roleNames[roleChange.currentRole] || "Неизвестно"
+        } <span class="role-change-indicator">LEFT</span>
+      </span>
+    `;
+  }
+
+  // Если должность изменилась
+  if (roleChange.changed) {
+    return `
+      <div class="role-change-container">
+        <div class="previous-role">
+          <span class="role-badge role-${roleChange.previousRole}">
+            ${roleNames[roleChange.previousRole] || "Неизвестно"}
+          </span>
+          <span class="role-arrow">→</span>
+        </div>
+        <div class="current-role">
+          <span class="role-badge role-${roleChange.currentRole} changed">
+            ${roleNames[roleChange.currentRole] || "Неизвестно"}
+          </span>
+        </div>
+      </div>
+    `;
+  }
+
+  // Если должность не изменилась
+  return `
+    <span class="role-badge role-${roleChange.currentRole}">
+      ${roleNames[roleChange.currentRole] || "Неизвестно"}
+    </span>
+  `;
 }
 
 function updateData() {
@@ -476,6 +615,12 @@ function renderTable() {
       else tr.classList.add("row-unchanged");
     }
 
+    // Также добавляем класс, если изменилась должность
+    const roleChange = getRoleChange(u.id_user);
+    if (roleChange.changed && roleChange.type === "normal") {
+      tr.classList.add("role-changed");
+    }
+
     tr.innerHTML = `
       <td><img class="avatar" src="${u.image_url}" alt="${u.steam_name}"></td>
       <td><a href="https://vtcpanel.com/id${u.id_user}" target="_blank">${
@@ -485,9 +630,7 @@ function renderTable() {
       <td>${u.family}</td>
       <td>${u.country}</td>
       <td>${u.city}</td>
-      <td><span class="role-badge role-${u.active_role}">${
-      roleNames[u.active_role] || "Неизвестно"
-    }</span></td>
+      <td>${formatRoleDisplay(u.id_user)}</td>
       <td class="number">${u.pokazatel || "-"}</td>
       <td class="number">
         ${valueWithDiff(getDiff(u.id_user, "pokazatel"))}
@@ -526,8 +669,22 @@ function sortBy(key, isDiff) {
     let A, B;
 
     if (isDiff) {
-      A = getDiff(a.id_user, key).rawDiff;
-      B = getDiff(b.id_user, key).rawDiff;
+      // Для сортировки по изменению должности
+      if (key === "active_role") {
+        const roleChangeA = getRoleChange(a.id_user);
+        const roleChangeB = getRoleChange(b.id_user);
+
+        // Сортируем по изменению: сначала те, у кого изменилась должность
+        if (roleChangeA.changed && !roleChangeB.changed) return -sortDir;
+        if (!roleChangeA.changed && roleChangeB.changed) return sortDir;
+
+        // Если оба изменились или не изменились, сортируем по текущей должности
+        A = roleChangeA.currentRole || 0;
+        B = roleChangeB.currentRole || 0;
+      } else {
+        A = getDiff(a.id_user, key).rawDiff;
+        B = getDiff(b.id_user, key).rawDiff;
+      }
     } else {
       if (key === "steam_name") {
         A = a[key] || "";
@@ -536,8 +693,11 @@ function sortBy(key, isDiff) {
       }
 
       if (key === "active_role") {
-        A = a[key] || 0;
-        B = b[key] || 0;
+        // Получаем текущую должность для сортировки
+        const roleChangeA = getRoleChange(a.id_user);
+        const roleChangeB = getRoleChange(b.id_user);
+        A = roleChangeA.currentRole || 0;
+        B = roleChangeB.currentRole || 0;
       } else {
         A = Number(a[key]) || 0;
         B = Number(b[key]) || 0;
