@@ -221,6 +221,71 @@ function getLatestEmployee(id) {
   return null;
 }
 
+// Получаем сотрудника из указанной даты или из самой свежей из двух выбранных
+function getEmployeeForDisplay(id, field = null) {
+  // Сначала пробуем взять из compareDate (более свежая дата)
+  let employee = rawData[compareDate]?.find((u) => u.id_user === id);
+
+  // Если нет в compareDate, берем из currentDate
+  if (!employee) {
+    employee = rawData[currentDate]?.find((u) => u.id_user === id);
+  }
+
+  // Если все еще нет, ищем во всех датах (крайний случай)
+  if (!employee) {
+    const dates = Object.keys(rawData).sort(
+      (a, b) =>
+        new Date(b.split(".").reverse().join("-")) -
+        new Date(a.split(".").reverse().join("-")),
+    );
+
+    for (const date of dates) {
+      const found = rawData[date]?.find((u) => u.id_user === id);
+      if (found) {
+        employee = found;
+        break;
+      }
+    }
+  }
+
+  // Если нужен конкретный field
+  if (field && employee) {
+    return employee[field];
+  }
+
+  return employee;
+}
+
+// Получаем самые свежие данные для отображения
+function getDisplayData(id) {
+  // Создаем базовый объект с данными из compareDate (если есть)
+  let displayData = rawData[compareDate]?.find((u) => u.id_user === id);
+
+  // Если нет в compareDate, берем из currentDate
+  if (!displayData) {
+    displayData = rawData[currentDate]?.find((u) => u.id_user === id);
+  }
+
+  // Если все еще нет, ищем в любых данных
+  if (!displayData) {
+    const dates = Object.keys(rawData).sort(
+      (a, b) =>
+        new Date(b.split(".").reverse().join("-")) -
+        new Date(a.split(".").reverse().join("-")),
+    );
+
+    for (const date of dates) {
+      const found = rawData[date]?.find((u) => u.id_user === id);
+      if (found) {
+        displayData = found;
+        break;
+      }
+    }
+  }
+
+  return displayData;
+}
+
 function getDiff(id, field) {
   const cur = rawData[currentDate]?.find((u) => u.id_user === id);
   const cmp = rawData[compareDate]?.find((u) => u.id_user === id);
@@ -305,11 +370,9 @@ function applyFilter(employee) {
 
   // Фильтр по должности
   if (filterRole !== "all") {
-    const latestEmployee = getLatestEmployee(employee.id_user);
-    if (
-      !latestEmployee ||
-      latestEmployee.active_role.toString() !== filterRole
-    ) {
+    // Получаем свежие данные для отображения
+    const displayData = getDisplayData(employee.id_user);
+    if (!displayData || displayData.active_role.toString() !== filterRole) {
       return false;
     }
   }
@@ -349,23 +412,32 @@ function updateData() {
 
   currentData = Array.from(allIds)
     .map((id) => {
-      const latestEmployee = getLatestEmployee(id);
+      // Получаем данные для отображения (самые свежие из двух выбранных дат)
+      const displayData = getDisplayData(id);
+
+      if (!displayData) return null;
+
+      // Получаем данные для сравнения
       const curEmployee = currentEmployees.find((e) => e.id_user === id);
       const cmpEmployee = compareEmployees.find((e) => e.id_user === id);
 
       const employeeForComparison = curEmployee || cmpEmployee || {};
 
-      if (!latestEmployee) return null;
-
+      // Создаем объединенный объект
       return {
-        ...employeeForComparison,
-        steam_name: latestEmployee.steam_name,
-        active_role: latestEmployee.active_role,
-        image_url: latestEmployee.image_url,
-        name: latestEmployee.name,
-        family: latestEmployee.family,
-        country: latestEmployee.country,
-        city: latestEmployee.city,
+        ...employeeForComparison, // Данные для сравнения показателей
+        // Переопределяем отображаемые поля свежими данными
+        id_user: id,
+        steam_name: displayData.steam_name,
+        active_role: displayData.active_role,
+        image_url: displayData.image_url,
+        name: displayData.name,
+        family: displayData.family,
+        country: displayData.country,
+        city: displayData.city,
+        // Также можно добавить другие поля, которые должны быть свежими
+        admin_role_name: displayData.admin_role_name,
+        userbar_url: displayData.userbar_url,
       };
     })
     .filter((employee) => employee && applyFilter(employee));
