@@ -2,42 +2,133 @@ body {
   font-family: Arial, sans-serif;
   background: #0f1115;
   color: #eaeaea;
+  margin: 0;
+  padding: 0;
+}
+
+.app {
   padding: 20px;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.container {
+  max-width: 100%;
 }
 
 h1 {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  color: #fff;
 }
 
 .controls {
+  margin-bottom: 25px;
+  padding: 15px;
+  background: #1a1d24;
+  border-radius: 8px;
+}
+
+.date-selectors {
   display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
+  gap: 30px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.date-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.date-group label {
+  font-size: 14px;
+  color: #aaa;
 }
 
 select {
-  padding: 6px 10px;
-  background: #1a1d24;
+  padding: 8px 12px;
+  background: #2a2e39;
   color: #fff;
-  border: 1px solid #2a2e39;
+  border: 1px solid #3a3f4d;
   border-radius: 6px;
+  min-width: 200px;
+  font-size: 14px;
+}
+
+select:hover,
+select:focus {
+  border-color: #4fc3f7;
+  outline: none;
+}
+
+.filters {
+  margin-top: 20px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-group label {
+  font-size: 14px;
+  color: #aaa;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  background: #2a2e39;
+  color: #fff;
+  border: 1px solid #3a3f4d;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover {
+  background: #3a3f4d;
+  border-color: #4fc3f7;
+}
+
+.filter-btn.active {
+  background: #4fc3f7;
+  border-color: #4fc3f7;
+  color: #0f1115;
+  font-weight: bold;
+}
+
+.table-container {
+  overflow-x: auto;
+  background: #161922;
+  border-radius: 10px;
+  padding: 1px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  background: #161922;
-  border-radius: 10px;
-  overflow: hidden;
+  min-width: 1200px;
 }
 
 thead {
   background: #1f2430;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 th,
 td {
-  padding: 10px;
+  padding: 12px 10px;
   border-bottom: 1px solid #2a2e39;
   border-right: 1px solid #2a2e39;
   font-size: 14px;
@@ -52,14 +143,46 @@ td:last-child {
 th {
   cursor: pointer;
   user-select: none;
+  color: #fff;
+  font-weight: 600;
 }
 
 th:hover {
   background: #262b38;
 }
 
+tbody tr {
+  background: #161922;
+  transition: background-color 0.2s;
+}
+
 tbody tr:hover {
   background: #1d2230;
+}
+
+/* Цвета строк в зависимости от изменения показателя */
+tbody tr.row-increased {
+  background: rgba(76, 175, 80, 0.05);
+}
+
+tbody tr.row-increased:hover {
+  background: rgba(76, 175, 80, 0.1);
+}
+
+tbody tr.row-decreased {
+  background: rgba(244, 67, 54, 0.05);
+}
+
+tbody tr.row-decreased:hover {
+  background: rgba(244, 67, 54, 0.1);
+}
+
+tbody tr.row-unchanged {
+  background: rgba(158, 158, 158, 0.05);
+}
+
+tbody tr.row-unchanged:hover {
+  background: rgba(158, 158, 158, 0.1);
 }
 
 img.avatar {
@@ -71,11 +194,13 @@ img.avatar {
 
 .number {
   text-align: right;
+  font-family: "Courier New", monospace;
 }
 
 td a {
   color: #4fc3f7;
   text-decoration: none;
+  font-weight: 500;
 }
 
 td a:hover {
@@ -85,14 +210,239 @@ td a:hover {
 .diff {
   margin-left: 6px;
   font-size: 12px;
+  font-weight: 600;
 }
 
-.plus {
+.diff.plus {
   color: #4caf50;
 }
-.minus {
+
+.diff.minus {
   color: #f44336;
 }
-.zero {
+
+.diff.zero {
   color: #9e9e9e;
+}
+
+.diff.new {
+  color: #ff9800;
+  background: rgba(255, 152, 0, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.diff.left {
+  color: #f44336;
+  background: rgba(244, 67, 54, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .app {
+    padding: 10px;
+  }
+
+  .date-selectors {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  select {
+    min-width: 100%;
+  }
+
+  .filter-buttons {
+    flex-direction: column;
+  }
+
+  .filter-btn {
+    width: 100%;
+  }
+
+  th,
+  td {
+    padding: 8px 6px;
+    font-size: 13px;
+  }
+}
+
+/* Добавить к существующим стилям */
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-group label {
+  font-size: 14px;
+  color: #aaa;
+  font-weight: 500;
+}
+
+.filter-buttons,
+.role-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.role-filters {
+  gap: 8px;
+}
+
+.filter-btn,
+.role-filter-btn {
+  padding: 8px 16px;
+  background: #2a2e39;
+  color: #fff;
+  border: 1px solid #3a3f4d;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.filter-btn:hover,
+.role-filter-btn:hover {
+  background: #3a3f4d;
+  border-color: #4fc3f7;
+}
+
+.filter-btn.active,
+.role-filter-btn.active {
+  background: #4fc3f7;
+  border-color: #4fc3f7;
+  color: #0f1115;
+  font-weight: bold;
+}
+
+.role-filter-btn {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin: 25px 0;
+}
+
+.stat-card {
+  background: #1a1d24;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #4fc3f7;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.stat-value.increased {
+  color: #4caf50;
+}
+
+.stat-value.decreased {
+  color: #f44336;
+}
+
+.stat-value.unchanged {
+  color: #9e9e9e;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  background: #2a2e39;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Цвета для разных должностей */
+.role-0 {
+  background: #d32f2f;
+  color: white;
+} /* Админ */
+.role-1 {
+  background: #ff9800;
+  color: white;
+} /* Испытательный срок */
+.role-2 {
+  background: #2196f3;
+  color: white;
+} /* Стажёр */
+.role-3 {
+  background: #4caf50;
+  color: white;
+} /* Младший водитель */
+.role-4 {
+  background: #673ab7;
+  color: white;
+} /* Водитель */
+.role-5 {
+  background: #9c27b0;
+  color: white;
+} /* Старший водитель */
+.role-6 {
+  background: #ff5722;
+  color: white;
+} /* Ведущий водитель */
+.role-7 {
+  background: #795548;
+  color: white;
+} /* Водитель-эксперт */
+.role-8 {
+  background: #607d8b;
+  color: white;
+} /* Руководство */
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-buttons,
+  .role-filters {
+    flex-direction: column;
+  }
+
+  .filter-btn,
+  .role-filter-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .role-filters {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .role-filter-btn {
+    text-align: left;
+  }
 }
