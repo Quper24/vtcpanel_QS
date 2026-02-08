@@ -1,4 +1,4 @@
-let rawData;
+let rawData = {};
 let currentDate;
 let compareDate;
 let currentData = [];
@@ -7,6 +7,7 @@ let sortDir = 1;
 let sortDiff = false;
 let filterStatus = "all";
 let filterRole = "all";
+let filterRoleChange = "all";
 
 // Маппинг должностей
 const roleNames = {
@@ -21,12 +22,150 @@ const roleNames = {
   8: "Руководство",
 };
 
-fetch("data.json")
-  .then((r) => r.json())
-  .then((data) => {
-    rawData = data.employees;
+// Загрузка всех JSON файлов из папки data
+async function loadAllData() {
+  try {
+    // Предполагаем, что файлы хранятся в папке data
+    const files = [
+      "data/2512.json", // 2025 декабрь
+      "data/2601.json", // 2026 январь
+      "data/2602.json", // 2026 февраль
+    ];
+
+    // Добавьте сюда другие файлы по мере их появления
+
+    const promises = files.map((file) =>
+      fetch(file)
+        .then((response) => {
+          if (!response.ok) {
+            console.warn(`Файл ${file} не найден, пропускаем`);
+            return null;
+          }
+          return response.json();
+        })
+        .catch((err) => {
+          console.warn(`Ошибка загрузки ${file}:`, err);
+          return null;
+        }),
+    );
+
+    const results = await Promise.all(promises);
+
+    // Собираем все данные в один объект
+    results.forEach((data, index) => {
+      if (data) {
+        // Извлекаем имя файла без пути и расширения
+        const filename = files[index].split("/").pop().replace(".json", "");
+        // Конвертируем YYMM в нормальный формат даты
+        const year = "20" + filename.substring(0, 2);
+        const month = filename.substring(2, 4);
+
+        // Проходим по всем датам в файле
+        Object.keys(data).forEach((dateStr) => {
+          // Форматируем дату в единый формат DD.MM.YY
+          const [day, monthStr, yearStr] = dateStr.split(".");
+          const formattedDate = `${day.padStart(2, "0")}.${monthStr.padStart(
+            2,
+            "0",
+          )}.${yearStr}`;
+
+          if (!rawData[formattedDate]) {
+            rawData[formattedDate] = [];
+          }
+
+          // Добавляем сотрудников для этой даты
+          rawData[formattedDate].push(...data[dateStr]);
+        });
+      }
+    });
+
+    console.log("Загружено дат:", Object.keys(rawData).length);
+    console.log("Все даты:", Object.keys(rawData).sort());
+
     initApp();
-  });
+  } catch (error) {
+    console.error("Ошибка загрузки данных:", error);
+    document.querySelector(".app").innerHTML = `
+      <div class="error">
+        <h2>Ошибка загрузки данных</h2>
+        <p>${error.message}</p>
+        <p>Проверьте наличие файлов в папке data/</p>
+      </div>
+    `;
+  }
+}
+
+// Альтернативная функция загрузки, если у вас много файлов
+async function loadDataDynamically() {
+  try {
+    // Если у вас есть список всех файлов, можно загрузить их динамически
+    const years = ["25", "26"]; // Годы
+    const months = [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12",
+    ];
+
+    const promises = [];
+
+    for (const year of years) {
+      for (const month of months) {
+        const filename = `${year}${month}`;
+        promises.push(
+          fetch(`data/${filename}.json`)
+            .then((response) => {
+              if (!response.ok) return null;
+              return response.json().then((data) => ({ filename, data }));
+            })
+            .catch(() => null),
+        );
+      }
+    }
+
+    const results = await Promise.all(promises);
+
+    results.forEach((result) => {
+      if (result && result.data) {
+        const { filename, data } = result;
+        const year = "20" + filename.substring(0, 2);
+        const month = filename.substring(2, 4);
+
+        Object.keys(data).forEach((dateStr) => {
+          const [day, monthStr, yearStr] = dateStr.split(".");
+          const formattedDate = `${day.padStart(2, "0")}.${monthStr.padStart(
+            2,
+            "0",
+          )}.${yearStr}`;
+
+          if (!rawData[formattedDate]) {
+            rawData[formattedDate] = [];
+          }
+
+          // Добавляем id_user к каждому сотруднику если его нет
+          const employeesWithId = data[dateStr].map((emp, idx) => ({
+            ...emp,
+            id_user: emp.id_user || `temp_${formattedDate}_${idx}`,
+          }));
+
+          rawData[formattedDate].push(...employeesWithId);
+        });
+      }
+    });
+
+    initApp();
+  } catch (error) {
+    console.error("Ошибка динамической загрузки:", error);
+  }
+}
 
 function initApp() {
   const app = document.querySelector(".app");
@@ -137,17 +276,24 @@ function initDates() {
   const main = document.getElementById("dateMain");
   const cmp = document.getElementById("dateCompare");
 
-  const dates = Object.keys(rawData).sort(
-    (a, b) =>
-      new Date(a.split(".").reverse().join("-")) -
-      new Date(b.split(".").reverse().join("-")),
-  );
+  // Получаем все даты и сортируем их
+  const dates = Object.keys(rawData).sort((a, b) => {
+    // Конвертируем DD.MM.YY в YYYY-MM-DD для корректной сортировки
+    const convertDate = (dateStr) => {
+      const [day, month, year] = dateStr.split(".");
+      return `20${year}-${month}-${day}`;
+    };
 
+    return new Date(convertDate(a)) - new Date(convertDate(b));
+  });
+
+  // Заполняем select'ы
   dates.forEach((d) => {
     main.add(new Option(d, d));
     cmp.add(new Option(d, d));
   });
 
+  // Устанавливаем последние две даты по умолчанию
   if (dates.length >= 2) {
     main.value = dates[dates.length - 2];
     cmp.value = dates[dates.length - 1];
@@ -175,8 +321,6 @@ function initRoleFilters() {
     roleFiltersContainer.appendChild(button);
   });
 }
-
-let filterRoleChange = "all";
 
 function setupEventListeners() {
   document.getElementById("dateMain").onchange = () => {
@@ -233,76 +377,31 @@ function setupEventListeners() {
   });
 }
 
-function getLatestEmployee(id) {
-  const dates = Object.keys(rawData).sort(
-    (a, b) =>
-      new Date(b.split(".").reverse().join("-")) -
-      new Date(a.split(".").reverse().join("-")),
-  );
-
-  for (const date of dates) {
-    const employee = rawData[date]?.find((u) => u.id_user === id);
-    if (employee) return employee;
-  }
-
-  return null;
+function getEmployeeByIdAndDate(id, date) {
+  return rawData[date]?.find((u) => u.id_user === id) || null;
 }
 
-// Получаем сотрудника из указанной даты или из самой свежей из двух выбранных
-function getEmployeeForDisplay(id, field = null) {
-  // Сначала пробуем взять из compareDate (более свежая дата)
-  let employee = rawData[compareDate]?.find((u) => u.id_user === id);
-
-  // Если нет в compareDate, берем из currentDate
-  if (!employee) {
-    employee = rawData[currentDate]?.find((u) => u.id_user === id);
-  }
-
-  // Если все еще нет, ищем во всех датах (крайний случай)
-  if (!employee) {
-    const dates = Object.keys(rawData).sort(
-      (a, b) =>
-        new Date(b.split(".").reverse().join("-")) -
-        new Date(a.split(".").reverse().join("-")),
-    );
-
-    for (const date of dates) {
-      const found = rawData[date]?.find((u) => u.id_user === id);
-      if (found) {
-        employee = found;
-        break;
-      }
-    }
-  }
-
-  // Если нужен конкретный field
-  if (field && employee) {
-    return employee[field];
-  }
-
-  return employee;
-}
-
-// Получаем самые свежие данные для отображения
 function getDisplayData(id) {
-  // Создаем базовый объект с данными из compareDate (если есть)
-  let displayData = rawData[compareDate]?.find((u) => u.id_user === id);
+  // Пробуем получить данные из даты сравнения (более свежие)
+  let displayData = getEmployeeByIdAndDate(id, compareDate);
 
-  // Если нет в compareDate, берем из currentDate
+  // Если нет в дате сравнения, пробуем основную дату
   if (!displayData) {
-    displayData = rawData[currentDate]?.find((u) => u.id_user === id);
+    displayData = getEmployeeByIdAndDate(id, currentDate);
   }
 
-  // Если все еще нет, ищем в любых данных
+  // Если все еще нет, ищем в любой дате (последней доступной)
   if (!displayData) {
-    const dates = Object.keys(rawData).sort(
-      (a, b) =>
-        new Date(b.split(".").reverse().join("-")) -
-        new Date(a.split(".").reverse().join("-")),
-    );
+    const dates = Object.keys(rawData).sort((a, b) => {
+      const convertDate = (dateStr) => {
+        const [day, month, year] = dateStr.split(".");
+        return `20${year}-${month}-${day}`;
+      };
+      return new Date(convertDate(b)) - new Date(convertDate(a));
+    });
 
     for (const date of dates) {
-      const found = rawData[date]?.find((u) => u.id_user === id);
+      const found = getEmployeeByIdAndDate(id, date);
       if (found) {
         displayData = found;
         break;
@@ -314,8 +413,8 @@ function getDisplayData(id) {
 }
 
 function getDiff(id, field) {
-  const cur = rawData[currentDate]?.find((u) => u.id_user === id);
-  const cmp = rawData[compareDate]?.find((u) => u.id_user === id);
+  const cur = getEmployeeByIdAndDate(id, currentDate);
+  const cmp = getEmployeeByIdAndDate(id, compareDate);
 
   if (!cur && cmp) {
     return {
@@ -454,8 +553,8 @@ function updateStats() {
 }
 
 function getRoleChange(id) {
-  const cur = rawData[currentDate]?.find((u) => u.id_user === id);
-  const cmp = rawData[compareDate]?.find((u) => u.id_user === id);
+  const cur = getEmployeeByIdAndDate(id, currentDate);
+  const cmp = getEmployeeByIdAndDate(id, compareDate);
 
   // Если нет в текущей дате - новый сотрудник
   if (!cur && cmp) {
@@ -489,7 +588,6 @@ function getRoleChange(id) {
   };
 }
 
-// Функция для форматирования отображения должности с изменениями
 function formatRoleDisplay(id) {
   const roleChange = getRoleChange(id);
 
@@ -574,9 +672,11 @@ function updateData() {
         family: displayData.family,
         country: displayData.country,
         city: displayData.city,
-        // Также можно добавить другие поля, которые должны быть свежими
-        admin_role_name: displayData.admin_role_name,
-        userbar_url: displayData.userbar_url,
+        pokazatel: displayData.pokazatel,
+        karma: displayData.karma,
+        karma_vtc: displayData.karma_vtc,
+        point_m: displayData.point_m,
+        point: displayData.point,
       };
     })
     .filter((employee) => employee && applyFilter(employee));
@@ -622,14 +722,18 @@ function renderTable() {
     }
 
     tr.innerHTML = `
-      <td><img class="avatar" src="${u.image_url}" alt="${u.steam_name}"></td>
-      <td><a href="https://vtcpanel.com/id${u.id_user}" target="_blank">${
+      <td><img class="avatar" src="${
+        u.image_url || "https://via.placeholder.com/40"
+      }" alt="${
       u.steam_name
+    }" onerror="this.src='https://via.placeholder.com/40'"></td>
+      <td><a href="https://vtcpanel.com/id${u.id_user}" target="_blank">${
+      u.steam_name || "-"
     }</a></td>
-      <td>${u.name}</td>
-      <td>${u.family}</td>
-      <td>${u.country}</td>
-      <td>${u.city}</td>
+      <td>${u.name || "-"}</td>
+      <td>${u.family || "-"}</td>
+      <td>${u.country || "-"}</td>
+      <td>${u.city || "-"}</td>
       <td>${formatRoleDisplay(u.id_user)}</td>
       <td class="number">${u.pokazatel || "-"}</td>
       <td class="number">
@@ -709,3 +813,31 @@ function sortBy(key, isDiff) {
 
   renderTable();
 }
+
+// Добавляем стили для ошибок
+const style = document.createElement("style");
+style.textContent = `
+  .error {
+    background: #1a1d24;
+    padding: 30px;
+    border-radius: 8px;
+    border-left: 4px solid #f44336;
+    margin: 20px;
+  }
+  
+  .error h2 {
+    color: #f44336;
+    margin-top: 0;
+  }
+  
+  .error p {
+    color: #aaa;
+    margin: 10px 0;
+  }
+`;
+document.head.appendChild(style);
+
+// Запускаем загрузку данных
+loadAllData();
+//loadDataDynamically();
+// Или используйте loadDataDynamically()  если у вас много файлов
