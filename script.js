@@ -31,6 +31,7 @@ async function loadAllData() {
       "data/2601.json", // 2026 январь
       "data/2602.json", // 2026 февраль
       "data/2603.json", // 2026 март
+      "data/2604.json", // 2026 апрель
     ];
 
     // Добавьте сюда другие файлы по мере их появления
@@ -726,11 +727,11 @@ function renderTable() {
       <td><img class="avatar" src="${
         u.image_url || "https://via.placeholder.com/40"
       }" alt="${
-      u.steam_name
-    }" onerror="this.src='https://via.placeholder.com/40'"></td>
+        u.steam_name
+      }" onerror="this.src='https://via.placeholder.com/40'"></td>
       <td><a href="https://vtcpanel.com/id${u.id_user}" target="_blank">${
-      u.steam_name || "-"
-    }</a></td>
+        u.steam_name || "-"
+      }</a></td>
       <td>${u.name || "-"}</td>
       <td>${u.family || "-"}</td>
       <td>${u.country || "-"}</td>
