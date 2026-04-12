@@ -1,4 +1,5 @@
 let rawData = {};
+let contractsData = {}; // Новый объект для хранения контрактов
 let currentDate;
 let compareDate;
 let currentData = [];
@@ -25,6 +26,9 @@ const roleNames = {
 // Загрузка всех JSON файлов из папки data
 async function loadAllData() {
   try {
+    // Загружаем контракты
+    await loadContracts();
+
     // Предполагаем, что файлы хранятся в папке data
     const files = [
       "data/2512.json", // 2025 декабрь
@@ -33,8 +37,6 @@ async function loadAllData() {
       "data/2603.json", // 2026 март
       "data/2604.json", // 2026 апрель
     ];
-
-    // Добавьте сюда другие файлы по мере их появления
 
     const promises = files.map((file) =>
       fetch(file)
@@ -56,15 +58,11 @@ async function loadAllData() {
     // Собираем все данные в один объект
     results.forEach((data, index) => {
       if (data) {
-        // Извлекаем имя файла без пути и расширения
         const filename = files[index].split("/").pop().replace(".json", "");
-        // Конвертируем YYMM в нормальный формат даты
         const year = "20" + filename.substring(0, 2);
         const month = filename.substring(2, 4);
 
-        // Проходим по всем датам в файле
         Object.keys(data).forEach((dateStr) => {
-          // Форматируем дату в единый формат DD.MM.YY
           const [day, monthStr, yearStr] = dateStr.split(".");
           const formattedDate = `${day.padStart(2, "0")}.${monthStr.padStart(
             2,
@@ -75,7 +73,6 @@ async function loadAllData() {
             rawData[formattedDate] = [];
           }
 
-          // Добавляем сотрудников для этой даты
           rawData[formattedDate].push(...data[dateStr]);
         });
       }
@@ -97,11 +94,117 @@ async function loadAllData() {
   }
 }
 
-// Альтернативная функция загрузки, если у вас много файлов
+// Загрузка контрактов
+// Загрузка контрактов
+async function loadContracts() {
+  try {
+    const response = await fetch("data/contracts.json");
+    if (!response.ok) {
+      console.warn("Файл contracts.json не найден");
+      return;
+    }
+
+    const data = await response.json();
+
+    // Форматируем даты в единый формат
+    Object.keys(data).forEach((dateStr) => {
+      const [day, month, year] = dateStr.split(".");
+      const formattedDate = `${day.padStart(2, "0")}.${month.padStart(2, "0")}.${year}`;
+
+      contractsData[formattedDate] = {};
+
+      // Проверяем, что данные не пустые
+      if (data[dateStr] && Array.isArray(data[dateStr])) {
+        // Преобразуем массив в объект для быстрого доступа по имени
+        data[dateStr].forEach((contract) => {
+          // Сохраняем оригинальное имя и имя в нижнем регистре
+          const originalName = contract.name;
+          contractsData[formattedDate][originalName] = contract.trips;
+          contractsData[formattedDate][originalName.toLowerCase()] =
+            contract.trips;
+        });
+      }
+    });
+
+    console.log("Загружены контракты за даты:", Object.keys(contractsData));
+    console.log("Контракты за 12.04.26:", contractsData["12.04.26"]);
+    console.log("Поиск Quper:", contractsData["12.04.26"]?.["Quper"]);
+    console.log("Поиск quper:", contractsData["12.04.26"]?.["quper"]);
+  } catch (error) {
+    console.error("Ошибка загрузки контрактов:", error);
+  }
+}
+// Получение данных по контрактам для пользователя
+function getContractsData(steamName, currentDate, compareDate) {
+  if (!steamName) return { total: 0, weekly: 0, diff: null };
+
+  const currentContracts =
+    contractsData[currentDate]?.[steamName.toLowerCase()] || 0;
+  const compareContracts =
+    contractsData[compareDate]?.[steamName.toLowerCase()] || 0;
+
+  // Для недельной статистики - берем разницу между текущей и предыдущей датой
+  // Если даты разные, то разница и будет недельной (или за период)
+  const weeklyTrips = currentContracts - compareContracts;
+
+  return {
+    total: currentContracts,
+    weekly: weeklyTrips > 0 ? weeklyTrips : 0,
+    diff: weeklyTrips,
+  };
+}
+
+function getContractsDiff(id, steamName) {
+  const currentContracts =
+    contractsData[currentDate]?.[steamName?.toLowerCase()] || 0;
+  const compareContracts =
+    contractsData[compareDate]?.[steamName?.toLowerCase()] || 0;
+
+  const cur = getEmployeeByIdAndDate(id, currentDate);
+  const cmp = getEmployeeByIdAndDate(id, compareDate);
+
+  if (!cur && cmp) {
+    return {
+      type: "new",
+      value: currentContracts,
+      diff: currentContracts,
+      rawDiff: currentContracts,
+    };
+  }
+
+  if (cur && !cmp) {
+    return {
+      type: "left",
+      value: null,
+      diff: -compareContracts,
+      rawDiff: -compareContracts,
+    };
+  }
+
+  // Если нет данных за предыдущую дату, показываем все контракты как новые
+  if (!contractsData[compareDate]) {
+    return {
+      type: "normal",
+      value: currentContracts,
+      diff: currentContracts,
+      rawDiff: currentContracts,
+    };
+  }
+
+  return {
+    type: "normal",
+    value: currentContracts,
+    diff: (currentContracts - compareContracts).toFixed(0),
+    rawDiff: currentContracts - compareContracts,
+  };
+}
+
+// Загрузка динамических данных (оставляем как есть)
 async function loadDataDynamically() {
   try {
-    // Если у вас есть список всех файлов, можно загрузить их динамически
-    const years = ["25", "26"]; // Годы
+    await loadContracts();
+
+    const years = ["25", "26"];
     const months = [
       "01",
       "02",
@@ -152,7 +255,6 @@ async function loadDataDynamically() {
             rawData[formattedDate] = [];
           }
 
-          // Добавляем id_user к каждому сотруднику если его нет
           const employeesWithId = data[dateStr].map((emp, idx) => ({
             ...emp,
             id_user: emp.id_user || `temp_${formattedDate}_${idx}`,
@@ -179,7 +281,7 @@ function initApp() {
         <div class="controls">
           <div class="date-selectors">
             <div class="date-group">
-              <label>Основная дата:</label>
+              <label>Предыдущая дата:</label>
               <select id="dateMain"></select>
             </div>
             <div class="date-group">
@@ -203,7 +305,6 @@ function initApp() {
               <label>Фильтр по должности:</label>
               <div class="role-filters" id="roleFilters">
                 <button class="role-filter-btn active" data-role="all">Все</button>
-                <!-- Роли будут добавлены динамически -->
               </div>
             </div>
             
@@ -252,6 +353,7 @@ function initApp() {
                 <th data-key="country">Страна</th>
                 <th data-key="city">Город</th>
                 <th data-key="active_role" data-diff="true">Должность Δ</th>
+                <th data-key="contracts_total">Контракты (всего/неделя)</th>
                 <th data-key="pokazatel">Показатель</th>
                 <th data-key="pokazatel" data-diff="true">Δ</th>
                 <th data-key="karma">Карма</th>
@@ -278,24 +380,19 @@ function initDates() {
   const main = document.getElementById("dateMain");
   const cmp = document.getElementById("dateCompare");
 
-  // Получаем все даты и сортируем их
   const dates = Object.keys(rawData).sort((a, b) => {
-    // Конвертируем DD.MM.YY в YYYY-MM-DD для корректной сортировки
     const convertDate = (dateStr) => {
       const [day, month, year] = dateStr.split(".");
       return `20${year}-${month}-${day}`;
     };
-
     return new Date(convertDate(a)) - new Date(convertDate(b));
   });
 
-  // Заполняем select'ы
   dates.forEach((d) => {
     main.add(new Option(d, d));
     cmp.add(new Option(d, d));
   });
 
-  // Устанавливаем последние две даты по умолчанию
   if (dates.length >= 2) {
     main.value = dates[dates.length - 2];
     cmp.value = dates[dates.length - 1];
@@ -314,7 +411,6 @@ function initDates() {
 function initRoleFilters() {
   const roleFiltersContainer = document.getElementById("roleFilters");
 
-  // Создаем кнопки для каждой должности
   Object.entries(roleNames).forEach(([id, name]) => {
     const button = document.createElement("button");
     button.className = "role-filter-btn";
@@ -335,7 +431,6 @@ function setupEventListeners() {
     updateData();
   };
 
-  // Фильтры по изменению показателя
   document.querySelectorAll(".filter-btn").forEach((btn) => {
     btn.onclick = () => {
       document
@@ -347,7 +442,6 @@ function setupEventListeners() {
     };
   });
 
-  // Фильтры по должности
   document.addEventListener("click", (e) => {
     if (e.target.classList.contains("role-filter-btn")) {
       document
@@ -359,14 +453,12 @@ function setupEventListeners() {
     }
   });
 
-  // Сортировка
   document.querySelectorAll("th[data-key]").forEach((th) => {
     const key = th.dataset.key;
     if (!key) return;
     th.onclick = () => sortBy(key, th.dataset.diff === "true");
   });
 
-  // Фильтры по изменению должности
   document.addEventListener("click", (e) => {
     if (e.target.classList.contains("change-filter-btn")) {
       document
@@ -384,15 +476,12 @@ function getEmployeeByIdAndDate(id, date) {
 }
 
 function getDisplayData(id) {
-  // Пробуем получить данные из даты сравнения (более свежие)
   let displayData = getEmployeeByIdAndDate(id, compareDate);
 
-  // Если нет в дате сравнения, пробуем основную дату
   if (!displayData) {
     displayData = getEmployeeByIdAndDate(id, currentDate);
   }
 
-  // Если все еще нет, ищем в любой дате (последней доступной)
   if (!displayData) {
     const dates = Object.keys(rawData).sort((a, b) => {
       const convertDate = (dateStr) => {
@@ -475,7 +564,6 @@ function valueWithDiff(data) {
 }
 
 function applyFilter(employee) {
-  // Фильтр по изменению показателя
   if (filterStatus !== "all") {
     const diff = getDiff(employee.id_user, "pokazatel");
 
@@ -496,7 +584,6 @@ function applyFilter(employee) {
     }
   }
 
-  // Фильтр по должности
   if (filterRole !== "all") {
     const displayData = getDisplayData(employee.id_user);
     if (!displayData || displayData.active_role.toString() !== filterRole) {
@@ -504,7 +591,6 @@ function applyFilter(employee) {
     }
   }
 
-  // Фильтр по изменению должности
   if (filterRoleChange !== "all") {
     const roleChange = getRoleChange(employee.id_user);
 
@@ -536,7 +622,6 @@ function updateStats() {
       else unchanged++;
     }
 
-    // Считаем повышения по должности
     const roleChange = getRoleChange(employee.id_user);
     if (
       roleChange.changed &&
@@ -558,7 +643,6 @@ function getRoleChange(id) {
   const cur = getEmployeeByIdAndDate(id, currentDate);
   const cmp = getEmployeeByIdAndDate(id, compareDate);
 
-  // Если нет в текущей дате - новый сотрудник
   if (!cur && cmp) {
     return {
       type: "new",
@@ -568,7 +652,6 @@ function getRoleChange(id) {
     };
   }
 
-  // Если нет в дате сравнения - ушел
   if (cur && !cmp) {
     return {
       type: "left",
@@ -578,7 +661,6 @@ function getRoleChange(id) {
     };
   }
 
-  // Есть в обеих датах
   const currentRole = cmp?.active_role ?? cur?.active_role;
   const previousRole = cur?.active_role;
 
@@ -596,9 +678,7 @@ function formatRoleDisplay(id) {
   if (roleChange.type === "new") {
     return `
       <span class="role-badge role-${roleChange.currentRole} new-role">
-        ${
-          roleNames[roleChange.currentRole] || "Неизвестно"
-        } <span class="role-change-indicator">NEW</span>
+        ${roleNames[roleChange.currentRole] || "Неизвестно"} <span class="role-change-indicator">NEW</span>
       </span>
     `;
   }
@@ -606,14 +686,11 @@ function formatRoleDisplay(id) {
   if (roleChange.type === "left") {
     return `
       <span class="role-badge role-${roleChange.currentRole} left-role">
-        ${
-          roleNames[roleChange.currentRole] || "Неизвестно"
-        } <span class="role-change-indicator">LEFT</span>
+        ${roleNames[roleChange.currentRole] || "Неизвестно"} <span class="role-change-indicator">LEFT</span>
       </span>
     `;
   }
 
-  // Если должность изменилась
   if (roleChange.changed) {
     return `
       <div class="role-change-container">
@@ -632,7 +709,6 @@ function formatRoleDisplay(id) {
     `;
   }
 
-  // Если должность не изменилась
   return `
     <span class="role-badge role-${roleChange.currentRole}">
       ${roleNames[roleChange.currentRole] || "Неизвестно"}
@@ -640,7 +716,100 @@ function formatRoleDisplay(id) {
   `;
 }
 
+// Функция для получения контрактов по имени (регистронезависимая)
+function getContractTrips(steamName, date) {
+  if (!steamName || !contractsData[date]) return 0;
+
+  // Пробуем найти по оригинальному имени
+  if (contractsData[date][steamName] !== undefined) {
+    return contractsData[date][steamName];
+  }
+
+  // Пробуем найти в нижнем регистре
+  const lowerName = steamName.toLowerCase();
+  if (contractsData[date][lowerName] !== undefined) {
+    return contractsData[date][lowerName];
+  }
+
+  // Ищем любое совпадение без учета регистра
+  for (const [name, trips] of Object.entries(contractsData[date])) {
+    if (name.toLowerCase() === lowerName) {
+      return trips;
+    }
+  }
+
+  return 0;
+}
+
+function formatContractsDisplay(steamName) {
+  if (!steamName) return "-";
+  let newContracts = 0;
+  console.log('newContracts: ', newContracts);
+  let currentContracts = 0;
+  console.log('currentContracts: ', currentContracts);
+
+  if (currentDate && compareDate !== currentDate) {
+    currentContracts = getContractTrips(steamName, currentDate);
+  }
+
+  if (currentDate && compareDate !== currentDate) {
+    newContracts = getContractTrips(steamName, compareDate);
+  }
+
+  let allContracts = currentContracts + newContracts;
+  
+
+
+  if (newContracts > 0) {
+    return `
+      <div class="contracts-container">
+        <div class="contracts-total">${allContracts}</div>
+        <div class="contracts-weekly">
+          <span class="diff plus">/${newContracts}</span>
+        </div>
+      </div>
+    `;
+  } else if (newContracts === 0 && allContracts > 0) {
+    return `
+      <div class="contracts-container">
+        <div class="contracts-total">${allContracts}</div>
+        <div class="contracts-weekly">
+          <span class="diff zero">/0</span>
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="contracts-container">
+      <div class="contracts-total">${allContracts}</div>
+    </div>
+  `;
+}
+
 function updateData() {
+  // ОТЛАДКА - показать что ищем
+  console.log("=== ОТЛАДКА КОНТРАКТОВ ===");
+  console.log("Текущая дата (currentDate):", currentDate);
+  console.log("Дата сравнения (compareDate):", compareDate);
+  console.log("Доступные даты в контрактах:", Object.keys(contractsData));
+  console.log("Есть ли контракты за currentDate?", contractsData[currentDate]);
+  console.log("Есть ли контракты за compareDate?", contractsData[compareDate]);
+
+  const firstEmployee = rawData[currentDate]?.[0];
+  if (firstEmployee) {
+    console.log("Первый сотрудник:", firstEmployee.steam_name);
+    console.log(
+      "Поиск контрактов для:",
+      firstEmployee.steam_name.toLowerCase(),
+    );
+    console.log(
+      "Результат поиска:",
+      contractsData[currentDate]?.[firstEmployee.steam_name.toLowerCase()],
+    );
+  }
+  console.log("=========================");
+
   const currentEmployees = rawData[currentDate] || [];
   const compareEmployees = rawData[compareDate] || [];
 
@@ -651,21 +820,28 @@ function updateData() {
 
   currentData = Array.from(allIds)
     .map((id) => {
-      // Получаем данные для отображения (самые свежие из двух выбранных дат)
       const displayData = getDisplayData(id);
-
       if (!displayData) return null;
 
-      // Получаем данные для сравнения
       const curEmployee = currentEmployees.find((e) => e.id_user === id);
       const cmpEmployee = compareEmployees.find((e) => e.id_user === id);
-
       const employeeForComparison = curEmployee || cmpEmployee || {};
 
-      // Создаем объединенный объект
+      // ИСПРАВЛЕНО: используем getContractTrips для получения контрактов
+      const contractTrips = getContractTrips(
+        displayData.steam_name,
+        currentDate,
+      );
+
+      // Для отладки
+      if (displayData.steam_name === "albert.h.68") {
+        console.log(
+          `albert.h.68: currentDate=${currentDate}, contractTrips=${contractTrips}`,
+        );
+      }
+
       return {
-        ...employeeForComparison, // Данные для сравнения показателей
-        // Переопределяем отображаемые поля свежими данными
+        ...employeeForComparison,
         id_user: id,
         steam_name: displayData.steam_name,
         active_role: displayData.active_role,
@@ -679,6 +855,7 @@ function updateData() {
         karma_vtc: displayData.karma_vtc,
         point_m: displayData.point_m,
         point: displayData.point,
+        contracts_total: contractTrips, // ИСПРАВЛЕНО
       };
     })
     .filter((employee) => employee && applyFilter(employee));
@@ -699,7 +876,7 @@ function renderTable() {
   if (currentData.length === 0) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="17" style="text-align: center; padding: 40px;">
+        <td colspan="18" style="text-align: center; padding: 40px;">
           Нет данных для отображения с выбранными фильтрами
         </td>
       </tr>
@@ -717,46 +894,30 @@ function renderTable() {
       else tr.classList.add("row-unchanged");
     }
 
-    // Также добавляем класс, если изменилась должность
     const roleChange = getRoleChange(u.id_user);
     if (roleChange.changed && roleChange.type === "normal") {
       tr.classList.add("role-changed");
     }
 
     tr.innerHTML = `
-      <td><img class="avatar" src="${
-        u.image_url || "https://via.placeholder.com/40"
-      }" alt="${
-        u.steam_name
-      }" onerror="this.src='https://via.placeholder.com/40'"></td>
-      <td><a href="https://vtcpanel.com/id${u.id_user}" target="_blank">${
-        u.steam_name || "-"
-      }</a></td>
+      <td><img class="avatar" src="${u.image_url || "https://via.placeholder.com/40"}" alt="${u.steam_name}" onerror="this.src='https://via.placeholder.com/40'"></td>
+      <td><a href="https://vtcpanel.com/id${u.id_user}" target="_blank">${u.steam_name || "-"}</a></td>
       <td>${u.name || "-"}</td>
       <td>${u.family || "-"}</td>
       <td>${u.country || "-"}</td>
       <td>${u.city || "-"}</td>
       <td>${formatRoleDisplay(u.id_user)}</td>
+      <td class="contracts-cell">${formatContractsDisplay(u.steam_name)}</td>
       <td class="number">${u.pokazatel || "-"}</td>
-      <td class="number">
-        ${valueWithDiff(getDiff(u.id_user, "pokazatel"))}
-      </td>
+      <td class="number">${valueWithDiff(getDiff(u.id_user, "pokazatel"))}</td>
       <td class="number">${u.karma || "-"}</td>
-      <td class="number">
-        ${valueWithDiff(getDiff(u.id_user, "karma"))}
-      </td>
+      <td class="number">${valueWithDiff(getDiff(u.id_user, "karma"))}</td>
       <td class="number">${u.karma_vtc || "-"}</td>
-      <td class="number">
-        ${valueWithDiff(getDiff(u.id_user, "karma_vtc"))}
-      </td>
+      <td class="number">${valueWithDiff(getDiff(u.id_user, "karma_vtc"))}</td>
       <td class="number">${u.point_m || "-"}</td>
-      <td class="number">
-        ${valueWithDiff(getDiff(u.id_user, "point_m"))}
-      </td>
+      <td class="number">${valueWithDiff(getDiff(u.id_user, "point_m"))}</td>
       <td class="number">${u.point || "-"}</td>
-      <td class="number">
-        ${valueWithDiff(getDiff(u.id_user, "point"))}
-      </td>
+      <td class="number">${valueWithDiff(getDiff(u.id_user, "point"))}</td>
     `;
 
     tbody.appendChild(tr);
@@ -775,16 +936,13 @@ function sortBy(key, isDiff) {
     let A, B;
 
     if (isDiff) {
-      // Для сортировки по изменению должности
       if (key === "active_role") {
         const roleChangeA = getRoleChange(a.id_user);
         const roleChangeB = getRoleChange(b.id_user);
 
-        // Сортируем по изменению: сначала те, у кого изменилась должность
         if (roleChangeA.changed && !roleChangeB.changed) return -sortDir;
         if (!roleChangeA.changed && roleChangeB.changed) return sortDir;
 
-        // Если оба изменились или не изменились, сортируем по текущей должности
         A = roleChangeA.currentRole || 0;
         B = roleChangeB.currentRole || 0;
       } else {
@@ -798,8 +956,10 @@ function sortBy(key, isDiff) {
         return A.localeCompare(B, "ru") * sortDir;
       }
 
-      if (key === "active_role") {
-        // Получаем текущую должность для сортировки
+      if (key === "contracts_total") {
+        A = a.contracts_total || 0;
+        B = b.contracts_total || 0;
+      } else if (key === "active_role") {
         const roleChangeA = getRoleChange(a.id_user);
         const roleChangeB = getRoleChange(b.id_user);
         A = roleChangeA.currentRole || 0;
@@ -816,7 +976,6 @@ function sortBy(key, isDiff) {
   renderTable();
 }
 
-// Добавляем стили для ошибок
 const style = document.createElement("style");
 style.textContent = `
   .error {
@@ -839,7 +998,4 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Запускаем загрузку данных
 loadAllData();
-//loadDataDynamically();
-// Или используйте loadDataDynamically()  если у вас много файлов

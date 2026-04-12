@@ -208,7 +208,6 @@ td a:hover {
 }
 
 .diff {
-  margin-left: 6px;
   font-size: 12px;
   font-weight: 600;
 }
@@ -237,35 +236,6 @@ td a:hover {
   background: rgba(244, 67, 54, 0.1);
   padding: 2px 6px;
   border-radius: 4px;
-}
-
-@media (max-width: 768px) {
-  .app {
-    padding: 10px;
-  }
-
-  .date-selectors {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  select {
-    min-width: 100%;
-  }
-
-  .filter-buttons {
-    flex-direction: column;
-  }
-
-  .filter-btn {
-    width: 100%;
-  }
-
-  th,
-  td {
-    padding: 8px 6px;
-    font-size: 13px;
-  }
 }
 
 /* Добавить к существующим стилям */
@@ -420,33 +390,6 @@ td a:hover {
   color: white;
 } /* Руководство */
 
-/* Адаптивность */
-@media (max-width: 768px) {
-  .stats {
-    grid-template-columns: 1fr;
-  }
-
-  .filter-buttons,
-  .role-filters {
-    flex-direction: column;
-  }
-
-  .filter-btn,
-  .role-filter-btn {
-    width: 100%;
-    text-align: center;
-  }
-
-  .role-filters {
-    max-height: 200px;
-    overflow-y: auto;
-  }
-
-  .role-filter-btn {
-    text-align: left;
-  }
-}
-
 /* Стили для отображения изменения должности */
 .role-change-container {
   display: flex;
@@ -564,8 +507,85 @@ tbody tr.role-changed:hover {
   color: #ff9800;
 }
 
+/* Стили для контрактов */
+.contracts-container {
+  display: flex;
+  justify-content: end;
+  gap: 4px;
+}
+
+.contracts-total {
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+}
+
+.contracts-weekly {
+  font-size: 11px;
+}
+
+.contracts-cell {
+  min-width: 100px;
+}
+
+/* Стили для сортировки по контрактам */
+th[data-key="contracts_total"] {
+  cursor: pointer;
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
+  .app {
+    padding: 10px;
+  }
+
+  .date-selectors {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  select {
+    min-width: 100%;
+  }
+
+  .filter-buttons {
+    flex-direction: column;
+  }
+
+  .filter-btn {
+    width: 100%;
+  }
+
+  th,
+  td {
+    padding: 8px 6px;
+    font-size: 13px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-buttons,
+  .role-filters {
+    flex-direction: column;
+  }
+
+  .filter-btn,
+  .role-filter-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .role-filters {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .role-filter-btn {
+    text-align: left;
+  }
+
   .role-change-container {
     align-items: flex-start;
   }
@@ -581,5 +601,16 @@ tbody tr.role-changed:hover {
   .change-filter-btn {
     width: 100%;
     text-align: center;
+  }
+
+  .contracts-container {
+    flex-direction: row;
+    gap: 8px;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+
+  .contracts-weekly {
+    font-size: 10px;
   }
 }
