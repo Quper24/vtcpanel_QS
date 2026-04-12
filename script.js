@@ -353,7 +353,7 @@ function initApp() {
                 <th data-key="country">Страна</th>
                 <th data-key="city">Город</th>
                 <th data-key="active_role" data-diff="true">Должность Δ</th>
-                <th data-key="contracts_total">Контракты (всего/неделя)</th>
+                <th data-key="contracts_total">Контракты</th>
                 <th data-key="pokazatel">Показатель</th>
                 <th data-key="pokazatel" data-diff="true">Δ</th>
                 <th data-key="karma">Карма</th>
@@ -741,37 +741,46 @@ function getContractTrips(steamName, date) {
   return 0;
 }
 
-function formatContractsDisplay(steamName) {
-  if (!steamName) return "-";
-  let newContracts = 0;
-  console.log('newContracts: ', newContracts);
+// Функция для получения общего количества контрактов (для сортировки)
+function getTotalContracts(steamName) {
+  if (!steamName) return 0;
+
   let currentContracts = 0;
-  console.log('currentContracts: ', currentContracts);
+  let compareContracts = 0;
 
   if (currentDate && compareDate !== currentDate) {
     currentContracts = getContractTrips(steamName, currentDate);
+    compareContracts = getContractTrips(steamName, compareDate);
   }
+
+  return currentContracts + compareContracts;
+}
+
+function formatContractsDisplay(steamName) {
+  if (!steamName) return "-";
+
+  let currentContracts = 0;
+  let compareContracts = 0;
 
   if (currentDate && compareDate !== currentDate) {
-    newContracts = getContractTrips(steamName, compareDate);
+    currentContracts = getContractTrips(steamName, currentDate);
+    compareContracts = getContractTrips(steamName, compareDate);
   }
 
-  let allContracts = currentContracts + newContracts;
-  
+  const allContracts = currentContracts + compareContracts;
 
-
-  if (newContracts > 0) {
+  if (compareContracts > 0) {
     return `
-      <div class="contracts-container">
+      <div class="contracts-container" data-total="${allContracts}">
         <div class="contracts-total">${allContracts}</div>
         <div class="contracts-weekly">
-          <span class="diff plus">/${newContracts}</span>
+          <span class="diff plus">/${compareContracts}</span>
         </div>
       </div>
     `;
-  } else if (newContracts === 0 && allContracts > 0) {
+  } else if (allContracts > 0) {
     return `
-      <div class="contracts-container">
+      <div class="contracts-container" data-total="${allContracts}">
         <div class="contracts-total">${allContracts}</div>
         <div class="contracts-weekly">
           <span class="diff zero">/0</span>
@@ -781,35 +790,13 @@ function formatContractsDisplay(steamName) {
   }
 
   return `
-    <div class="contracts-container">
+    <div class="contracts-container" data-total="${allContracts}">
       <div class="contracts-total">${allContracts}</div>
     </div>
   `;
 }
 
 function updateData() {
-  // ОТЛАДКА - показать что ищем
-  console.log("=== ОТЛАДКА КОНТРАКТОВ ===");
-  console.log("Текущая дата (currentDate):", currentDate);
-  console.log("Дата сравнения (compareDate):", compareDate);
-  console.log("Доступные даты в контрактах:", Object.keys(contractsData));
-  console.log("Есть ли контракты за currentDate?", contractsData[currentDate]);
-  console.log("Есть ли контракты за compareDate?", contractsData[compareDate]);
-
-  const firstEmployee = rawData[currentDate]?.[0];
-  if (firstEmployee) {
-    console.log("Первый сотрудник:", firstEmployee.steam_name);
-    console.log(
-      "Поиск контрактов для:",
-      firstEmployee.steam_name.toLowerCase(),
-    );
-    console.log(
-      "Результат поиска:",
-      contractsData[currentDate]?.[firstEmployee.steam_name.toLowerCase()],
-    );
-  }
-  console.log("=========================");
-
   const currentEmployees = rawData[currentDate] || [];
   const compareEmployees = rawData[compareDate] || [];
 
@@ -855,7 +842,11 @@ function updateData() {
         karma_vtc: displayData.karma_vtc,
         point_m: displayData.point_m,
         point: displayData.point,
-        contracts_total: contractTrips, // ИСПРАВЛЕНО
+        contracts_total: (() => {
+          const current = getContractTrips(displayData.steam_name, currentDate);
+          const compare = getContractTrips(displayData.steam_name, compareDate);
+          return current + compare;
+        })(),
       };
     })
     .filter((employee) => employee && applyFilter(employee));
