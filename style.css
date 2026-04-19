@@ -528,6 +528,26 @@ tbody tr.role-changed:hover {
   min-width: 100px;
 }
 
+  .contracts-total-cell {
+    font-weight: 500;
+  }
+  
+  .contracts-weekly-cell .diff {
+    font-weight: 600;
+  }
+  
+  .contracts-weekly-cell .diff.plus {
+    color: #4caf50;
+  }
+  
+  .contracts-weekly-cell .diff.minus {
+    color: #f44336;
+  }
+  
+  .contracts-weekly-cell .diff.zero {
+    color: #888;
+  }
+
 /* Стили для сортировки по контрактам */
 th[data-key="contracts_total"] {
   cursor: pointer;

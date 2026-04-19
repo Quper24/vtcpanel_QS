@@ -353,7 +353,8 @@ function initApp() {
                 <th data-key="country">Страна</th>
                 <th data-key="city">Город</th>
                 <th data-key="active_role" data-diff="true">Должность Δ</th>
-                <th data-key="contracts_total">Контракты</th>
+                <th data-key="contracts_total">Контракты (всего)</th>
+                <th data-key="contracts_weekly" data-diff="true">Контракты (неделя)</th>
                 <th data-key="pokazatel">Показатель</th>
                 <th data-key="pokazatel" data-diff="true">Δ</th>
                 <th data-key="karma">Карма</th>
@@ -744,56 +745,56 @@ function getContractTrips(steamName, date) {
 // Функция для получения общего количества контрактов (для сортировки)
 function getTotalContracts(steamName) {
   if (!steamName) return 0;
-
-  let currentContracts = 0;
-  let compareContracts = 0;
-
-  if (currentDate && compareDate !== currentDate) {
-    currentContracts = getContractTrips(steamName, currentDate);
-    compareContracts = getContractTrips(steamName, compareDate);
+  
+  if (!currentDate || !compareDate || currentDate === compareDate) {
+    // Если даты одинаковые или нет данных, берем только текущую дату
+    return getContractTrips(steamName, currentDate);
   }
-
-  return currentContracts + compareContracts;
+  
+  // Получаем все даты между compareDate и currentDate
+  const allDates = Object.keys(contractsData).sort((a, b) => {
+    const dateA = a.split('.').reverse().join('-');
+    const dateB = b.split('.').reverse().join('-');
+    return new Date(dateA) - new Date(dateB);
+  });
+  
+  // Находим индексы наших дат
+  const startIndex = allDates.indexOf(compareDate);
+  const endIndex = allDates.indexOf(currentDate);
+  
+  if (startIndex === -1 || endIndex === -1) {
+    // Если одна из дат не найдена, берем только текущую
+    return getContractTrips(steamName, currentDate);
+  }
+  
+  // Суммируем контракты за все даты в периоде
+  let totalContracts = 0;
+  for (let i = startIndex; i <= endIndex; i++) {
+    const date = allDates[i];
+    totalContracts += getContractTrips(steamName, date);
+  }
+  
+  return totalContracts;
 }
 
-function formatContractsDisplay(steamName) {
+function formatContractsDisplay(steamName, showWeekly = true) {
   if (!steamName) return "-";
 
-  let currentContracts = 0;
-  let compareContracts = 0;
+  const currentContracts = getContractTrips(steamName, currentDate);
+  const compareContracts = getContractTrips(steamName, compareDate);
 
-  if (currentDate && compareDate !== currentDate) {
-    currentContracts = getContractTrips(steamName, currentDate);
-    compareContracts = getContractTrips(steamName, compareDate);
+  // Для отображения в колонке "Всего" - показываем текущее количество
+  if (!showWeekly) {
+    return currentContracts || "0";
   }
 
-  const allContracts = currentContracts + compareContracts;
-
-  if (compareContracts > 0) {
-    return `
-      <div class="contracts-container" data-total="${allContracts}">
-        <div class="contracts-total">${allContracts}</div>
-        <div class="contracts-weekly">
-          <span class="diff plus">/${compareContracts}</span>
-        </div>
-      </div>
-    `;
-  } else if (allContracts > 0) {
-    return `
-      <div class="contracts-container" data-total="${allContracts}">
-        <div class="contracts-total">${allContracts}</div>
-        <div class="contracts-weekly">
-          <span class="diff zero">/0</span>
-        </div>
-      </div>
-    `;
+  // Для отображения в колонке "Неделя" - показываем только compareContracts (контракты за неделю)
+  if (compareContracts === 0) {
+    return `<span class="diff zero">0</span>`;
   }
 
-  return `
-    <div class="contracts-container" data-total="${allContracts}">
-      <div class="contracts-total">${allContracts}</div>
-    </div>
-  `;
+  // Просто показываем количество контрактов за неделю, без знака +
+  return `<span class="diff plus">${compareContracts}</span>`;
 }
 
 function updateData() {
@@ -814,18 +815,9 @@ function updateData() {
       const cmpEmployee = compareEmployees.find((e) => e.id_user === id);
       const employeeForComparison = curEmployee || cmpEmployee || {};
 
-      // ИСПРАВЛЕНО: используем getContractTrips для получения контрактов
-      const contractTrips = getContractTrips(
-        displayData.steam_name,
-        currentDate,
-      );
-
-      // Для отладки
-      if (displayData.steam_name === "albert.h.68") {
-        console.log(
-          `albert.h.68: currentDate=${currentDate}, contractTrips=${contractTrips}`,
-        );
-      }
+      // Получаем данные по контрактам
+      const currentContracts = getContractTrips(displayData.steam_name, currentDate);
+      const compareContracts = getContractTrips(displayData.steam_name, compareDate);
 
       return {
         ...employeeForComparison,
@@ -842,11 +834,8 @@ function updateData() {
         karma_vtc: displayData.karma_vtc,
         point_m: displayData.point_m,
         point: displayData.point,
-        contracts_total: (() => {
-          const current = getContractTrips(displayData.steam_name, currentDate);
-          const compare = getContractTrips(displayData.steam_name, compareDate);
-          return current + compare;
-        })(),
+        contracts_total: currentContracts, // Общее количество
+        contracts_weekly: compareContracts, // Недельное изменение
       };
     })
     .filter((employee) => employee && applyFilter(employee));
@@ -867,7 +856,7 @@ function renderTable() {
   if (currentData.length === 0) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="18" style="text-align: center; padding: 40px;">
+        <td colspan="19" style="text-align: center; padding: 40px;">
           Нет данных для отображения с выбранными фильтрами
         </td>
       </tr>
@@ -898,7 +887,8 @@ function renderTable() {
       <td>${u.country || "-"}</td>
       <td>${u.city || "-"}</td>
       <td>${formatRoleDisplay(u.id_user)}</td>
-      <td class="contracts-cell">${formatContractsDisplay(u.steam_name)}</td>
+      <td class="number contracts-total-cell">${formatContractsDisplay(u.steam_name, false)}</td>
+      <td class="number contracts-weekly-cell">${formatContractsDisplay(u.steam_name, true)}</td>
       <td class="number">${u.pokazatel || "-"}</td>
       <td class="number">${valueWithDiff(getDiff(u.id_user, "pokazatel"))}</td>
       <td class="number">${u.karma || "-"}</td>
@@ -936,6 +926,10 @@ function sortBy(key, isDiff) {
 
         A = roleChangeA.currentRole || 0;
         B = roleChangeB.currentRole || 0;
+      } else if (key === "contracts_weekly") {
+        // Сортировка по недельному значению (уже есть в объекте)
+        A = a.contracts_weekly || 0;
+        B = b.contracts_weekly || 0;
       } else {
         A = getDiff(a.id_user, key).rawDiff;
         B = getDiff(b.id_user, key).rawDiff;
@@ -950,6 +944,9 @@ function sortBy(key, isDiff) {
       if (key === "contracts_total") {
         A = a.contracts_total || 0;
         B = b.contracts_total || 0;
+      } else if (key === "contracts_weekly") {
+        A = a.contracts_weekly || 0;
+        B = b.contracts_weekly || 0;
       } else if (key === "active_role") {
         const roleChangeA = getRoleChange(a.id_user);
         const roleChangeB = getRoleChange(b.id_user);
