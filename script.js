@@ -349,22 +349,15 @@ function initApp() {
                 <th>Аватар</th>
                 <th data-key="steam_name">Steam</th>
                 <th data-key="name">Имя</th>
-                <th data-key="family">Фамилия</th>
-                <th data-key="country">Страна</th>
                 <th data-key="city">Город</th>
                 <th data-key="active_role" data-diff="true">Должность Δ</th>
-                <th data-key="contracts_total">Контракты (всего)</th>
-                <th data-key="contracts_weekly" data-diff="true">Контракты (неделя)</th>
-                <th data-key="pokazatel">Показатель</th>
-                <th data-key="pokazatel" data-diff="true">Δ</th>
-                <th data-key="karma">Карма</th>
-                <th data-key="karma" data-diff="true">Δ</th>
-                <th data-key="karma_vtc">Карма VTC</th>
-                <th data-key="karma_vtc" data-diff="true">Δ</th>
-                <th data-key="point_m">Очки мес</th>
-                <th data-key="point_m" data-diff="true">Δ</th>
-                <th data-key="point">Очки</th>
-                <th data-key="point" data-diff="true">Δ</th>
+                <th data-key="contracts_total">Контракты</th>
+                <th data-key="contracts_weekly" data-diff="true">Контракты(неделя)</th>
+                <th data-key="pokazatel" data-diff="true">Показатель Δ</th>
+                <th data-key="karma" data-diff="true">Карма Δ</th>
+                <th data-key="karma_vtc" data-diff="true">Карма VTC Δ</th>
+                <th data-key="point_m" data-diff="true">Очки мес Δ</th>
+                <th data-key="point" data-diff="true">Очки Δ</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -856,7 +849,7 @@ function renderTable() {
   if (currentData.length === 0) {
     tbody.innerHTML = `
       <tr>
-        <td colspan="19" style="text-align: center; padding: 40px;">
+        <td colspan="12" style="text-align: center; padding: 40px;">
           Нет данных для отображения с выбранными фильтрами
         </td>
       </tr>
@@ -879,31 +872,56 @@ function renderTable() {
       tr.classList.add("role-changed");
     }
 
-    tr.innerHTML = `
-      <td><img class="avatar" src="${u.image_url || "https://via.placeholder.com/40"}" alt="${u.steam_name}" onerror="this.src='https://via.placeholder.com/40'"></td>
-      <td><a href="https://vtcpanel.com/id${u.id_user}" target="_blank">${u.steam_name || "-"}</a></td>
-      <td>${u.name || "-"}</td>
-      <td>${u.family || "-"}</td>
-      <td>${u.country || "-"}</td>
-      <td>${u.city || "-"}</td>
-      <td>${formatRoleDisplay(u.id_user)}</td>
-      <td class="number contracts-total-cell">${formatContractsDisplay(u.steam_name, false)}</td>
-      <td class="number contracts-weekly-cell">${formatContractsDisplay(u.steam_name, true)}</td>
-      <td class="number">${u.pokazatel || "-"}</td>
-      <td class="number">${valueWithDiff(getDiff(u.id_user, "pokazatel"))}</td>
-      <td class="number">${u.karma || "-"}</td>
-      <td class="number">${valueWithDiff(getDiff(u.id_user, "karma"))}</td>
-      <td class="number">${u.karma_vtc || "-"}</td>
-      <td class="number">${valueWithDiff(getDiff(u.id_user, "karma_vtc"))}</td>
-      <td class="number">${u.point_m || "-"}</td>
-      <td class="number">${valueWithDiff(getDiff(u.id_user, "point_m"))}</td>
-      <td class="number">${u.point || "-"}</td>
-      <td class="number">${valueWithDiff(getDiff(u.id_user, "point"))}</td>
-    `;
+  tr.innerHTML = `
+    <td>
+      <img class="avatar" src="${u.image_url || "https://via.placeholder.com/40"}"
+          alt="${u.steam_name}"
+          onerror="this.src='https://via.placeholder.com/40'">
+    </td>
 
-    tbody.appendChild(tr);
-  });
-}
+    <td>
+      <a href="https://vtcpanel.com/id${u.id_user}" target="_blank">
+        ${u.steam_name || "-"}
+      </a>
+    </td>
+
+    <td>${u.name || "-"}</td>
+    <td>${u.city || "-"}</td>
+
+    <td>${formatRoleDisplay(u.id_user)}</td>
+
+    <td class="number">
+      ${formatContractsDisplay(u.steam_name, false)}
+    </td>
+
+    <td class="number">
+      ${formatContractsDisplay(u.steam_name, true)}
+    </td>
+
+    <td class="number">
+      ${valueWithDiff(getDiff(u.id_user, "pokazatel"))}
+    </td>
+
+    <td class="number">
+      ${valueWithDiff(getDiff(u.id_user, "karma"))}
+    </td>
+
+    <td class="number">
+      ${valueWithDiff(getDiff(u.id_user, "karma_vtc"))}
+    </td>
+
+    <td class="number">
+      ${valueWithDiff(getDiff(u.id_user, "point_m"))}
+    </td>
+
+    <td class="number">
+      ${valueWithDiff(getDiff(u.id_user, "point"))}
+    </td>
+  `;
+
+      tbody.appendChild(tr);
+    });
+  }
 
 function sortBy(key, isDiff) {
   if (sortKey === key && sortDiff === isDiff) sortDir *= -1;
