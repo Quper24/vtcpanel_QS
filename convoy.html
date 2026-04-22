@@ -412,12 +412,14 @@
                 const status = convoy.status || 'upcoming';
                 const statusText = getStatusText(status);
                 
-                const creationLinks = (status === 'active' && (convoy.trucky_code || convoy.cargoman_file)) ? `
+                // ПОКАЗЫВАЕМ для активных И запланированных (если есть trucky_code или cargoman_file)
+                const showLinks = (status !== 'ended') && (convoy.trucky_code || convoy.cargoman_file);
+                const creationLinks = showLinks ? `
                     <div class="creation-links">
                         <h4>🔧 Создать заказ:</h4>
                         <div class="link-buttons">
-                            ${convoy.trucky_code ? `<button class="link-btn trucky" onclick="copyToClipboard('${convoy.trucky_code}', 'Trucky код')">🚛 Trucky | ${convoy.trucky_code}</button>` : ''}
-                            ${convoy.cargoman_file ? `<button class="link-btn cargoman" onclick="copyToClipboard('${convoy.cargoman_file}', 'CargoMan ссылка')">📦 CargoMan | Скопировать ссылку</button>` : ''}
+                            ${convoy.trucky_code ? `<button class="link-btn trucky" onclick="copyToClipboard('${convoy.trucky_code.replace(/'/g, "\\'")}', 'Trucky код')">🚛 Trucky | ${convoy.trucky_code}</button>` : ''}
+                            ${convoy.cargoman_file ? `<button class="link-btn cargoman" onclick="copyToClipboard('${convoy.cargoman_file.replace(/'/g, "\\'")}', 'CargoMan ссылка')">📦 CargoMan | Скопировать ссылку</button>` : ''}
                         </div>
                     </div>
                 ` : '';
@@ -426,24 +428,24 @@
                     <div class="convoy-card">
                         <div class="card-header ${convoy.game}">
                             <div class="game-badge ${convoy.game}">${convoy.game === 'ATS' ? '🇺🇸 ATS' : '🇪🇺 ETS2'}</div>
-                            <h3>${convoy.from_city} → ${convoy.to_city}</h3>
+                            <h3>${escapeHtml(convoy.from_city)} → ${escapeHtml(convoy.to_city)}</h3>
                             <div class="time-range">
-                                📅 ${convoy.date} | ⏰ ${convoy.time_start} - ${convoy.time_end} МСК
+                                📅 ${escapeHtml(convoy.date)} | ⏰ ${escapeHtml(convoy.time_start)} - ${escapeHtml(convoy.time_end)} МСК
                                 <span class="status-badge status-${status}">${statusText}</span>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="route">
-                                <div class="route-item"><div class="route-icon">📍</div><div class="route-text"><strong>Откуда:</strong> ${convoy.from_city} (${convoy.from_state}), ${convoy.from_base}</div></div>
-                                <div class="route-item"><div class="route-icon">🏁</div><div class="route-text"><strong>Куда:</strong> ${convoy.to_city} (${convoy.to_state}), ${convoy.to_base}</div></div>
+                                <div class="route-item"><div class="route-icon">📍</div><div class="route-text"><strong>Откуда:</strong> ${escapeHtml(convoy.from_city)} (${escapeHtml(convoy.from_state)}), ${escapeHtml(convoy.from_base)}</div></div>
+                                <div class="route-item"><div class="route-icon">🏁</div><div class="route-text"><strong>Куда:</strong> ${escapeHtml(convoy.to_city)} (${escapeHtml(convoy.to_state)}), ${escapeHtml(convoy.to_base)}</div></div>
                             </div>
                             <div class="cargo">
-                                <div class="cargo-item"><span class="cargo-label">📦 Груз:</span><span>${convoy.cargo_name}</span></div>
-                                <div class="cargo-item"><span class="cargo-label">🆔 ID груза:</span><span>${convoy.cargo_id}</span></div>
-                                <div class="cargo-item"><span class="cargo-label">📏 Дистанция:</span><span>${convoy.distance}</span></div>
+                                <div class="cargo-item"><span class="cargo-label">📦 Груз:</span><span>${escapeHtml(convoy.cargo_name)}</span></div>
+                                <div class="cargo-item"><span class="cargo-label">🆔 ID груза:</span><span>${escapeHtml(convoy.cargo_id)}</span></div>
+                                <div class="cargo-item"><span class="cargo-label">📏 Дистанция:</span><span>${escapeHtml(convoy.distance)}</span></div>
                             </div>
                             ${creationLinks}
-                            ${convoy.notes ? `<div class="info-row"><span class="cargo-label">📝 Примечание:</span><span>${convoy.notes}</span></div>` : ''}
+                            ${convoy.notes ? `<div class="info-row" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #ecf0f1;"><span class="cargo-label">📝 Примечание:</span><span>${escapeHtml(convoy.notes)}</span></div>` : ''}
                         </div>
                         <div class="card-footer">
                             <button class="join-btn" onclick="copyConvoyMessage(${convoy.id})">📋 Скопировать в чат</button>
@@ -451,6 +453,17 @@
                     </div>
                 `;
             }).join('');
+        }
+
+        // Простая защита от XSS
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
         }
 
         async function copyConvoyMessage(id) {
@@ -462,8 +475,11 @@
             
             let message = `🚛 LONG CONVOY в ${convoy.game} ${statusEmoji}\n\n⏰ Взять груз можно с **${convoy.time_start}** до **${convoy.time_end}** (МСК)\n⏰ Сдавать груз не раньше **${convoy.time_end}** (МСК)\n🖥 В оверлее ВТК панели появится надпись "Конвой"\n\n📍 Откуда: ${convoy.from_city} (${convoy.from_state}), ${convoy.from_base}\n📍 Куда: ${convoy.to_city} (${convoy.to_state}), ${convoy.to_base}\n📏 Дистанция: ${convoy.distance}\n📦 Груз: ${convoy.cargo_name} (${convoy.cargo_id})`;
             
-            if (convoy.trucky_code && status === 'active') {
+            if (convoy.trucky_code) {
                 message += `\n\n🚛 Trucky код: ${convoy.trucky_code}`;
+            }
+            if (convoy.cargoman_file) {
+                message += `\n\n📦 CargoMan ссылка: ${convoy.cargoman_file}`;
             }
             
             message += `\n\n👉 Как участвовать:\n- Заходите на сервер и берете мой заказ или создаете через Trucky/Cargoman\n- Можно ехать вместе на сервере или в одиночку\n- В дискорде объясню все детали: https://discord.gg/KbjtTFgbbB\n\n✅ Важно: конвой засчитается всем, кто сдаст груз после **${convoy.time_end}**. Раньше сдавать нельзя, не начислят бонусы.\n\n🔗 Подробнее: ${window.location.href}`;
