@@ -78,8 +78,6 @@ async function loadAllData() {
       }
     });
 
-    console.log("Загружено дат:", Object.keys(rawData).length);
-    console.log("Все даты:", Object.keys(rawData).sort());
 
     initApp();
   } catch (error) {
@@ -94,7 +92,6 @@ async function loadAllData() {
   }
 }
 
-// Загрузка контрактов
 // Загрузка контрактов
 async function loadContracts() {
   try {
@@ -126,10 +123,6 @@ async function loadContracts() {
       }
     });
 
-    console.log("Загружены контракты за даты:", Object.keys(contractsData));
-    console.log("Контракты за 12.04.26:", contractsData["12.04.26"]);
-    console.log("Поиск Quper:", contractsData["12.04.26"]?.["Quper"]);
-    console.log("Поиск quper:", contractsData["12.04.26"]?.["quper"]);
   } catch (error) {
     console.error("Ошибка загрузки контрактов:", error);
   }
@@ -276,7 +269,18 @@ function initApp() {
 
   app.innerHTML = `
       <div class="container">
-        <h1>Сотрудники — сравнение по датам</h1>
+        <header class="main-header">
+          <div class="header-content">
+            <div class="logo-section">
+              <h1 class="site-title">Сотрудники VTC</h1>
+              <p class="site-subtitle">Сравнение по датам</p>
+            </div>
+            <nav class="header-nav">
+              <a href="/convoy.html" target="_blank" class="nav-link">🚚 Конвои</a>
+              <a href="/admin.html" target="_blank" class="nav-link">⚙️ Админка</a>
+            </nav>
+          </div>
+        </header>
         
         <div class="controls">
           <div class="date-selectors">
@@ -894,7 +898,6 @@ function renderTable() {
   }
 
   currentData.forEach((u) => {
-    console.log('currentData: ', u);
     const tr = document.createElement("tr");
 
     const pokazatelDiff = getDiff(u.id_user, "pokazatel");

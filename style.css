@@ -21,6 +21,82 @@ h1 {
   color: #fff;
 }
 
+.main-header {
+  background: linear-gradient(135deg, #1a1f2e 0%, #0d1117 100%);
+  border-bottom: 1px solid rgba(79, 195, 247, 0.2);
+  padding: 0;
+  margin-bottom: 30px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.site-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(135deg, #fff 0%, #4fc3f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+
+.site-subtitle {
+  font-size: 13px;
+  color: #8a94a5;
+  margin: 0;
+  padding-left: 4px;
+}
+
+.header-nav {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  padding: 10px 24px;
+  background: rgba(79, 195, 247, 0.1);
+  border: 1px solid rgba(79, 195, 247, 0.3);
+  border-radius: 30px;
+  color: #4fc3f7;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link:hover {
+  background: #4fc3f7;
+  color: #0f1115;
+  border-color: #4fc3f7;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(79, 195, 247, 0.3);
+}
+
+
 .controls {
   margin-bottom: 25px;
   padding: 15px;
@@ -557,6 +633,21 @@ th[data-key="contracts_total"] {
 @media (max-width: 768px) {
   .app {
     padding: 10px;
+  }
+
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+    padding: 15px 20px;
+  }
+  
+  .site-title {
+    font-size: 22px;
+  }
+  
+  .nav-link {
+    padding: 8px 18px;
+    font-size: 13px;
   }
 
   .date-selectors {
