@@ -15,12 +15,12 @@ const roleNames = {
   0: "Админ",
   1: "Проверка СБ",
   2: "Неактив",
-  3: "Младший водитель",
-  4: "Водитель",
-  5: "Старший водитель",
-  6: "Ведущий водитель",
-  7: "Водитель-эксперт",
-  8: "Руководство",
+  3: "Стажёр",
+  4: "Младший водитель",
+  5: "Водитель",
+  6: "Опытный водитель",
+  7: "Ведущий водитель",
+  8: "Ветеран компании",
 };
 
 // Загрузка всех JSON файлов из папки data
@@ -351,7 +351,7 @@ function initApp() {
                 <th data-key="name">Имя</th>
                 <th data-key="city">Город</th>
                 <th data-key="active_role" data-diff="true">Должность Δ</th>
-                <th data-key="contracts_total">Контракты</th>
+                <th data-key="contracts_total">Контракты(месяц)</th>
                 <th data-key="contracts_weekly" data-diff="true">Контракты(неделя)</th>
                 <th data-key="pokazatel" data-diff="true">Показатель Δ</th>
                 <th data-key="karma" data-diff="true">Карма Δ</th>
