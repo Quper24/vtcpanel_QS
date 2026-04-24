@@ -126,6 +126,11 @@ body {
     color: #2c3e50;
 }
 
+.btn-secondary {
+    background: #3498db;
+    color: white;
+}
+
 .btn-danger {
     background: #e74c3c;
     color: white;
@@ -261,4 +266,69 @@ hr {
     100% {
         transform: rotate(360deg);
     }
+}
+
+/* Стили для импорта файла */
+.import-area {
+    background: #f0f7ff;
+    border: 2px dashed #3498db;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 25px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.import-area:hover {
+    background: #e8f0fe;
+    border-color: #f39c12;
+}
+
+.import-area label {
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px 20px;
+    background: #3498db;
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.import-area label:hover {
+    background: #2980b9;
+    transform: scale(1.02);
+}
+
+.import-area input[type="file"] {
+    display: none;
+}
+
+.import-hint {
+    font-size: 0.8rem;
+    color: #7f8c8d;
+    margin-top: 10px;
+}
+
+.import-preview {
+    background: #e8f0fe;
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 15px;
+    font-size: 0.85rem;
+    text-align: left;
+    border-left: 4px solid #3498db;
+}
+
+.import-preview strong {
+    color: #2c3e50;
+}
+
+.import-preview span {
+    color: #f39c12;
+    font-family: monospace;
+}
+
+.import-preview .info-row {
+    margin: 5px 0;
 }
