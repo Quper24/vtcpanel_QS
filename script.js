@@ -23,6 +23,15 @@ const roleNames = {
   8: "Ветеран компании",
 };
 
+const ROLE_RULES = {
+  3: { min: 0, max: 1 },   // Стажёр
+  4: { min: 1, max: 10 },  // Младший водитель
+  5: { min: 10, max: 30 }, // Водитель
+  6: { min: 30, max: 60 },// Опытный
+  7: { min: 60, max: 80 },// Ведущий
+  8: { min: 80, max: 100 } // Ветеран
+};
+
 // Загрузка всех JSON файлов из папки data
 async function loadAllData() {
   try {
@@ -78,7 +87,6 @@ async function loadAllData() {
       }
     });
 
-
     initApp();
   } catch (error) {
     console.error("Ошибка загрузки данных:", error);
@@ -122,7 +130,6 @@ async function loadContracts() {
         });
       }
     });
-
   } catch (error) {
     console.error("Ошибка загрузки контрактов:", error);
   }
@@ -362,6 +369,7 @@ function initApp() {
                 <th data-key="karma_vtc" data-diff="true">Карма VTC Δ</th>
                 <th data-key="point_m" data-diff="true">Очки мес Δ</th>
                 <th data-key="point" data-diff="true">Очки Δ</th>
+                <th data-key="koeff" class="number cell-eff">Недельная эффективность</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -721,6 +729,145 @@ function formatRoleDisplay(id) {
   `;
 }
 
+// === Функции нормализации показателей ===
+
+const CONFIG = {
+  contracts: {
+    min: 2,
+    baseTarget: 14,   // 100 эффективности
+    midTarget: 28,    // 150 эффективности
+    highTarget: 42,   // 175 эффективности
+
+    midBonus: 50,     // 100 → 150
+    highBonus: 25,    // 150 → 175
+    extraStep: 0.5    // после 42
+  },
+
+  pokazatel: {
+    max: 200 // 100 эффективности
+  },
+
+  karma: {
+    max: 2 // 100 эффективности
+  },
+
+  points: {
+    base: 28,     // 100 эффективности
+    step: 4,      // +4 очка
+    stepBonus: 5  // +5 эффективности
+  }
+};
+
+const WEIGHTS = {
+  contracts: 0.4,
+  pokazatel: 0.2,
+  karma: 0.1,
+  points: 0.3
+};
+
+// Контракты (неделя): 0–100
+function calcKontf(konts) {
+  const { min, baseTarget, midTarget, highTarget, midBonus, highBonus, extraStep } = CONFIG.contracts;
+
+  if (konts < min) return 0;
+
+  // До базы (2 → 14)
+  if (konts <= baseTarget) {
+    return (konts - min) * (100 / (baseTarget - min));
+  }
+
+  // 14 → 28
+  if (konts <= midTarget) {
+    return 100 + (konts - baseTarget) * (midBonus / (midTarget - baseTarget));
+  }
+
+  // 28 → 42
+  if (konts <= highTarget) {
+    return 100 + midBonus +
+      (konts - midTarget) * (highBonus / (highTarget - midTarget));
+  }
+
+  // После 42
+  return 100 + midBonus + highBonus +
+    (konts - highTarget) * extraStep;
+}
+
+// Показатель
+function calcPokaz(val) {
+  const valNum = parseFloat(val) || 0;
+  if (valNum <= 0) return 0;
+
+  return Math.min(100, (valNum / CONFIG.pokazatel.max) * 100);
+}
+
+// Карма
+function calcKarma(val) {
+  const valNum = parseFloat(val) || 0;
+  if (valNum <= 0) return 0;
+
+  return Math.min(100, (valNum / CONFIG.karma.max) * 100);
+}
+
+// Баллы
+function calcBally(val) {
+  const valNum = parseFloat(val) || 0;
+  if (valNum <= 0) return 0;
+
+  const { base, step, stepBonus } = CONFIG.points;
+
+  if (valNum <= base) {
+    return (valNum / base) * 100;
+  }
+
+  const extra = valNum - base;
+  return 100 + (extra / step) * stepBonus;
+}
+
+// Общий коэффициент 0–100
+function calcEfficiency(employee) {
+  const type = getDiff(employee.id_user, "pokazatel").type;
+  if (type === 'new' || type === 'left') return 0;
+
+  const konts = employee.contracts_weekly || 0;
+  const pokaz = parseFloat(getDiff(employee.id_user, "pokazatel").diff) || 0;
+  const karma = parseFloat(getDiff(employee.id_user, "karma_vtc").diff) || 0;
+  const bally = parseFloat(getDiff(employee.id_user, "point").diff) || 0;
+
+  const fKonts = calcKontf(konts);
+  const fPokaz = calcPokaz(pokaz);
+  const fKarma = calcKarma(karma);
+  const fBally = calcBally(bally);
+
+  const result =
+    WEIGHTS.contracts * fKonts +
+    WEIGHTS.pokazatel * fPokaz +
+    WEIGHTS.karma * fKarma +
+    WEIGHTS.points * fBally;
+
+  return Number(result.toFixed(2));
+}
+
+function getRoleStatus(employee) {
+  const role = employee.active_role;
+  const eff = employee.koeff;
+
+  const rule = ROLE_RULES[role];
+  if (!rule) return "neutral";
+
+  if (eff < rule.min) return "down";   // 🔴 понизить
+  if (eff > rule.max) return "up";     // 🟢 повысить
+
+  return "ok"; // ⚪ норма
+}
+
+function getRoleHint(employee) {
+  const role = employee.active_role;
+  const rule = ROLE_RULES[role];
+  if (!rule) return "";
+
+  return `Норма: ${rule.min} - ${rule.max}`;
+}
+
 // Функция для получения контрактов по имени (регистронезависимая)
 function getContractTrips(steamName, date) {
   if (!steamName || !contractsData[date]) return 0;
@@ -839,7 +986,7 @@ function updateData() {
 
       const allContractsMonth = Object.entries(
         filteredDataFunctionalSimple,
-      ).reduce( (acc,[date, data]) => {
+      ).reduce((acc, [date, data]) => {
         for (const steam_name in data) {
           if (!Object.hasOwn(data, steam_name)) continue;
 
@@ -872,6 +1019,10 @@ function updateData() {
       };
     })
     .filter((employee) => employee && applyFilter(employee));
+
+  currentData.forEach((u) => {
+    u.koeff = calcEfficiency(u);
+  });
 
   if (sortKey) {
     sortBy(sortKey, sortDiff);
@@ -912,7 +1063,13 @@ function renderTable() {
       tr.classList.add("role-changed");
     }
 
-    tr.innerHTML = `
+    const roleStatus = getRoleStatus(u);
+
+    let effClass = "";
+if (roleStatus === "up") effClass = "eff-up";
+if (roleStatus === "down") effClass = "eff-down";
+
+   tr.innerHTML = `
     <td>
       <img class="avatar" src="${u.image_url || "https://via.placeholder.com/40"}"
           alt="${u.steam_name}"
@@ -920,9 +1077,7 @@ function renderTable() {
     </td>
 
     <td>
-      <a href="https://vtcpanel.com/id${u.id_user}" target="_blank">
-        ${u.steam_name || "-"}
-      </a>
+      <a href="https://vtcpanel.com/id${u.id_user}" target="_blank">${u.steam_name || "-"}</a>
     </td>
 
     <td>${u.name || "-"}</td>
@@ -930,32 +1085,22 @@ function renderTable() {
 
     <td>${formatRoleDisplay(u.id_user)}</td>
 
-    <td class="number">
-      ${u.contracts_total}
-    </td>
+    <td class="number">${u.contracts_total}</td>
 
-    <td class="number">
-      ${formatContractsDisplay(u.steam_name, true)}
-    </td>
+    <td class="number">${formatContractsDisplay(u.steam_name, true)}</td>
 
-    <td class="number">
-      ${valueWithDiff(getDiff(u.id_user, "pokazatel"))}
-    </td>
+    <td class="number">${valueWithDiff(getDiff(u.id_user, "pokazatel"))}</td>
 
-    <td class="number">
-      ${valueWithDiff(getDiff(u.id_user, "karma"))}
-    </td>
+    <td class="number">${valueWithDiff(getDiff(u.id_user, "karma"))}</td>
 
-    <td class="number">
-      ${valueWithDiff(getDiff(u.id_user, "karma_vtc"))}
-    </td>
+    <td class="number">${valueWithDiff(getDiff(u.id_user, "karma_vtc"))}</td>
 
-    <td class="number">
-      ${valueWithDiff(getDiff(u.id_user, "point_m"))}
-    </td>
+    <td class="number">${valueWithDiff(getDiff(u.id_user, "point_m"))}</td>
 
-    <td class="number">
-      ${valueWithDiff(getDiff(u.id_user, "point"))}
+    <td class="number">${valueWithDiff(getDiff(u.id_user, "point"))}</td>
+
+    <td class="number cell-eff ${effClass}" title="${getRoleHint(u)}">
+      ${u.koeff.toFixed(1)}
     </td>
   `;
 
