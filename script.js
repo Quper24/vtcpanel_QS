@@ -402,6 +402,13 @@ function initDates() {
   updateData();
 }
 
+function parseDate(dateStr) {
+  const [day, month, year] = dateStr.split(".");
+  // Добавляем 2000 к году (т.к. формат '25' -> 2025)
+  // month - 1 потому что в JS месяцы от 0 до 11
+  return new Date(2000 + parseInt(year), parseInt(month) - 1, parseInt(day));
+}
+
 function initRoleFilters() {
   const roleFiltersContainer = document.getElementById("roleFilters");
 
@@ -738,35 +745,35 @@ function getContractTrips(steamName, date) {
 // Функция для получения общего количества контрактов (для сортировки)
 function getTotalContracts(steamName) {
   if (!steamName) return 0;
-  
+
   if (!currentDate || !compareDate || currentDate === compareDate) {
     // Если даты одинаковые или нет данных, берем только текущую дату
     return getContractTrips(steamName, currentDate);
   }
-  
+
   // Получаем все даты между compareDate и currentDate
   const allDates = Object.keys(contractsData).sort((a, b) => {
-    const dateA = a.split('.').reverse().join('-');
-    const dateB = b.split('.').reverse().join('-');
+    const dateA = a.split(".").reverse().join("-");
+    const dateB = b.split(".").reverse().join("-");
     return new Date(dateA) - new Date(dateB);
   });
-  
+
   // Находим индексы наших дат
   const startIndex = allDates.indexOf(compareDate);
   const endIndex = allDates.indexOf(currentDate);
-  
+
   if (startIndex === -1 || endIndex === -1) {
     // Если одна из дат не найдена, берем только текущую
     return getContractTrips(steamName, currentDate);
   }
-  
+
   // Суммируем контракты за все даты в периоде
   let totalContracts = 0;
   for (let i = startIndex; i <= endIndex; i++) {
     const date = allDates[i];
     totalContracts += getContractTrips(steamName, date);
   }
-  
+
   return totalContracts;
 }
 
@@ -809,8 +816,37 @@ function updateData() {
       const employeeForComparison = curEmployee || cmpEmployee || {};
 
       // Получаем данные по контрактам
-      const currentContracts = getContractTrips(displayData.steam_name, currentDate);
-      const compareContracts = getContractTrips(displayData.steam_name, compareDate);
+
+      const compareContracts = getContractTrips(
+        displayData.steam_name,
+        compareDate,
+      );
+      const filteredDataFunctionalSimple = Object.fromEntries(
+        Object.entries(contractsData).filter(([dataKey]) => {
+          const dataDate = parseDate(dataKey);
+          const current = parseDate(compareDate);
+
+          return (
+            dataDate.getFullYear() === current.getFullYear() &&
+            dataDate.getMonth() === current.getMonth()
+          );
+        }),
+      );
+
+      const allContractsMonth = Object.entries(
+        filteredDataFunctionalSimple,
+      ).reduce( (acc,[date, data]) => {
+        for (const steam_name in data) {
+          if (!Object.hasOwn(data, steam_name)) continue;
+
+          const contracts = data[steam_name];
+          if (displayData.steam_name === steam_name) {
+            acc += contracts;
+          }
+        }
+
+        return acc;
+      }, 0);
 
       return {
         ...employeeForComparison,
@@ -827,7 +863,7 @@ function updateData() {
         karma_vtc: displayData.karma_vtc,
         point_m: displayData.point_m,
         point: displayData.point,
-        contracts_total: currentContracts, // Общее количество
+        contracts_total: allContractsMonth, // Общее количество
         contracts_weekly: compareContracts, // Недельное изменение
       };
     })
@@ -858,6 +894,7 @@ function renderTable() {
   }
 
   currentData.forEach((u) => {
+    console.log('currentData: ', u);
     const tr = document.createElement("tr");
 
     const pokazatelDiff = getDiff(u.id_user, "pokazatel");
@@ -872,7 +909,7 @@ function renderTable() {
       tr.classList.add("role-changed");
     }
 
-  tr.innerHTML = `
+    tr.innerHTML = `
     <td>
       <img class="avatar" src="${u.image_url || "https://via.placeholder.com/40"}"
           alt="${u.steam_name}"
@@ -891,7 +928,7 @@ function renderTable() {
     <td>${formatRoleDisplay(u.id_user)}</td>
 
     <td class="number">
-      ${formatContractsDisplay(u.steam_name, false)}
+      ${u.contracts_total}
     </td>
 
     <td class="number">
@@ -919,9 +956,9 @@ function renderTable() {
     </td>
   `;
 
-      tbody.appendChild(tr);
-    });
-  }
+    tbody.appendChild(tr);
+  });
+}
 
 function sortBy(key, isDiff) {
   if (sortKey === key && sortDiff === isDiff) sortDir *= -1;
