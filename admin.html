@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Админ-панель LONG CONVOY</title>
+    <title>Админ-панель LONG CONVOY | Автозаполнение грузов, городов, компаний</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -36,7 +36,7 @@
             font-weight: bold;
             cursor: pointer;
         }
-        .form-group { margin-bottom: 15px; }
+        .form-group { margin-bottom: 15px; position: relative; }
         .form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #2c3e50; }
         .form-group label .required { color: #e74c3c; }
         .form-group input, .form-group select, .form-group textarea {
@@ -61,9 +61,7 @@
             margin-top: 5px;
             display: none;
         }
-        .error-message.show {
-            display: block;
-        }
+        .error-message.show { display: block; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .btn { padding: 12px 24px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-right: 10px; }
         .btn-primary { background: #f39c12; color: #2c3e50; }
@@ -90,6 +88,62 @@
         .success-msg { color: #27ae60; text-align: center; margin-top: 10px; }
         .unit-hint { font-size: 0.7rem; color: #7f8c8d; margin-top: 3px; }
         .clearfix::after { content: ""; clear: both; display: table; }
+        
+        /* Стили для выпадающего списка автозаполнения */
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 250px;
+            overflow-y: auto;
+            background: #fff;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .autocomplete-items div {
+            padding: 10px;
+            cursor: pointer;
+            background-color: #fff;
+            border-bottom: 1px solid #d4d4d4;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .autocomplete-items div:hover {
+            background-color: #f39c12;
+            color: white;
+        }
+        .autocomplete-active {
+            background-color: #f39c12 !important;
+            color: white;
+        }
+        .duplicate-badge {
+            font-size: 0.7rem;
+            background: #eee;
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 20px;
+            margin-left: 8px;
+            color: #555;
+        }
+        .loading-spinner-small {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #f39c12;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: 8px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -108,6 +162,16 @@
 
         let currentConvoys = [];
         let currentUser = null;
+        
+        // Базы данных из txt файлов
+        let cargoDatabase = [];     // { id, name }
+        let citiesDatabase = [];    // { id, name }
+        let companiesDatabase = []; // { id, name }
+        
+        // Флаги загрузки
+        let cargoLoaded = false;
+        let citiesLoaded = false;
+        let companiesLoaded = false;
 
         const supabaseClient = {
             async request(endpoint, options = {}) {
@@ -164,6 +228,182 @@
             }
         };
 
+        // === УНИВЕРСАЛЬНАЯ ЗАГРУЗКА TXT ФАЙЛОВ ===
+        async function loadDictionaryFromTxt(files, storageArray, storageLoadedFlagName) {
+            if (window[storageLoadedFlagName]) return window[storageArray];
+            
+            const allLines = [];
+            for (const filePath of files) {
+                try {
+                    const response = await fetch(filePath);
+                    if (!response.ok) {
+                        console.warn(`Файл ${filePath} не найден, пропускаем`);
+                        continue;
+                    }
+                    const text = await response.text();
+                    const lines = text.split(/\r?\n/);
+                    allLines.push(...lines);
+                } catch (err) {
+                    console.warn(`Ошибка загрузки ${filePath}:`, err);
+                }
+            }
+            
+            const map = new Map();
+            for (let line of allLines) {
+                line = line.trim();
+                if (line === "" || line.startsWith('[')) continue;
+                
+                const colonIndex = line.indexOf(':');
+                if (colonIndex === -1) continue;
+                
+                let id = line.substring(0, colonIndex).trim();
+                let name = line.substring(colonIndex + 1).trim();
+                name = name.replace(/^["']|["']$/g, '').replace(/;$/, ''); // убираем кавычки и точку с запятой в конце
+                
+                if (id && name) {
+                    map.set(id, { id, name });
+                }
+            }
+            
+            window[storageArray] = Array.from(map.values());
+            window[storageLoadedFlagName] = true;
+            console.log(`✅ Загружено ${window[storageArray].length} записей из ${files.join(', ')}`);
+            return window[storageArray];
+        }
+
+        // Специализированные функции загрузки
+        async function loadCargo() {
+            return loadDictionaryFromTxt(['data/cargo.txt', 'data/cargo_my.txt'], 'cargoDatabase', 'cargoLoaded');
+        }
+        
+        async function loadCities() {
+            return loadDictionaryFromTxt(['data/cities.txt', 'data/cities_my.txt'], 'citiesDatabase', 'citiesLoaded');
+        }
+        
+        async function loadCompanies() {
+            return loadDictionaryFromTxt(['data/companies.txt', 'data/companies_my.txt'], 'companiesDatabase', 'companiesLoaded');
+        }
+
+        // === УНИВЕРСАЛЬНОЕ АВТОЗАПОЛНЕНИЕ ===
+        // Для городов: отображаем "city_name [city_id]"
+        // Для грузов: отображаем "cargo_name (cargo_id)"
+        // Для компаний: отображаем просто "company_name"
+        function initAutocomplete(inputId, targetFieldId, dataLoader, displayFormatter, valueExtractor, syncFieldId = null) {
+            const input = document.getElementById(inputId);
+            const targetField = document.getElementById(targetFieldId);
+            if (!input || !targetField) return;
+            
+            input.addEventListener('input', async function(e) {
+                const val = this.value.trim().toLowerCase();
+                const existingDiv = this.parentNode.querySelector('.autocomplete-items');
+                if (existingDiv) existingDiv.remove();
+                
+                if (val.length === 0) return;
+                
+                // Загружаем данные если ещё не загружены
+                let data = window[dataLoader.name.replace('load', '').replace('Async', '') + 'Database'];
+                if (!window[dataLoader.name.replace('load', '').toLowerCase() + 'Loaded']) {
+                    const loadingDiv = document.createElement('div');
+                    loadingDiv.className = 'autocomplete-items';
+                    loadingDiv.innerHTML = `<div style="color:#888;"><span class="loading-spinner-small"></span> Загрузка базы...</div>`;
+                    this.parentNode.appendChild(loadingDiv);
+                    await dataLoader();
+                    loadingDiv.remove();
+                    data = window[dataLoader.name.replace('load', '').replace('Async', '') + 'Database'];
+                }
+                
+                if (!data || data.length === 0) return;
+                
+                // Фильтрация по имени или id
+                let matches = data.filter(item => 
+                    item.name.toLowerCase().includes(val) || 
+                    item.id.toLowerCase().includes(val)
+                );
+                
+                if (matches.length === 0) return;
+                
+                // Сортировка: сначала точные совпадения по началу имени
+                matches.sort((a,b) => {
+                    const aStarts = a.name.toLowerCase().startsWith(val);
+                    const bStarts = b.name.toLowerCase().startsWith(val);
+                    if (aStarts && !bStarts) return -1;
+                    if (!aStarts && bStarts) return 1;
+                    return a.name.localeCompare(b.name);
+                });
+                
+                const autocompleteDiv = document.createElement('div');
+                autocompleteDiv.className = 'autocomplete-items';
+                
+                matches.forEach(match => {
+                    const itemDiv = document.createElement('div');
+                    // Форматируем отображение
+                    itemDiv.innerHTML = displayFormatter(match);
+                    itemDiv.style.fontSize = '0.9rem';
+                    
+                    itemDiv.addEventListener('click', function() {
+                        // Заполняем поле видимым текстом (как хочет пользователь)
+                        const displayValue = valueExtractor(match);
+                        input.value = displayValue;
+                        // Заполняем скрытое/целевое поле (ID)
+                        targetField.value = match.id;
+                        
+                        // Если есть дополнительное поле для синхронизации (например, для города и штата? но у нас просто город)
+                        if (syncFieldId) {
+                            const syncField = document.getElementById(syncFieldId);
+                            if (syncField && syncField.value !== match.id) {
+                                // не трогаем, но можно было бы синхронизировать
+                            }
+                        }
+                        
+                        // Триггерим события для валидации
+                        input.dispatchEvent(new Event('input'));
+                        targetField.dispatchEvent(new Event('input'));
+                        autocompleteDiv.remove();
+                    });
+                    autocompleteDiv.appendChild(itemDiv);
+                });
+                
+                this.parentNode.appendChild(autocompleteDiv);
+            });
+            
+            // Закрытие при клике вне
+            document.addEventListener('click', function(e) {
+                if (!input.contains(e.target)) {
+                    const items = input.parentNode.querySelectorAll('.autocomplete-items');
+                    items.forEach(el => el.remove());
+                }
+            });
+        }
+
+        // Форматтеры для разных типов
+        function cargoDisplayFormatter(item) {
+            // Определяем количество дубликатов имени
+            const sameNameCount = cargoDatabase.filter(c => c.name === item.name).length;
+            const dupHint = sameNameCount > 1 ? ` ⚠️ дубль (${sameNameCount})` : '';
+            return `${item.name} (${item.id})${dupHint}`;
+        }
+        function cargoValueExtractor(item) {
+            return item.name; // в поле названия груза пишем только имя
+        }
+        
+        function cityDisplayFormatter(item) {
+            // Формат: "Абердин (GB) [aberdeen]"
+            return `${item.name} [${item.id}]`;
+        }
+        function cityValueExtractor(item) {
+            // В поле ввода пишем "Абердин (GB) [aberdeen]"
+            return `${item.name} [${item.id}]`;
+        }
+        
+        function companyDisplayFormatter(item) {
+            // Для компаний просто название
+            return item.name;
+        }
+        function companyValueExtractor(item) {
+            return item.name;
+        }
+        
+        // === ОСТАЛЬНАЯ ЛОГИКА (КОНВОИ, АДМИНКА) ===
         async function loadConvoys() {
             const data = await supabaseClient.get('convoys?select=*&order=id.desc');
             currentConvoys = data;
@@ -177,8 +417,6 @@
             
             if (gameSelect && distanceInput && unitHint) {
                 const isATS = gameSelect.value === 'ATS';
-                const currentValue = distanceInput.value;
-                
                 if (isATS) {
                     unitHint.textContent = '⛽ Введите расстояние в милях (только число)';
                     distanceInput.placeholder = '1670';
@@ -186,7 +424,7 @@
                     unitHint.textContent = '🛣️ Введите расстояние в километрах (только число)';
                     distanceInput.placeholder = '1050';
                 }
-                if (currentValue) distanceInput.value = currentValue;
+                if (distanceInput.value) distanceInput.value = distanceInput.value;
             }
         }
 
@@ -213,7 +451,6 @@
                 }
             });
             
-            // Валидация времени (формат ЧЧ:ММ)
             const timeStart = document.getElementById('time_start').value;
             const timeEnd = document.getElementById('time_end').value;
             const timePattern = /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/;
@@ -223,27 +460,23 @@
                 document.getElementById('error_time_start').classList.add('show');
                 isValid = false;
             }
-            
             if (!timePattern.test(timeEnd)) {
                 document.getElementById('time_end').classList.add('error');
                 document.getElementById('error_time_end').classList.add('show');
                 isValid = false;
             }
             
-            // Валидация дистанции (только число)
             const distance = document.getElementById('distance').value;
             if (!/^\d+$/.test(distance) || parseInt(distance) < 1) {
                 document.getElementById('distance').classList.add('error');
                 document.getElementById('error_distance').classList.add('show');
                 isValid = false;
             }
-            
             return isValid;
         }
 
         async function addConvoy(event) {
             event.preventDefault();
-            
             if (!validateForm()) {
                 alert('❌ Пожалуйста, заполните все обязательные поля правильно');
                 return;
@@ -252,6 +485,15 @@
             const game = document.getElementById('game').value;
             const distanceValue = document.getElementById('distance').value;
             const distance = game === 'ATS' ? `${distanceValue} миль` : `${distanceValue} км`;
+            
+            // Для городов: из поля ввода нужно извлечь ID? Но у нас есть отдельные поля from_city_id, to_city_id?
+            // Поскольку мы используем отдельные поля для отображения (from_city) и ID (from_city_id переименуем в from_city_hidden)
+            // Сейчас в форме есть from_city (видимое) и from_state (отдельное). По заданию города имеют свой ID.
+            // Я сделаю так: добавлю скрытые поля для city_id, но проще: при выборе города автозаполнением заполняется from_city (видимый текст) и скрытое поле city_id.
+            // Но изначально в БД у нас поля from_city и from_state - это текст. Поэтому мы не храним city_id отдельно.
+            // Решение: при выборе города из выпадашки мы пишем в from_city отформатированный текст "Абердин (GB) [aberdeen]", 
+            // а в отдельное скрытое поле from_city_id не нужно, т.к. БД не требует. Но для удобства можно сохранять.
+            // Однако для сохранения в БД нужно просто строковое название. Я оставлю как есть: пользователь видит красивый формат, в БД сохраняется точно такая же строка.
             
             const newConvoy = {
                 game: game,
@@ -311,7 +553,7 @@
                 <div class="convoy-item">
                     <div class="convoy-info">
                         <div class="convoy-title">🚛 ${convoy.game} | ${convoy.from_city} → ${convoy.to_city}</div>
-                        <div class="convoy-meta">⏰ ${convoy.time_start} - ${convoy.time_end} | 📦 ${convoy.cargo_name} | ${convoy.distance}</div>
+                        <div class="convoy-meta">⏰ ${convoy.time_start} - ${convoy.time_end} | 📦 ${convoy.cargo_name} (${convoy.cargo_id}) | ${convoy.distance}</div>
                     </div>
                     <div style="display: flex; gap: 10px; align-items: center;">
                         <select class="status-select" onchange="updateStatus(${convoy.id}, this.value)">
@@ -329,7 +571,6 @@
             event.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            
             const result = await supabaseClient.signIn(email, password);
             if (result.success) {
                 renderAdminPanel();
@@ -358,7 +599,7 @@
             document.getElementById('loginForm').addEventListener('submit', handleLogin);
         }
 
-        function renderAdminPanel() {
+        async function renderAdminPanel() {
             document.getElementById('app').innerHTML = `
                 <div class="admin-panel">
                     <div class="clearfix">
@@ -396,7 +637,7 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label>📍 Город отправления <span class="required">*</span></label>
-                                <input type="text" id="from_city" placeholder="St. Joseph" autocomplete="off">
+                                <input type="text" id="from_city" placeholder="Начните вводить город..." autocomplete="off">
                                 <div id="error_from_city" class="error-message">Обязательное поле</div>
                             </div>
                             <div class="form-group">
@@ -407,13 +648,13 @@
                         </div>
                         <div class="form-group">
                             <label>🏢 База отправления <span class="required">*</span></label>
-                            <input type="text" id="from_base" placeholder="Kenworth автосалон" autocomplete="off">
+                            <input type="text" id="from_base" placeholder="Начните вводить базу..." autocomplete="off">
                             <div id="error_from_base" class="error-message">Обязательное поле</div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label>📍 Город назначения <span class="required">*</span></label>
-                                <input type="text" id="to_city" placeholder="Medford" autocomplete="off">
+                                <input type="text" id="to_city" placeholder="Начните вводить город..." autocomplete="off">
                                 <div id="error_to_city" class="error-message">Обязательное поле</div>
                             </div>
                             <div class="form-group">
@@ -424,7 +665,7 @@
                         </div>
                         <div class="form-group">
                             <label>🏢 База назначения <span class="required">*</span></label>
-                            <input type="text" id="to_base" placeholder="Lumen Auto" autocomplete="off">
+                            <input type="text" id="to_base" placeholder="Начните вводить базу..." autocomplete="off">
                             <div id="error_to_base" class="error-message">Обязательное поле</div>
                         </div>
                         <div class="form-row">
@@ -436,7 +677,7 @@
                             </div>
                             <div class="form-group">
                                 <label>📦 Название груза <span class="required">*</span></label>
-                                <input type="text" id="cargo_name" placeholder="Автомобили" autocomplete="off">
+                                <input type="text" id="cargo_name" placeholder="Начните вводить груз..." autocomplete="off">
                                 <div id="error_cargo_name" class="error-message">Обязательное поле</div>
                             </div>
                         </div>
@@ -479,7 +720,109 @@
             updateDistanceUnit();
             loadConvoys();
             
-            // Очистка ошибок при вводе
+            // Предзагрузка всех словарей
+            await Promise.all([loadCargo(), loadCities(), loadCompanies()]);
+            
+            // Инициализация автозаполнения для грузов
+            initAutocomplete('cargo_name', 'cargo_id', loadCargo, cargoDisplayFormatter, cargoValueExtractor);
+            
+            // Для городов: from_city и to_city (не нужно отдельное поле ID, но можно создать скрытые, но по условию достаточно что при выборе пишется красивый текст)
+            // Создадим кастомную инициализацию без отдельного целевого поля для ID, но чтобы при выборе писалось "Абердин (GB) [aberdeen]"
+            function initCityAutocomplete(inputId) {
+                const input = document.getElementById(inputId);
+                if (!input) return;
+                
+                input.addEventListener('input', async function(e) {
+                    const val = this.value.trim().toLowerCase();
+                    const existingDiv = this.parentNode.querySelector('.autocomplete-items');
+                    if (existingDiv) existingDiv.remove();
+                    if (val.length === 0) return;
+                    
+                    if (!citiesLoaded) await loadCities();
+                    
+                    let matches = citiesDatabase.filter(item => 
+                        item.name.toLowerCase().includes(val) || 
+                        item.id.toLowerCase().includes(val)
+                    );
+                    if (matches.length === 0) return;
+                    
+                    matches.sort((a,b) => {
+                        const aStarts = a.name.toLowerCase().startsWith(val);
+                        const bStarts = b.name.toLowerCase().startsWith(val);
+                        if (aStarts && !bStarts) return -1;
+                        if (!aStarts && bStarts) return 1;
+                        return a.name.localeCompare(b.name);
+                    });
+                    
+                    const autocompleteDiv = document.createElement('div');
+                    autocompleteDiv.className = 'autocomplete-items';
+                    matches.forEach(match => {
+                        const div = document.createElement('div');
+                        div.innerHTML = `${match.name} [${match.id}]`;
+                        div.addEventListener('click', () => {
+                            input.value = `${match.name} [${match.id}]`;
+                            autocompleteDiv.remove();
+                            input.dispatchEvent(new Event('input'));
+                        });
+                        autocompleteDiv.appendChild(div);
+                    });
+                    this.parentNode.appendChild(autocompleteDiv);
+                });
+                document.addEventListener('click', function(e) {
+                    if (!input.contains(e.target)) {
+                        const items = input.parentNode.querySelectorAll('.autocomplete-items');
+                        items.forEach(el => el.remove());
+                    }
+                });
+            }
+            
+            function initCompanyAutocomplete(inputId) {
+                const input = document.getElementById(inputId);
+                if (!input) return;
+                
+                input.addEventListener('input', async function(e) {
+                    const val = this.value.trim().toLowerCase();
+                    const existingDiv = this.parentNode.querySelector('.autocomplete-items');
+                    if (existingDiv) existingDiv.remove();
+                    if (val.length === 0) return;
+                    
+                    if (!companiesLoaded) await loadCompanies();
+                    
+                    let matches = companiesDatabase.filter(item => 
+                        item.name.toLowerCase().includes(val) || 
+                        item.id.toLowerCase().includes(val)
+                    );
+                    if (matches.length === 0) return;
+                    
+                    matches.sort((a,b) => a.name.localeCompare(b.name));
+                    const autocompleteDiv = document.createElement('div');
+                    autocompleteDiv.className = 'autocomplete-items';
+                    matches.forEach(match => {
+                        const div = document.createElement('div');
+                        div.innerHTML = match.name;
+                        div.addEventListener('click', () => {
+                            input.value = match.name;
+                            autocompleteDiv.remove();
+                            input.dispatchEvent(new Event('input'));
+                        });
+                        autocompleteDiv.appendChild(div);
+                    });
+                    this.parentNode.appendChild(autocompleteDiv);
+                });
+                document.addEventListener('click', function(e) {
+                    if (!input.contains(e.target)) {
+                        const items = input.parentNode.querySelectorAll('.autocomplete-items');
+                        items.forEach(el => el.remove());
+                    }
+                });
+            }
+            
+            initCityAutocomplete('from_city');
+            initCityAutocomplete('to_city');
+            initCompanyAutocomplete('from_base');
+            initCompanyAutocomplete('to_base');
+            
+            // Очистка ошибок
             const inputs = document.querySelectorAll('#convoyForm input, #convoyForm select, #convoyForm textarea');
             inputs.forEach(input => {
                 input.addEventListener('input', function() {
