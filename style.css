@@ -96,7 +96,6 @@ h1 {
   box-shadow: 0 5px 15px rgba(79, 195, 247, 0.3);
 }
 
-
 .controls {
   margin-bottom: 25px;
   padding: 15px;
@@ -604,29 +603,46 @@ tbody tr.role-changed:hover {
   min-width: 100px;
 }
 
-  .contracts-total-cell {
-    font-weight: 500;
-  }
-  
-  .contracts-weekly-cell .diff {
-    font-weight: 600;
-  }
-  
-  .contracts-weekly-cell .diff.plus {
-    color: #4caf50;
-  }
-  
-  .contracts-weekly-cell .diff.minus {
-    color: #f44336;
-  }
-  
-  .contracts-weekly-cell .diff.zero {
-    color: #888;
-  }
+.contracts-total-cell {
+  font-weight: 500;
+}
+
+.contracts-weekly-cell .diff {
+  font-weight: 600;
+}
+
+.contracts-weekly-cell .diff.plus {
+  color: #4caf50;
+}
+
+.contracts-weekly-cell .diff.minus {
+  color: #f44336;
+}
+
+.contracts-weekly-cell .diff.zero {
+  color: #888;
+}
 
 /* Стили для сортировки по контрактам */
 th[data-key="contracts_total"] {
   cursor: pointer;
+}
+
+.cell-eff {
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Нужно повысить */
+.eff-up {
+  color: #4caf50;
+  text-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+}
+
+/* Нужно понизить */
+.eff-down {
+  color: #f44336;
+  text-shadow: 0 0 8px rgba(244, 67, 54, 0.6);
 }
 
 /* Адаптивность */
@@ -640,11 +656,11 @@ th[data-key="contracts_total"] {
     text-align: center;
     padding: 15px 20px;
   }
-  
+
   .site-title {
     font-size: 22px;
   }
-  
+
   .nav-link {
     padding: 8px 18px;
     font-size: 13px;
