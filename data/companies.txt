@@ -1,0 +1,948 @@
+[ETS]
+acc: ACC
+aci: ACI SRL
+aerobalt_ru: АэроБалтика
+agronord: Agronord
+ai: AI Automotive
+alumcore: Alumcore
+aria_fd_albg: ARIA Food
+aria_fd_esbj: ARIA Food
+aria_fd_jnpg: ARIA Food
+aria_fd_trbg: ARIA Food
+aria_food: ARIA Food
+ateria: Ateria
+balkan_loco: Balkan Loco
+batisse_hs: Bâtisse (Строительство дома)
+bcp: BCP
+bhv: BHV
+bjork: Bjork
+bltmetal_ru: Балтийская Металлургия
+blt_ru: БЛТ
+blt_yacht_ru: Балтеус Яхты
+borealis: Borealis Shipyard
+brawen: Brawen Transport
+byggpro: Byggpro
+cargotras: Cargotras
+ccg_bas: Celler Construction Group
+ccg_fla: Celler Construction Group
+ccg_hal: Celler Construction Group
+cemelt_fla: Cemeltex (Строительство ЖК)
+cemelt_fl_ru: Цемелтекс (Строительство ЖК)
+cesare_smar: Cesare Supermercato
+cgla: CGLA
+charmey: Charmey
+cnp: CNP
+cnp_str: CNP
+comoto: Comoto
+cont_port: Container port
+cont_port_it: Terminal Container
+dfh: Deutsche Frachthäfen
+domdepo: DomDepo
+domdepo_ru: ДомДепо
+drekkar: Drekkar Trans
+egres: Maatila Egres
+eolo_lines: Eolo Lines
+eumefa: Eumefa
+euroacres: EuroAcres
+eurogoodies: EuroGoodies
+exomar: Exomar
+fallow: Fallow Cargo
+fcp: FCP
+fle: FLE
+freyr: Freyr
+gallia_ferry: Gallia Ferries
+gnt: GNT
+granoro: Granoro
+han_expo: Hannover Expo
+ika_bohag: Ika Bohag
+itcc: ITCC
+itcc_scrap: ITCC
+kaarfor: Kaarfor
+kathode: Kathode
+kolico: Kolico
+konstnr: Konstnorr (База)
+konstnr_br: Konstnorr (Строительство моста)
+konstnr_hal: Konstnorr
+konstnr_hs: Konstnorr (Строительство дома)
+konstnr_wind: Konstnorr (Установка ветряков)
+ladoga_ru: Ладога авто
+libellula: Libellula
+lintukainen: Lintukainen Oy
+lisette_log: Lisette Logistics
+lkwlog: LkwLog GmbH
+low_field: Low Field
+marina: Marina
+marina_fr: Marina
+marina_it: Marina
+mjolnir_min: Mjölnir Mining
+ms_stein: MS Stein
+muromec: Муромец
+nbfc: NBFC
+nch_ru: НКХ
+nord_crown: Nordic Crown
+nord_sten: Nordic Stenbrott
+norrsken: Norrsken
+norr_food: Norrfood
+nos_pat: Nos Pâturages
+nos_pat_brg: Nos Pâturages
+nos_pat_cf: Nos Pâturages
+nos_pat_lhv: Nos Pâturages
+ns_chem: NS Chemicals
+ns_oil: NS Oil
+nucleon: Nucléon
+ocean_sol: Ocean Solutions Group
+piac: PIAC
+polarislines: Polaris Lines
+polar_fish: Polar Fish
+posped: Posped
+primel: Primel
+quarry: Steinbruch
+radus: Radus
+radus_ru: Радус
+renar: Renar Logistik
+renat: Renat
+renor: Renor
+rimaf: RIMAF
+rock_eater: Rock Eater
+rock_eat_str: Rock Eater
+rt_log: RT Log
+sag_tre: Sag & Tre
+sal_fi: SAL
+sanbuilders: Sanbuilders
+sanbuild_bas: Sanbuilders
+sanbuild_cem: Sanbuilders
+sanbuild_hms: Sanbuilders
+sanbuild_win: Sanbuilders
+scania_dlr: Scania (Автосалон*)
+scs_paper: SCS Paper
+sellplan: SellPlan
+shuttle: Shuttle Cola
+sirin: Сирин Эйр
+skoda: Scout
+spinelli: Spinelli
+steinbr_str: Steinbruch
+stokes: Stokes
+subse: Subse
+suprema: Suprema
+syllurgy: Syllurgy
+syschema: SysChema
+tdc_auto: TDC Auto Terminal
+tesore_gust: Tesoro Gustoso
+timberturtle: Timber Turtle
+tqg: TQG
+tradeaux: Tradeaux
+trainfoundry: Train Foundry
+trameri: Trameri
+transinet: TransiNet
+tree_et: Tree-ET
+tree_et_log: Tree-ET
+viljo_paper: Viljo paperitehdas Oy
+villco: Villco
+villco_mkt: Villco
+vitas_pwr: Vitas Power
+vitas_pwr_co: Vitas Power
+voitureux: Voitureux
+volvo_dlr: Volvo (Автосалон*)
+wgcc: WGCC
+
+[ETS ProMods]
+a101: Villco
+a101_in: Villco
+adm: Autoroute du Maroc
+aero_elblag: Pegasus Aviators Elbląg
+ahorramas: Ahorram�s
+aktau_air: Ақтау халықаралық әуежайы
+akt_poultry: Ramazan Qus
+albertheijn: De Groot & Grutter
+aldn: BonMart
+alds: BonMart
+alko1000: Suprema Express
+alstom: Boltron
+aluprof: Aluxion
+anklam_flug: Pegasus Aviators Anklam
+aquael: Aquela
+arabfood: Arabian Food
+arbz_kz: ТОО Актюбинский рельсобалочный завод
+arcement: Arabian Cement
+aria_nordic: ARIA Food
+ashan: Супрема
+atriaeesti: Ateria AS
+auchan: Suprema
+audi: Ortiz
+auhof: Construction Wien-Auhof
+azersun: Azersun Holding
+bader: FCP
+batisse: Bâtisse
+bauhaus: Bricks@Home
+bct: Container Port Gdynia
+beyneu_air: Бейнеу әуежайы
+bg_wood: Wood
+biedronka: Motylek
+biedronka_in: Motylek
+bilka: Norrfood
+billa: BonMart
+biltema: Sellplan
+bim: MartMat
+bim_in: MartMat
+boliden: Nordic Stenbrott
+bondi: Bændasamtök Íslands
+bonus: Sparigrís
+borjomi: Borjomi Mineral Water Bottling Factory
+bp_retail: PEGI
+brw: Renat
+budimex: Cemeltex
+budowa: Cemeltex
+bunnings: Bunnings Warehouse
+captcook: Capitaine Cook
+captiglo: Polar Fish
+cargoexpress: Air Freight Express
+carr: Carrefour
+carre: SMTR CARRE
+castorama: DomDepo
+castorama_in: DomDepo
+cdm: Ciment Du Maroc
+cegielka: Cegły W Domu
+cemex: Cemeltex
+centrale: CENTRALE
+cepsa: Fuelin
+circlek: Skanfill
+citroen: CITROËN
+citronex: Limonex
+coca: CocaCola
+coca_polar: Coca Polar
+continental: Gomme du Monde
+coop: Sellplan
+cosumar: Cosumar
+creamery: Dales Cheese
+cscec: CSCEC ALGERIE
+ctm: CTM Messagerie
+daf_dlr: DAF Dealer
+daf_fac: DAF Truck Factory
+dagli: Supergrutter
+dbschenker: DBSCHENKER
+decathlon: Decathlon Maroc
+depo: DomDepo
+deres_auto: BHV
+deret: Globeur
+dhl: LkwLog GmbH
+dhl_mgr: DHL MAGHREB
+dia: SuperCesta
+dina_kz: Dina Hypermarket
+dino: Suprema
+domdepo2: DomDepo
+dreams: Snoozeland
+duken_kz: Дүкен
+dyxbmabuild: Baumabuild
+dyxfermeclbe: La Ferme Clarabelle
+dyxkaarfor: Kaarfor
+dyxmercedes: Mercedes-Benz
+dyxstof: STOF
+dyxurbanis: Urbanis
+easydis: Easydis
+edeka: Edeka
+effo: Gryfoil
+eimskip: heimurskip
+elgiganten: Mebeland
+eliassons: Noskonitta
+eni: INI
+epicentrk: DomDepo
+eroski: SuperCesta
+esso: Fuelin
+euroacres_in: EuroAcres
+europcar: BHV
+eurotunnel_1: EuroLink
+eurotunnel_2: EuroLink
+evren: Evren
+expert: Techniker
+extra: EXTRA
+fandwhr: Snowdonia Slate Railway
+fca: PIAC
+fcc: FCC
+ferrovial: Ferrovial
+flex: BLT
+forfarmers: EuroAcres
+fuel_depot: Fuel Depot
+fujikura: VøyTech Electronics
+galeria_a2: Galeria A2
+gallia_f_in: Gallia Ferries
+gardshorn: Garðshorn
+geodis: Lisette Logistics
+ghb_raf: GHB la Raffinerie
+gnt_auto: GNT
+gospodarstwo: Gospodarstwo Rolne
+handlopex: Handelpol
+hawesmarket: Hawes Marketplace
+hb_grandi: Granyð
+heidel_kz: Heidelberg Cement
+heineken: Heineken
+hekla: BHV
+helios: АЗС Гелиос
+highberry: Зелёные Поля OOO
+hispamaroc: HispaMaroc
+hofer: BonMart
+holcim: LafargeHolcim
+homebase: Bricks@Home
+hospital_kz: Medical Centre
+hyundai_dlr: Hyundai Dealership
+iav: ÍVF
+ica_kvantum: Supergrutter
+icelandair: Air Iceland Cargo
+ice_gla: Viking Glacial
+ikea: IKA Bohag
+ikea_dist_pl: IKA Bohag Dist. Srv. SA
+ikea_pl: IKA Bohag
+iki: Iki
+ina: INA d.d.
+ina_dist: INA d.d.
+inermat: Inermat
+ip: CNP
+iqfuelstat: Fuel Station
+isavia: ACI
+isrfish: Israel Fish
+isrfood: Israeli Food
+istros_av: Pegasus Aviators
+jadranska: Jadranska Trgovina
+jadranska1: Jadranska Trgovina Gate A
+jadranska2: Jadranska Trgovina Gate B
+jaouda: JAOUDA
+jewson: Bricks@Home
+jost: JOST TUNISIA MEMBER OF JOST
+jumbo: De Groot & Grutter
+jysk: JYSK
+kaarfor2: Kaarfor
+kaarfor_in: Kaarfor
+karuzela: Lunapax
+kaufland: MartMat
+kazazot: KazAzot
+kazpost: Kazpost
+kielce_expo: ITS Kielce S.A.
+kiwi: Supergrutter
+klasmann_d: Tauragės Durpės
+komfort: Wygoda
+konzum: Villco
+koutoubia: Koutoubia
+kronan: Sparigrís
+kronospan: Timber Turtle
+kroschu: VøyTech Electronics
+kublei: ТОО Кублей
+kuenenagelll: TransiNet
+lacquide: Air Lacquide
+lafarge: Radus
+lafarge_mg: Lafarge
+lafarge_t: Radus
+landsvirkjun: Landsvirkjun
+leclerc: Discounteria
+leoni: Scano
+leroymerlin: MegaSupply
+libyafood: Libya Food
+lidl: BonMart (Супермаркет*)
+lidl_centrum: BonMart Distribution
+likmerge: Baltomorsk
+ljug_handel: Supergrutter
+lkw_walter: LkwLog GmbH
+loftorka: Byggingaroku ehf
+lubartbeer: Shuttle Cola
+lukoil: VRM Oil
+m1: MaxiMart
+magniti: Magniti Georgia
+makro: MegaCo
+mannvit: Mannvit Engineering
+mann_wind: Mannvit Engineering
+man_dlr: MAN Dealer
+man_fac: MAN Factory
+marjane: MARJANE
+maspex: Kulynx sp. z o.o.
+maxima: Suprema
+mazet: Wilnet Transport
+mcdonalds: McDowl's
+mebli_city: Mebeland
+mechta_kz: Мечта
+mediaexpert: MultiMedia
+mediamarkt: Techniker
+mercadona: Supercesta
+mercedesbenz: Mercedes-Benz
+mercesiegmar: BHV
+metro: Grutter's
+minimarket3: MiniMarket
+minimarket5: MiniMarket
+minimarket6: MiniMarket
+minimarket7: MiniMarket
+mlekpol: Polmlex
+morsh: Стрийська
+mostostal: Mostobud
+moya: GasMer
+n1: NS1
+nash_kraj: Супрема Експрес
+nd: Wilnet Transport
+neftek: АЗС НЕФТЭК
+nestle_dist: Vesna
+netto: BonMart
+nordural: Norðursúrál
+nordurf: Heimurskip
+norfa: MiniMax
+norr_food2: Norrfood
+nova_poshta: Нова пошта
+nuuk_piler: Pilersuisoq Nuuk
+nuuk_recy: Nuuk Forbrændingen / Modtagestation
+obi: DomDepo
+olis: Oktanís
+ommp: Office de la Marine Marchande et des Ports
+omv1: OMV Raffinerie Tor 1
+omv2: OMV Raffinerie Tor 2
+omv3: OMV Raffinerie Tor 3
+omv4: OMV Raffinerie Tor 4
+oncf: Office national des chemins de fer
+orkan: Yokull
+orlen_retail: Bielik
+osp: Ochotnicza Straż Pożarna
+ot_port: Container Port
+paec: Североатом АЕС
+penny_at: Penny Markt (Супермаркет*)
+peugeot1: Voitereux
+peugeot2: Voitereux
+peugeot_mg: PEUGEOT
+pfi: Sam Fruitier Mediterrané
+pkn_orlen: Sokolej
+plastimet: Metaloplast Sp. z o.o.
+podlogi_elk: Cegły W Domu
+polarisline1: Polaris Lines
+polar_fish2: Polar Fish
+polar_oil: NS Oil
+port_blond: Blönduóshöfn
+port_bolun: Bolungarvíkurhöfn
+port_isa: Ísafjarðarhöfn
+port_sudavik: Súðavíkurhöfn
+port_sudur: Suðureyrarhöfn
+post_tun: La Poste Tunisienne
+prisma: MaxiMart
+psa: PSA Groupe
+psa_ant: Container Port
+q8: V4Life
+qazaqgaz: QazaqGaz
+raben: BLT
+radisson: Horizone Hotels
+rema1000: MaxiMart
+renault: Renault
+renaultn: RENAULT NISSAN
+repsol: Mirosol
+rewe: Supergrutter
+rimi: Suprema Express
+roadworks_a7: Roadworks A7
+roadworks_a9: Roadworks A9
+roboty: Cemeltex
+rothschild: Rothschild
+royal_arctic: GreenArctic A/S
+royal_mail: King's Mail
+rybackie_elk: Ryby Mazurskie Sp. z o.o.
+saab: Draken Jets
+sah_afurdir: SAH Afurðir ehf.
+sainsbury: Cashtime's
+salag: Salag Sp. o.o.
+samir: La SAMIR
+samkaup: Allirkaup
+samskip: Tomskip
+sawmillforst: TREE-ET GmbH
+scania_dem: Scania Democentre
+scania_wh: Scania Warehouse
+schenker: DB Schenker
+seedvault: Global Seed Vault
+seljaland: Seljaland
+seur: SEUR
+shell: Primel
+shell_fac: Primel
+sildarvinn: Aquela
+sjl: SJL Maghrib
+skn: Kopalnia Gabra
+smtt: STE MAGHREBINE DE TRANSPORT TERRESTRE
+smyril: Aquela
+snb: Baggersmij n.v.
+sntl: SNTL
+sotrajimex: Sotrajimex
+stafim: STAFIM
+statoil: Skanfill
+stryiliso: Stryilisoprodukt
+supernetto: MiniMax
+svalsat: Svalbard Satellite station
+szatmari: Mebeland
+tamoil: BTS Oil
+tandem: TANDEM GLOBAL LOGISTICS
+tartak: TREE-ET
+tauekel: ТАУЕКЕЛ
+temir_zholy: Qazaqstan Temir Joly
+tesco: Disco
+tesla: Voltison Motors
+te_conn: VøyTech Electronics
+timbursala: Timbursala
+toom: DomDepo
+toyota: Asuma
+transwood: TREE-ET
+tunaut: Tunisie Autoroute
+tunisair: TUNISAIR
+turkfood: Turkish Food
+ugcc_uz: Ustyurt Gas Chemical Complex
+unilevr_dist: Eurogoodies
+ur_poultry: Уральская птицефабрика
+uzbek_nef: O‘zbekneftgaz
+valeo: Valeo
+van_cargo: Van Cargo
+vectorys: VECTORYS NORTH AFRICA LEADER
+vegagerdin: Vegagerðin
+vegagerdin_r: Vegagerðin
+vest_port: Vestmannaeyjahöfn
+vilvi: Baltijos Pieno Sąjunga
+volvo_pow: Volvo Powertrain AB
+vrtranspoint: NCH
+vsv: VSV
+vw: Jedesauto AG
+waberers: Brawen
+willys: Nico;s
+wurth: Renat
+xxxl: Mebeland
+yazaki: Dulcis
+zbyszko: Bogdaniec
+zelenye_bey: Зелёные Поля OOO
+zlecenie: Zlecenie
+
+[ETS Events]
+h_castle: Castle Brackenhelm
+x_choco: Marigold's
+x_market: Christmas Market
+x_mountain: Snowy Peaks
+x_post: Northstar
+x_work: Rudolph's Crafts
+
+[ETS Iberia]
+agregados: Agregados, S.A.
+app: APP
+cantera: Cantera Ibérica
+canteras_ds: Canteras del Sur
+casa_olivera: Casa Olivera
+cesta_sl: Cesta, S.L.
+cortica: Cortiça Prima
+elcano_fla: Construcciones Elcano, S.L.
+elcano_hms: Construcciones Elcano, S.L.
+engeron: Engeron
+eppa: EPPA
+huerta: Huerta del Mar Menor, S.L.
+iberatomica: Iberatómica
+lavish_food: Lavish Foods
+log_atlan: Logística Atlântica
+ortiz: Ortiz
+supercesta: SuperCesta
+trans_cab: Transportes Caballería
+ts_atlas: TS Atlas
+
+[ETS Road to the Black Sea]
+baltrak: Baltrak Lojistik
+dobr_ferm_bg: Добра ферма
+dulcis: Dulcis
+imp_otel: Oţel Impecabil
+lognstick: Log n Stick
+rump: Rump
+sporklift: Sporklift
+st_roza_bg: Стоманена Роза
+tm_istanbul: Trade Market Istanbul
+ttk_bg: ТТК
+
+[ETS Beyond the Baltic Sea]
+aerobalt: AeroBaltica
+agrominta: Agrominta UAB (Теплицы)
+agrominta_a: Agrominta UAB (Ферма)
+baltomorsk: Baltomorsk
+baltomors_ru: Балтоморск
+blt: BLT
+bltmetal: Baltic Metallurgy
+blt_yacht: Balteus Yachts
+cemelt_bas: Cemeltex (База)
+cemelt_hal: Cemeltex (Строительство ТЦ)
+cemelt_win: Cemeltex (Установка ветряков)
+cont_port_ru: Контейнерный пункт
+ee_paper: Estonian Paper AS
+eviksi: Evikši ZS (Теплицы)
+eviksi_a: Evikši ZS (Ферма)
+fintyre: Finnish Tyres
+fintyre_ru: Финские шины
+ibp: IBP
+ika_ru: ИКА мебель
+kamen_ru: Старый Камень
+kivi: Vanha Kivi
+ladoga: Ladoga Auto
+lateds: Lateds
+lvr: Latvijas Vagonu Rūpnīca
+nch: NCH
+nosko: Noskonitta
+ns_chem_ru: НС Химия
+ns_oil_ru: НС Ойл
+onnelik: Õnnelik talu (Теплицы)
+onnelik_a: Õnnelik talu (Ферма)
+pk_medved_ru: ПК Медведь
+rosmark: Rosmark
+rosmark_ru: Росмарк
+severoatm_ru: Североатом
+suprema_ru: Супрема
+ukko: UKKO Voima
+viln_paper: Vilniaus Popieriaus Fabrikas
+zelenye: Зелёные Поля OOO (Теплицы)
+zelenye_a: Зелёные Поля OOO (Ферма)
+
+[ETS Italia]
+aaa: AA - Auto di Alonso
+costruzi_bas: Costruzione di Edifici (База)
+costruzi_fla: Costruzione di Edifici (Строительство ЖК)
+costruzi_hal: Costruzione di Edifici (Строительство ТЦ)
+costruzi_win: Costruzione di Edifici (Установка ветряков)
+c_navale: Cantiere Navale
+fattoria_f: Fattoria Felice
+fui: FUI SpA
+ini: Ini
+marmo: Marmo SpA
+pp_chimica: PP Chimica Italia
+quadrelli: Quadrelli SpA
+sal: S.A.L. S.R.L.
+te_logistica: TE Logistica
+tras_med: Trasporti Mediterraneo
+
+[ETS Vive la France]
+batisse_base: Bâtisse (База)
+batisse_road: Bâtisse (Дорожные работы)
+batisse_wind: Bâtisse (Установка ветряков)
+bhb_raffin: BHB - La Raffinerie
+boisserie: BOISSERIE J-P
+chimi: Chimi
+cont_port_fr: Port de Conteneur
+dans_jardin: Dans le Jardin
+eco: ÉCO (АЗС*)
+globeur: Globeur
+gomme_monde: Gomme du Monde
+huilant: Huilant
+mvm_carriere: MVM carrière
+wilnet_trans: Wilnet Transport
+
+[ETS Scandinavia]
+scania_fac: Scania
+volvo_fac: Volvo Trucks
+vpc: VPC
+
+[ETS Krone Trailer Pack]
+krone: Krone
+krone_t: Krone
+
+[ETS West Balkans]
+adrica: Adrica
+aluxion: Aluxion
+aluxion_str: Aluxion
+betunia: Betunija
+bosfir: Bosfir Komerc
+cnp_well: CNP
+crnodrvo: Crno Drvo
+crnodrvo_log: Crno Drvo
+dunavia: DunaVia
+jastuk: Jastuk
+larus: Larus
+slava: Slava Auto
+vesna: Vesna
+vesna_mill: Vesna
+
+[ETS Feldbinder Trailer Pack]
+feldbinder: Feldbinder
+feldbinder_t: Feldbinder
+
+[ETS Greece]
+artemia: Hotel Artemia
+christopoulo: Χριστόπουλος Οικοδομικά
+dimitriou: Δημητρίου A.E.
+eliarchos: Eliarchos
+icaria: Icaria
+lefko: Lefko Cotton
+medas: Medas
+sygomidi: Συγκομιδή
+
+[ETS Nordic Horizons]
+bjork_hrv: Bjork
+fjoste: Fjoste
+kivisydan: Kivisydän Betoni
+lintukai_hrv: Lintukainen Oy
+metallis: Metallis
+nofeba: NOFEBA
+nordic_ports: Associated Nordic Ports
+norse_rail: Norse Rail
+nutri_molle: Nutri Mølle
+sag_tre_pln: Sag & Tre
+skog_paper: Skog Paperworks
+vainamoi_bas: Väinämöinen Oy
+vainamoi_fla: Väinämöinen Oy
+vainamoi_hal: Väinämöinen Oy
+
+[ATS]
+18w_trl_svc: 18 Wheels
+42p_pck_pln: 42 Print (Завод)
+42p_print: 42 Print
+ai_car_pln: AI Automotive
+ai_car_whs: AI Automotive
+ali_car_dlr: Alis Cars
+aml_rail_str: American Lines
+aml_rail_wrk: American Lines
+apa_car_whs: Apade
+aport_lax: Angel City Airport
+aport_pcc: Portland Cargo Central
+aport_phx: Phoenix Freight
+aport_ult: Ultimus
+apx_met_scr: Apex Steel
+apx_met_sml: Apex Steel
+apx_met_whs: Apex Steel
+apx_met_wrk: Apex Steel
+aro_oil_gst: Aron
+asu_car_dlr: Asuma
+asu_car_exp: Asuma
+asu_car_pln: Asuma
+asu_car_whs: Asuma
+ath_trk_dlr: American Truck Haulers
+avs_met_scr: Avalanche Steel (Переработка)
+avs_met_sml: Avalanche Steel (Завод)
+az_gls_pln: Azure
+bit_rd_grg: Bitumen (Стоянка)
+bit_rd_svc: Bitumen (Сервис)
+bit_rd_wrk: Bitumen (Ремонтные работы)
+blo_frm_str: Bloomscape
+bm_con_pln: Buildmaster Manufacturing Co.
+bn_farm: Bushnell Farms (Ферма)
+bn_live_auc: Bushnell Farms (Аукцион скота)
+cal_car_exp: Caliber Motors
+cal_car_pln: Caliber Motors
+cal_farm_alm: Calimondo
+ccw_rd_grg: Central Civil Works
+cha_el_mkt: Charged (Магазин электроники)
+cha_el_whs: Charged (Склад)
+chm_che_plns: Chemso Ltd.
+chm_che_plnt: Chemso Ltd. (Завод)
+chm_che_str: Chemso Ltd. (Хранилище)
+ch_wd_hrv: Chuck & Jack's
+ch_wd_saw: Chuck & Jack's
+cm_brx_pln: Coastline Mining
+cm_min_plnt: Coastline Mining (Завод)
+cm_min_qry: Coastline Mining (Карьер)
+cm_min_qryp: Coastline Mining (Калийный рудник)
+cm_min_str: Coastline Mining (Хранилище)
+cm_min_svc: Coastline Mining (База)
+dc_car_dlr: Drake Cars
+dg_wd_hrv: Deepgrove (Лесозаготовка)
+dg_wd_saw: Deepgrove (Лесопилка)
+dg_wd_saw1: Deepgrove (Лесопилка)
+dmc_car_dlr: DeMuro Cars
+dpw_oil_svc: Deep Wells
+drh_mkt: Dr. Hammer
+dri_oil_gst: Driverse
+du_farm: Darchelle Uzau
+dw_air_pln: Darwing
+dyn_car_pln: Dynamix
+ed_mkt: Eddy's
+eg_che_str: Epro Gas
+ele_epw_sit: Elegrid
+ele_epw_svc: Elegrid
+elm_whs: Elimax
+elv_el_pln: Electravolt Industries
+ent_whs: Enterpriser
+equ_whs: Equos Power Transport
+evg_frm: Evergreen
+fb_farm_mkt: Farmer's Barn (Супермаркет)
+fb_farm_pln: Farmer's Barn (Предприятие)
+ffe_frm_dlr: Field Force Equipment
+flv_food_pln: Flavorfair
+flv_food_str: Flavorfair
+frd_epw_sit: Faraday
+frd_epw_svc: Faraday
+ftf_food_pln: Fish Tail Food
+fus_oil_gst: Fusion
+gal_oil_gst: Gallon Oil (АЗС*)
+gal_oil_ref: Gallon Oil (Нефтепереработка)
+gal_oil_sit: Gallon Oil (Скважина)
+gal_oil_str: Gallon Oil (Хранилище)
+gal_oil_str1: Gallon Oil (Хранилище 1)
+gal_oil_svc: Gallon Oil
+gal_oil_well: Gallon Oil
+garc_train: GARC
+gar_rail_str: GARC
+gas_che_str: Gastream
+gld_frm: Golden Meadows
+gld_frm_grg: Golden Meadows
+gm_chs_plnt: Global Mills (Молокозавод)
+gm_food_plnt: Global Mills (Пищекомбинат)
+gm_food_str: Global Mills
+gol_trk_pln: Goliath
+gpw_rd_grg: GPW
+gp_farm: Grand Pastures
+gp_live_auc: Grand Pastures
+grp_oil_gst: GreenPetrol
+gss_air_svc: Global Sky Services
+hau_oil_gst: Haulett
+hds_met_shp: Haddock Shipyard
+hf_wd_pln: Heartwood Furniture
+hms_con_svc: HMS Machinery
+hs_mkt: Home Store (ТЦ)
+hs_whs: Home Store (Склад)
+jns_rail_str: Johnson and Smith
+jns_rail_wrk: Johnson and Smith
+kw_trk_dlr: Kenworth (Автосалон)
+kw_trk_pln: Kenworth (Завод)
+lsf_crg_fwd: Lonestar Forwarding
+lum_car_dlr: Lumen auto
+mcc_frm_pln: McClane
+mcs_con_sit: Mud Creek slide
+mon_farm: Mon Coeur
+mon_food_pln: Mon Coeur
+mr_cot_pln: Mary's Cotton
+mwm_wst_whs: MWM
+myr_wd_mkt: Myroo
+naf_oil_gst: NAF
+nls_rd_grg: Nielsen Roads
+nls_rd_svc: Nielsen Roads
+nls_rd_wrk: Nielsen Roads
+nmq_min_pln1: NAMIQ
+nmq_min_pln2: NAMIQ
+nmq_min_plnt: NAMIQ (Завод)
+nmq_min_qry: NAMIQ (Карьер)
+nmq_min_qrya: NAMIQ
+nmq_min_qrys: NAMIQ (Натриевый карьер)
+nmq_min_str: NAMIQ (Хранилище)
+nmq_min_svc: NAMIQ (База)
+oak_port: Oakland Shippers
+oh_con_hom: Olthon Homes
+out_car_pln: Outrider
+pcp_car_whs: Precision Car Parts
+pet_oil_well: Petrolucent
+pho_oil_gst: Phoenix
+pic_mkt: Pickit
+pio_car_dlr: Pioneer
+plu_el_mkt: Plugged
+plu_el_pln: Plugged
+plu_el_whs: Plugged
+pnp_wd_pln: Page & Price Paper
+pns_con_grg: Plaster & Sons (Стоянка)
+pns_con_sit: Plaster & Sons (Стройплощадка)
+pns_con_sit1: Plaster & Sons (Стройплощадка 1)
+pns_con_sit2: Plaster & Sons (Стройплощадка 2)
+pns_con_sit3: Plaster & Sons (Стройплощадка 3)
+pns_con_whs: Plaster & Sons (Склад)
+port_la: LA Seaport
+port_sea: Port of Seattle
+port_tac: Port of Tacoma
+pt_trk_dlr: Peterbilt
+re_train: Rail Export
+rp_port: Rock Port
+sb_whs: Starbridge
+sc_frm: Sunshine Crops (Ферма)
+sc_frm_grg: Sunshine Crops
+sf_port: Port of SF
+sg_whs: SellGoods
+sht_mkt: Shop Town
+sh_shp_mar: Sea Horizon (Пристань)
+sh_shp_plnt: Sea Horizon (Завод)
+sil_met_pln: Silverline Corp.
+stc_car_pln: Steelion Customs
+st_met_whs: Steeler (Склад)
+st_met_wrk: Steeler (Производство)
+swb_sug_plnt: Sweetbeets
+syn_che_plne: Syntetico
+syn_che_plnt: Syntetico
+syn_che_str: Syntetico
+tay_con_grg: Taylor Construction Group
+tay_con_sit: Taylor Construction Group
+tay_con_sit1: Taylor Construction Group
+tay_con_sit2: Taylor Construction Group
+tay_con_sit3: Taylor Construction Group
+tay_con_whs: Taylor Construction Group
+tch_el_pln: Technoma
+ter_met_shp: Tera
+tid_mkt: Tidbit
+trs_whs: Terrastore
+usb_food_pln: US Beverages & Bottling
+ven_whs: Venture
+vm_car_dlr: Voltison (Автосалон)
+vm_car_exp: Voltison
+vm_car_pln: Voltison (Завод)
+vm_car_whs: Voltison (Склад)
+vor_oil_gst: Vortex
+vor_oil_ref: Vortex
+vor_oil_sit: Vortex
+vor_oil_str: Vortex
+vor_oil_str1: Vortex
+vp_epw_pln: Vitas Power (Завод)
+vp_epw_sit: Vitas Power (Установка ветряков)
+wac_air_svc: Wingman Aviation Center
+wal_food_mkt: Wallbert (Продуктовый магазин)
+wal_food_whs: Wallbert (Продовольственная база)
+wal_mkt: Wallbert (Гипермаркет)
+wal_whs: Wallbert (Склад сети маркетов)
+wan_car_dlr: Wanderlust
+wds_wst_whs: WDS
+wld_frm_str: Waldens
+wp_oil_gst: WP
+ws_trk_dlr: Western Star (Автосалон)
+ws_trk_pln: Western Star (Завод)
+xtm_con_svc: X-Tech Machinery
+yel_bus_pln: Yelco Busses
+
+[ATS ProMods]
+aron: Aron
+bc_hydro: BC Hydro
+bc_hydro2: BC Hydro
+canoe: Canoe Forest Products
+chem_oil: Chemron (АЗС*)
+costco: Costco
+fb_farm_tmp: Farmer's Barn
+ikea: IKEA
+kel_mar: Shelter Bay Marina
+lew_lodge: Lewiston Lodge (*)
+ng_min_svc: New Gold Inc. New Gold Inc.
+parks_ca: Parks Canada
+port_vanc: Port of Vancouver - Coal (Coal)
+port_vanc_c: Port of Vancouver - Container (Container)
+premier_gold: Premier Gold Mine
+stewart_air: Stewart Airodrome
+stewart_bulk: Stewart Bulk Terminals
+tay_con_in: Taylor Construction Group
+yw_farm: Young & Wyse
+
+[ATS Events]
+h_castle: Castle Brackenhelm
+x_choco: Marigold's
+x_market: Christmas Market
+x_mountain: Snowy Peaks
+x_post: Northstar
+x_work: Rudolph's Crafts
+
+[ATS Colorado]
+aport_den: Airport Denver
+
+[ATS New Mexico]
+aport_abq: ABQ Cargo Center
+
+[ATS Texas]
+aport_dfw: Airport Dallas Fort Worth
+aport_elp: El Paso Freight
+aport_iah: Houston Intercont. Airport
+port_bea: Beaumont Freight Terminal
+port_bro: Brownsville Port
+port_cor: Corpus Christi Cargo Terminal
+port_gal: Galveston Port
+port_hou: Houston Cargo Terminal
+spc_whs: Space Park
+
+[ATS Montana]
+aport_gtf: GF Cargo
+
+[ATS Oklahoma]
+aport_tul: Tulsa Freight
+
+[ATS Kansas]
+aport_ict: Wichita Sky Harbor
+
+[ATS Arkansas]
+aport_lit: Pulaski County Airport
+
+[ATS Iowa]
+aport_cid: Cedar Rapids Airfield
+
+[ATS Louisiana]
+gul_oil_str: Gulfica
+port_no: Creole Bay Port

@@ -1,0 +1,94 @@
+﻿[ETS qmc]
+ochakovo: ochakovo
+il_db: ЗИЛ 157
+bus_db: Автобус
+deb_db: Развалины
+crane_db: Кран
+cargo_air: Самолет
+cont_db: Конструкт
+gum_db: Гуманитарка
+drinksen: drinksen
+kothleb: Хлебушек
+posilki: Посылки
+pelmeni_pij: Пельмени
+cn_horsemeat: Консервированная конина
+eggs: Яйца
+chairs: chairs
+tables: tables
+bag_pton: Багеты
+bicicletas: Велосипеды
+bicicletas_e: Эргометрические велотренажеры
+carc_pton: Булочки (Carcaças)
+musc_pton: Тренажеры
+passa_pton: Беговые дорожки
+pass_pton: Паштел-де-ната (Португальские заварные пирожные)
+troti_pton: Электрические самокаты
+sagres_pton: Пиво Sagres
+superb_pton: Пиво Super Bock
+fantab_pton: Газированный напиток Fanta
+cc24_pton: Газированный напиток Coca-Cola
+ucal_pton: Шоколадное молоко Ucal
+bolac_pton: Печенье
+papelh_pton: Туалетная бумага
+ovos_pton: Яйца
+deterg_pton: Стиральный порошок
+redb_pton: Энергетический напиток RedBull
+carlsb_pton: Пиво Carlsberg
+pepsi24_pton: Газированный напиток Pepsi
+alface_pton: Салат
+banana_pton: Бананы
+bring_pton: Баклажаны
+mor_pton: Клубника
+mimo_pton: Йогурты Mimosa
+bimbo_pton: Хлеб для тостов Bimbo
+camar_pton: Замороженные креветки
+carnepr_pton: Замороженная свинина
+congpr_pton: Замороженное мясо индейки
+massas_pton: Макароны
+sard_pton: Консервированные сардины
+peixecg_pton: Замороженная рыба
+arroz_pton: Рис
+heik_pton: Пиво Heineken
+luso_pton: Вода Luso
+gas_galp: Дизель GForce
+gas_repsol: Дизель Repsol Diesel e+
+98_galp: Бензин GForce 98
+98_repsol: Бензин Repsol Efitec 98
+gas_bp: Дизель Diesel Ultimate
+98_bp: Бензин BP Ultimate 98
+gas_cepsa: Дизель Optima
+98_cepsa: Бензин Optima 98
+aljoinery: Алюминиевые столярные изделия
+aquariums: Аквариумы
+beer: Пиво
+canned_fish: Рыбные консервы
+carengines: Двигатели автомобилей
+cement_dry: Сухой цемент
+daf_tr: Грузовые автомобили DAF
+fl_furn: Готовая к сборке мебель
+hardware: Аппаратура
+ikea_pl_emtp: ikea_pl_emtp
+ikea_pl_furn: Готовая к сборке мебель
+ikea_pl_hmwr: Товары для дома
+ikea_pl_papr: ikea_pl_papr
+ikea_pl_plst: ikea_pl_plst
+man_tr: Грузовые автомобили MAN
+reindeer: Оленина
+seafood: Морепродукты
+soap: Средства для личной гигиены
+dairy: Молочные продукты
+pivo: Пиво Хадыженское
+limonad: Лимонад Хадыженский
+min_voda: Минеральная вода «Серебрянка»
+tarhun: Напиток «Тархун»
+sayany: Напиток «Саяны»
+buratino: Напиток Буратино
+krem_soda: Напиток «Крем-Сода»
+air_fresh: Освежители воздуха
+dezod: Дезодоранты и антиперспиранты
+hair_dye: Краски для волос
+shampun: Средства по уходу за волосами
+c_in_srm: Контактные вставки
+candies: Конфеты
+cookies: Печенье
+waffles: Вафли

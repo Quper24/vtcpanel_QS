@@ -1,0 +1,919 @@
+[ETS]
+acetylene: Ацетилен
+acid: Кислота
+aircft_tires: Шины для самолетов
+air_mails: Авиапочта
+almond: Миндаль
+alu_ingot: Алюминиевые слитки
+alu_profile: Алюминиевые профили
+ammonia: Аммиак
+ammunition: Военное снаряжение
+apples: Яблоки
+apples_c: Яблоки
+arsenic: Мышьяк
+atl_cod_flt: Филе атлантической трески
+backfl_prev: Обратные клапаны
+barley: Ячмень
+basil: Базилик
+battery: Аккумуляторы
+beans: Бобы
+beef_meat: Говядина
+beverages: Напитки
+beverages_c: Напитки
+beverages_t: Напитки
+big_bag_seed: Зерно в биг-бэгах
+boric_acid: Борная кислота
+bottle_water: Бутилированная вода
+brake_fluid: Тормозная жидкость
+brake_pads: Тормозные колодки
+bricks: Кирпичи
+canned_beans: Консервированные бобы
+canned_beef: Тушеная говядина
+canned_pork: Тушеная свинина
+canned_tuna: Консервированный тунец
+can_sardines: Консервированные сардины
+caravans: Автодома
+carbn_pwdr_c: Углеродный порошок
+carb_water: Газированная вода
+carrots: Морковь
+carrots_c: Морковь
+cars_fr: Автомобили
+car_balt1: Автомобили
+car_balt2: Автомобили
+car_d: Автомобили
+car_f: Автомобили
+car_gr: Кроссоверы
+car_ibe: Автомобили
+car_it: Автомобили
+cauliflower: Цветная капуста
+caviar: Икра
+cement: Цемент
+cheese: Сыр
+chemicals: Химикаты
+chem_sorbent: Химические сорбенты
+chem_sorb_c: Химические сорбенты
+chewing_gums: Жевательная резинка
+chicken_meat: Куриное мясо
+chimney_syst: Дымоходные системы
+chlorine: Хлор
+chlorine_t: Хлор
+chocolate: Шоколад
+clothes: Одежда
+clothes_c: Одежда
+coal: Уголь
+coconut_milk: Кокосовое молоко
+coconut_oil: Кокосовое масло
+comp_process: Компьютерные процессоры
+concen_juice: Концентрированный сок
+concr_beams2: Бетонные плиты
+concr_cent: Бетонные кольца
+concr_stair: Бетонные лестницы
+conc_juice_t: Концентрированный сок
+contamin: Инфицированное сырье
+cont_trees: Деревья в контейнерах
+copp_rf_gutt: Медные водосточные системы
+corks: Пробки
+cott_cheese: Творог
+cott_harvest: Хлопкоуборочный комбайн
+crawler: Гусеничный самосвал
+cut_flowers: Срезанные цветы
+cyanide: Цианиды
+czl_es300: Локомотив CZ LOKO EffiShunter 300
+czl_muv75: Локомотив CZ LOKO MUV 75
+desinfection: Очистной комплекс
+diesel: Дизельное топливо
+diesel_gen: Дизельные генераторы
+digger1000: Фронтальный погрузчик
+digger500: Экскаватор-погрузчик
+diggers: Погрузчики
+dryers: Сушильные машины
+drymilk: Сухое молоко
+dynamite: Динамит
+electronics: Электроника
+elect_wiring: Электропроводка
+emptytank: Цистерна
+empty_barr: Пустые бочки
+empty_palet: Пустые палеты
+empty_spool: Пустые катушки
+emp_wine_bar: Винные бочки
+emp_wine_bot: Винные бутылки
+ethane: Этан
+excavator: Экскаватор
+excav_soil: Вынутый грунт
+exhausts_c: Выхлопные системы
+explosives: Взрывчатые материалы
+fertilizer: Удобрения
+fireworks: Фейерверки
+fish_chips: Рыбные палочки
+floorpanels: Бетонные плиты
+flour: Мука
+fluorine: Фтор
+food_oil_t: Растительное масло
+forklifts: Автопогрузчики
+fresh_fish: Свежая рыба
+frozen_hake: Замороженный хек
+froz_octopi: Замороженный осьминог
+frsh_herbs: Свежие травы
+fueltanker: Топливная цистерна
+fuel_oil: Мазут
+fuel_tanks: Топливные баки
+furniture: Мебель
+garlic: Чеснок
+glass: Листовое стекло
+glass_packed: Упакованное стекло
+gnocchi: Ньокки
+goat_cheese: Козий сыр
+granite_cube: Гранитные блоки
+grapes: Виноград
+graph_grease: Графитовая смазка
+grass_rolls: Рулонный газон
+gravel: Гравий
+guard_rails: Отбойники
+gummy_bears: Мармелад
+harvest_bins: Контейнеры для урожая
+hchemicals: Горячие химикаты
+hipresstank: Резервуары
+hi_volt_cabl: Кабели высокого напряжения
+hmetal: Тяжелые металлы
+honey: Мёд
+horse_tr: Прицеп-коневоз
+hvac: Кондиционеры
+hwaste: Медицинские отходы
+hydrochlor: Соляная кислота
+hydrogen: Водород
+ibc_cont: Контейнеры Еврокуб
+icecream: Мороженое
+iced_coffee: Холодный кофе в банках
+iron_pipes: Железные трубы
+iveco_vans: Фургоны Braco
+kerosene: Керосин
+ketchup: Кетчуп
+lamb_stom: Фасованный бараний рубец
+largetubes: Большие трубы
+large_cont: Большие контейнеры
+lavender: Лаванда
+lead: Свинец
+limonades: Лимонад
+liver_paste: Консервированный паштет
+live_cattle: Скот
+live_catt_fr: Живой скот
+live_pigs: Свиньи
+logs: Брёвна
+lpg: Пропан-Бутан
+lpg_t: Пропан-Бутан
+lumber: Пиломатериалы
+lumber_p: Упакованные пиломатериалы
+lux_yacht: Роскошная яхта
+magnesium: Магний
+maple_syrup: Кленовый сироп
+marb_blck: Мраморные блоки
+marb_blck2: Мраморные блоки
+marb_slab: Мраморные плиты
+mason_jars: Стеклянные банки
+mat_handler: Погрузчик
+med_equip: Медицинское оборудование
+med_vaccine: Медицинские вакцины
+mercuric: Хлорид ртути
+metal_beams: Металлические балки
+metal_cans: Жестяная тара
+metal_pipes: Железные трубы
+milk: Молоко
+milk_t: Молоко
+mondeos: Автомобили
+motorcycles: Мотоциклы
+motor_oil: Моторное масло
+motor_oil_c: Моторное масло
+moto_tires: Мотоциклетные шины
+mozzarela: Моцарелла
+mtl_coil: Листовой металл в бухтах
+natur_rubber: Природный каучук
+neon: Неон
+nitrocel: Нитроцеллюлоза
+nitrogen: Азот
+nonalco_beer: Безалкогольное пиво
+nuts: Орехи
+nylon_cord: Нейлоновый шнур
+oil: Масло
+oil_filters: Топливные фильтры
+oil_filt_c: Топливные фильтры
+olives: Оливки
+olive_oil: Оливковое масло
+olive_oil_t: Оливковое масло
+olive_tree: Оливковые деревья
+onion: Репчатый лук
+oranges: Апельсины
+ore: Руда
+outdr_flr_tl: Тротуарная плитка
+overweight: Низкорамные полуприцепы
+packag_food: Упакованные продукты
+paper: Офисная бумага
+pasta: Макароны
+pears: Груши
+peas: Горох
+perfor_frks: Мотоциклетные вилки
+pesticide: Пестициды
+pesto: Песто
+petrol: Бензин
+pet_food: Корма для животных
+pet_food_c: Корма для животных
+phosphor: Белый фосфор
+pickup_gr: Пикапы
+plant_substr: Органические субстраты
+plastic_gra: Пластиковые гранулы
+plast_film: Упаковочная плёнка
+plast_film_c: Упаковочная плёнка
+plast_pipes: Пластиковые трубы
+plumb_suppl: Сантехнические товары
+plums: Сливы
+pnut_butter: Арахисовое масло
+polyst_box: Полистироловая продукция
+pork_meat: Свинина
+post_packag: Почта
+potahydro: Гидроксид калия
+potassium: Калий
+potatoes: Картофель
+pot_flowers: Комнатные цветы
+precast_strs: Железобетонные лестницы
+press_sl_val: Клапаны высокого давления
+propane: Пропан
+prosciutto: Прошутто
+protec_cloth: Защитная одежда
+pumps: Насосы
+radiators: Радиаторы
+refl_posts: Светоотражающие столбы
+re_bars: Арматура
+rice: Рис
+rice_c: Рис
+roofing_felt: Толь
+rooflights: Зенитные фонари
+roof_tiles: Черепица
+rye: Рожь
+salm_fillet: Филе лосося
+salt_spices: Соль и специи
+salt_spice_c: Соль и специи
+sand: Песок
+sandwch_pnls: Сэндвич-панели
+sausages: Колбасы
+sawpanels: ДСП
+scaffoldings: Строительные леса
+scania_tr: Грузовики Scania
+scooters: Скутеры
+scrap_metals: Металлолом
+seal_bearing: Подшипники
+sheep_wool: Овечья шерсть
+shock_absorb: Амортизаторы
+silica: Двуокись кремния
+smokd_eel: Копчёный угорь
+smokd_sprats: Шпроты
+sodchlor: Гипохлорит натрия
+sodhydro: Гидроксид натрия
+sodium: Натрий
+soy_milk: Соевое молоко
+soy_milk_t: Соевое молоко
+spher_valves: Шаровые краны
+sq_tub: Квадратные трубы
+steel_cord: Металлокорд
+stones: Камни
+stone_dust: Минеральный порошок
+stone_wool: Каменная вата
+straw_bales: Тюки соломы
+sugar: Сахар
+sulfuric: Серная кислота
+sulfuric_t: Серная кислота
+tableware: Посуда
+ter_forklift: Внедорожный подъёмник
+tomatoes: Помидоры
+toys: Игрушки
+tractors: Тракторы
+train_part: Колёсные пары
+train_part2: Тележки поезда
+transmis: Коробки передач
+truck_batt: Грузовые аккумуляторы
+truck_batt_c: Грузовые аккумуляторы
+truck_rims: Грузовые диски
+truck_rims_c: Грузовые диски
+truck_tyres: Грузовые шины
+tyres: Шины
+used_battery: Отработанные аккумуляторы
+used_packag: Картонная тара
+used_plast: Пластиковая тара
+used_plast_c: Пластиковая тара
+vans_fd: Фургоны
+vans_id: Фургоны
+vans_vt: Фургоны
+vent_tube: Вентиляционная труба
+vinegar: Уксус
+vinegar_c: Уксус
+volvo_cars: Престижные внедорожники
+volvo_tr: Грузовики Volvo
+wallpanels: Стеновые панели
+watermelons: Арбузы
+watertank: Цистерна для воды
+wheat: Пшеница
+windml_eng: Гондола ветрогенератора
+windml_tube: Башня ветрогенератора
+wooden_beams: Деревянные балки
+wood_bark: Древесная кора
+wrk_cloth: Рабочая одежда
+wshavings: Деревянная стружка
+yogurt: Йогурт
+young_seed: Саженцы
+
+[ETS ProMods]
+aljoinery: Алюминиевые столярные изделия
+aquariums: Аквариумы
+beer: Пиво
+canned_fish: Рыбные консервы
+canned_horsemeat: Консервированная конина
+carengines: Двигатели автомобилей
+cement_dry: Сухой цемент
+cn_horsemeat: Консервированная конина
+daf_tr: Грузовые автомобили DAF
+dairy: Молочные продукты
+eggs: Яйца
+fl_furn: Готовая к сборке мебель
+hardware: Аппаратура
+ikea_pl_emtp: Пустые палеты
+ikea_pl_furn: Готовая к сборке мебель
+ikea_pl_hmwr: Товары для дома
+ikea_pl_papr: Офисная бумага
+ikea_pl_plst: Упаковочная плёнка
+man_tr: Грузовые автомобили MAN
+reindeer: Оленина
+seafood: Морепродукты
+soap: Средства для личной гигиены
+
+[ETS Events]
+concrete: [EV] Бетон
+covid_vac: [EV] Вакцина от COVID-19
+etrc_bug: [EV] Buggyra Racing - A.Lacko, O.Janes
+etrc_dtr_ak: [EV] Don't Touch Racing - A.Kursim
+etrc_mag_jh: [EV] Team Hahn Racing - J.Hahn
+etrc_mag_sh: [EV] Team Schwabentruck - S.Halm
+etrc_reb_er: [EV] Reboconort Truck Racing - E.Rodriguez
+etrc_sca_ek: [EV] EK Truck Race - E.Kleinnagelvoort
+etrc_t24p_nk: [EV] Tankpool 24 Racing - N.Kiss
+etrc_tra_rr: [EV] Team Reinert Racing - R.Reinert
+etrc_tra_sl: [EV] SL Trucksport - S.Lenz
+etrc_tslb_aa: [EV] Truck Sport Lutz Bernau - A.Albacete
+gifts: [EV] Подарки
+halloween: [EV] Хэллоуинские сладости
+halloween_1: [EV] Halloween Treats
+halloween_2a: [EV] Halloween Costumes
+halloween_2b: [EV] Halloween Herbs & Spices
+halloween_2c: [EV] Halloween Crafts
+pr_goods: [EV] Товары «Розовой Ленты»
+racing_comp: [EV] Гоночное оборудование
+t248_stwheel: [EV] Рули Thrustmaster T248
+tyres_gy: [EV] Шины Goodyear
+valentine: [EV] Valentine Gifts
+xmas_candle: [EV] Рождественские свечи
+xmas_candy: [EV] Рождественские леденцы
+xmas_choco: [EV] Рождественский шоколад
+xmas_cookie: [EV] Рождественские печеньки
+xmas_cracker: [EV] Рождественские крекеры
+xmas_decor: [EV] Рождественские украшения
+xmas_gift: [EV] Рождественские подарки из дерева
+xmas_light: [EV] Рождественские гирлянды
+xmas_ornam: [EV] Рождественские украшения
+xmas_socks: [EV] Рождественские носки
+x_amail: [EV] Christmas Assorted Mail
+x_ameats: [EV] Christmas Assorted Meats
+x_anuts: [EV] Christmas Assorted Nuts
+x_apaint: [EV] Christmas Assorted Paints
+x_apaints: [EV] Christmas Assorted Paints
+x_beverages1: [EV] Christmas Beverages
+x_beverages2: [EV] Christmas Beverages
+x_buttmilk: [EV] Christmas Butter Milk
+x_cacao: [EV] Christmas Cacao Powder
+x_celvege: [EV] Christmas Celebratory Vegetables
+x_clockmot: [EV] Christmas Clockwork Motors
+x_clothes: [EV] Christmas Festive Clothing
+x_confect: [EV] Christmas Confectionery
+x_craftsupp: [EV] Christmas Craft Supplies
+x_craftwood: [EV] Christmas Craft Wood
+x_deco1: [EV] Christmas Decorations
+x_deco2: [EV] Christmas Decorations
+x_decoglass: [EV] Christmas Decorative Glass
+x_dfruits: [EV] Christmas Dried Fruits
+x_fibrestuff: [EV] Christmas Fibre Stuffing
+x_flour: [EV] Christmas Fine Flour
+x_food: [EV] Christmas Food Parcels
+x_giftparc: [EV] Christmas Gift Parcels
+x_gifts_ch: [EV] Chocolate Gift Packs
+x_gifts_ma: [EV] Christmas Market Hampers
+x_gifts_mo: [EV] Mountain Fun Gift Packs
+x_gifts_po: [EV] Mail & Gift Parcels
+x_gifts_wo: [EV] Master Craft Gift Packs
+x_handmade1: [EV] Christmas Handmade Gifts
+x_handmade2: [EV] Christmas Handmade Gifts
+x_honey: [EV] Christmas Festive Honey
+x_metalsupp: [EV] Christmas Metalwork Supplies
+x_milk: [EV] Christmas Powdered Milk
+x_nattextile: [EV] Christmas Natural Textiles
+x_offsuppl: [EV] Christmas Office Supplies
+x_outdoor: [EV] Christmas Outdoor Clothing
+x_petfood: [EV] Christmas Special Pet Food
+x_rnuts: [EV] Christmas Roasted Nuts
+x_salt: [EV] Christmas Special Salt
+x_sportsupp: [EV] Christmas Sport Supplies
+x_stationery: [EV] Christmas Festive Stationery
+x_sugar: [EV] Christmas Powdered Sugar
+x_woodlam: [EV] Christmas Wood Laminate
+
+[ETS Special Transport]
+art_dumper: [ST] Сочленённый самосвал
+boiler_parts: [ST] Деталь котла
+cat_785c: [ST] Шасси карьерного самосвала
+condensator: [ST] Промышленный теплообменник
+czl_es1000: [ST] Локомотив CZ LOKO EffiShunter 1000
+dumper: [ST] Шасси карьерного самосвала
+dumper_tire: [ST] Огромные шины
+ex_bucket: [ST] Ковш экскаватора
+heat_exch: [ST] Теплообменник
+lattice: [ST] Лестничная конструкция
+load_un: [ST] Подземный погрузчик
+mystery_box: [ST] Массивная промышленная деталь
+mystery_cyl: [ST] Высокотехнологичное устройство
+m_59_80_r63: [ST] Огромные шины
+pilot_boat: [ST] Лоцманское судно
+silo: [ST] Силос
+tank: [ST] Большой резервуар
+wagon: [ST] Вагон
+windblade: [ST] Лопасть ветрогенератора
+
+[ETS Heavy Cargo Pack]
+asph_miller: Дорожная фреза
+cable_reel: Кабельная катушка
+concr_beams: Бетонные плиты
+dozer: Бульдозер
+locomotive: Локомотив Vossloh G6
+metal_center: Металлический сегмент
+mobile_crane: Автокран
+mob_crusher: Мобильная дробилка
+mob_screener: Мобильный грохот
+mob_stacker: Мобильный ленточный транспортёр
+transformat: Трансформатор
+
+[ETS High Power Cargo Pack]
+aircond: Кондиционеры
+driller: Бурильщик D-50
+helicopter: Вертолёт Ring-429
+roller: Каток
+tracks: Гусеницы
+tractor: Гусеничный трактор
+tube: Детали трубопровода
+yacht: Яхта
+
+[ETS Volvo Construction Equipment]
+volvo_a25g: Сочленённый самосвал Volvo A25G
+volvo_bucket: Ковш для камней Volvo SPN P T SEG
+volvo_ec220e: Экскаватор Volvo EC220E
+volvo_l250h: Колёсный погрузчик Volvo L250H
+volvo_rims: Колёса с дисками Volvo
+volvo_sd160b: Компактор Volvo SD160B
+vol_ew240emh: Экскаватор Volvo EW240E MH
+
+[ETS Krone Trailer Pack]
+krone_box: Krone Box Liner
+krone_cool: Krone Cool Liner
+krone_profi: Krone Profi Liner
+krone_profib: Krone Profi Liner Building
+
+[ETS Feldbinder Trailer Pack]
+ffb_eut35: Feldbinder EUT
+ffb_kip60: Feldbinder KIP
+ffb_tsaadr22: Feldbinder TSA ADR
+ffb_tsalm32: Feldbinder TSA LM
+
+[ETS JCB Equipment Pack]
+jcb_bhl4cx: Экскаватор-погрузчик JCB 4CX
+jcb_dmp6t2: Мини-самосвал JCB 6T-2
+jcb_dmphtd5e: Электрические самосвалы JCB HTD-5E
+jcb_exc245xr: Экскаватор JCB 245XR
+jcb_exc_dum: Мини-экскаваторы JCB 19C-E, самосвалы JCB HTD-5E
+jcb_ft4220: Трактор JCB Fastrac 4220
+jcb_g100rs: Генераторы JCB G100RS
+jcb_mexc19ce: Электрический мини-экскаватор JCB 19C-E
+jcb_pw125qe: Аккумулятор JCB 1.25QE
+jcb_th540180: Телескопический погрузчик JCB 540-180
+jcb_wload457: Фронтальный погрузчик JCB 457
+
+[ETS Farm Machinery]
+auger_wag: Шнековый прицеп
+disc_harrows: Дисковые бороны
+fert_spread: Разбрасыватель удобрений
+forage_harv: Кормоуборочный комбайн
+planter: Сеялка
+sprayer: Опрыскиватель
+square_baler: Пресс-подборщик
+tractor_au: Автономный трактор
+tractor_c: Гусеничный трактор
+
+[ETS Krone Agriculture]
+kr_bigm450: Косилка-плющилка Krone BiG M 450
+kr_bigp1290: Пресс-подборщик Krone BiG Pack 1290 HDP VC
+kr_bigx1180: Кормоуборочный комбайн Krone BiG X 1180
+kr_ecb880cv: Дисковая косилка Krone EasyCut B 880 CV
+kr_gx520: Прицеп Krone GX 520
+kr_stc1370: Роторный валкователь Krone Swadro TC 1370
+kr_vpv190xc: Пресс-подборщик Krone Vari Pack V 190 XC
+
+[ETS Forest Machinery]
+exc_craw: Экскаватор для лесозаготовок
+forwarder: Форвардер
+log_harvest: Харвестер
+log_stacker: Брёвноукладчик
+mob_tr_winch: Передвижная тяговая лебёдка
+mulcher: Мульчер
+skidder: Трелёвочный трактор
+wood_chipper: Измельчитель
+
+[ETS Bobcat Cargo Pack]
+bob_d30: Вилочный погрузчик Bobcat D30
+bob_e10e: Мини-экскаватор Bobcat E10e
+bob_e60: Экскаватор Bobcat E60
+bob_l95: Погрузчик Bobcat L95
+bob_pa127v: Компрессор Bobcat PA12.7v
+bob_s86: Погрузчик Bobcat S86
+bob_tl3070a: Телескопический погрузчик Bobcat TL30.70
+
+[ATS]
+aircon: Кондиционеры
+aircraft_eng: Авиационный двигатель
+air_eng2: Воздухозаборники авиадвигателей
+almond_box: Миндаль в ящиках
+alu_ingot: Алюминиевые слитки
+alu_profile: Алюминиевые профили
+ammonia: Аммиак
+aromatics: Углеводороды
+barley: Ячмень
+battery: Аккумуляторы
+beet_harvest: Свёклоуборочный комбайн
+beverages: Напитки
+big_tyres: Большие шины
+boat: Лодка
+boat2: Скоростная моторная лодка
+boom_lift: Подъёмник
+boom_lift2: Подъёмник
+borates: Бораты
+boric_acid: Борная кислота
+bottles: Тара
+bromine: Бром
+bulldozer: Бульдозер
+bus_hood: Автобусные капоты
+butter: Сливочное масло
+buttermilk: Пахта
+cable: Кабельная продукция
+cans: Банки
+carcomp: Автозапчасти
+cars_big: Автомобили
+cars_big2: Автомобили
+cars_mix: Автомобили
+cars_pickup: Пикапы
+cars_pick_cr: Пикапы
+cars_pick_tt: Пикапы
+cars_rv: Автодом
+cars_rv2: Автодом
+cars_small: Автомобили
+cars_suv: Автомобили
+cars_utv: Мотовездеходы
+cattle: Скот
+cattle_equip: Оборудование для скота
+cement: Цемент
+cheese: Сыр
+chlorine_t: Хлор
+circuit_brk: Высоковольтные выключатели
+clothes: Одежда
+colors: Краска
+computers: Компьютеры
+com_tractor: Компактный трактор
+conc_barr: Бетонные барьеры
+const_house: Модульные конструкции
+cool_tower: Вентиляционное оборудование
+corn_b: Кукуруза
+corn_head: Жатка для кукурузы
+cott_lint: Хлопковый пух
+cott_seed: Семена хлопка
+crawler_carr: Гусеничный самосвал
+crude_oil: Сырая Нефть
+cshell_buck: Грейфер
+ctubes: Бетонные трубы
+ctubes_b: Бетонные трубы
+curtains: Занавески
+diesel: Дизельное топливо
+digger1000: Фронтальный погрузчик
+digger500: Экскаватор-погрузчик
+dry_fruit: Сухофрукты
+dry_milk: Сухое молоко
+dumpster: Мусорные баки
+dynamite: Динамит
+electro_comp: Электронные компоненты
+emptytank: Цистерна
+empty_palet: Пустые палеты
+ethane: Этан
+ethanol: Этанол
+excavator: Экскаватор
+fertilizer: Удобрения
+fert_tank: Баки для удобрений
+fireworks: Фейерверки
+flour: Мука
+food: Упакованные продукты
+forklifts: Автопогрузчики
+frac_tank: Цистерна-контейнер
+frozen_food: Замороженные продукты
+frozen_fruit: Замороженные фрукты
+frozen_veget: Замороженные овощи
+fruits: Фрукты
+fruit_juic_t: Фруктовый сок
+furniture: Мебель
+garbage_trck: Мусоровоз
+generator_c: Генератор
+gen_set: Генераторная установка
+glass: Стекло
+glass_rack: Пирамиды для стекла
+grain: Зерно
+grain_b: Зерно
+gravel: Гравий
+guard_rails: Отбойники
+gypsum: Гипс
+harvester: Комбайн
+hay: Сено
+heat_exch2: Теплообменник
+hipresstank: Резервуары
+home_acc: Аксессуары для дома
+househd_appl: Бытовая техника
+house_pref: Сборный дом
+hydrochlor: Соляная кислота
+ibc_cont: Контейнеры Еврокуб
+icecream: Мороженое
+ind_palet: Промышленные палеты
+ins_panel: Изоляционные панели
+jet_wing: Крыло самолёта
+kw_t680: Грузовики Kenworth
+largetubes: Большие трубы
+lemonade: Лимонад
+limestone: Известняк
+live_pigs: Свиньи
+live_sheep: Овцы
+logs: Брёвна
+lpg_t: Пропан-Бутан
+lumber: Пиломатериалы
+lumber_b: Пиломатериалы
+lumber_p: Упакованные пиломатериалы
+lye: Щёлочь
+machine_pts: Запчасти для техники
+mbt: Мобильный барьер
+meat: Мясо
+mercuric: Хлорид ртути
+milk: Молоко
+milk_t: Молоко
+mixtank: Смесительный бак
+mobile_compr: Портативный компрессор
+moor_buoy: Швартовный буй
+mortar: Строительный раствор
+moving_cont: Контейнеры для переезда
+mtl_coil: Листовой металл в бухтах
+nitrocel: Нитроцеллюлоза
+nuts: Орехи
+office_suppl: Канцтовары
+oil_pipes: Нефтяные трубы
+paper: Бумага
+pellet_afd_b: Гранулированный корм для животных
+pellet_afood: Гранулированный корм для животных
+pesticide: Пестициды
+petrol: Бензин
+pipes: Железные трубы
+plows: Плуги
+potassium: Калий
+potatoes: Картофель
+potatoes_b: Картофель
+propane: Пропан
+pt_579: Грузовики Peterbilt
+pumpjack: Станок-качалка
+railcar: Локомобиль
+rails: Рельсы
+rawmilk: Свежее молоко
+rice: Рис
+rice_b: Рис
+roadroller: Дорожный каток
+roof_tiles: Черепица
+rye: Рожь
+salt: Соль
+salt_b: Соль
+sand: Песок
+sawpanels: ДСП
+scaffolding: Строительные леса
+school_bus: Школьный автобус
+scissor_lift: Ножничный подъёмник
+scrap_cars: Списанные авто
+scrap_metals: Металлолом
+silane: Силан
+silica: Двуокись кремния
+soda_ash: Карбонат натрия
+soil: Вынутый грунт
+solvents: Растворители
+soybean_b: Соевые бобы
+space_cont: Контейнер для космических аппаратов
+sq_tub: Квадратные трубы
+stones: Камни
+sugar: Сахар
+sugar_beet_b: Сахарная свёкла
+sulfuric: Серная кислота
+tableware: Посуда
+talc_pwdr: Тальк
+tamp_machine: Стабилизатор пути
+telehandler: Телескопический погрузчик
+ter_forklift: Внедорожный подъёмник
+toys: Игрушки
+tractors: Трактор
+train_part: Колёсные пары
+transform2: Трансформатор
+trees: Деревья
+truck_dump: Самосвал
+truck_medium: Шасси среднетоннажного грузовика
+truck_muni: Грузовик муниципальных служб
+truck_servic: Автомобиль техпомощи
+truck_work: Шасси грузовика
+tvs: Телевизоры
+tyres: Шины
+used_pack: Картонная тара
+util_pole: Деревянные столбы
+vegetable: Овощи
+ventilation: Вентиляционная труба
+waste_paper: Макулатура
+wheat: Пшеница
+windml_eng: Гондола ветрогенератора
+windml_tube: Башня ветрогенератора
+wire_rod: Стальной пруток в катушках
+woodchipper: Измельчитель
+wshavings: Деревянная стружка
+ws_49x: Грузовики Western Star
+yard_truck: Терминальный тягач
+yogurt: Йогурт
+
+[ATS ProMods]
+pk_can_trk_i: Parks Canada Vehicle
+pk_can_trk_o: Parks Canada Vehicle
+scr_plywood: Фанера
+
+[ATS Events]
+covid_vac: [EV] Вакцина от COVID-19
+gifts: [EV] Подарки
+halloween: [EV] Хэллоуинские сладости
+halloween_1: [EV] Halloween Treats
+halloween_2a: [EV] Halloween Costumes
+halloween_2b: [EV] Halloween Herbs & Spices
+halloween_2c: [EV] Halloween Crafts
+megapotato: [EV] The Big Idaho Potato
+pr_goods: [EV] Товары «Розовой Ленты»
+t248_stwheel: [EV] Рули Thrustmaster T248
+valentine: [EV] Valentine Gifts
+xmas_candle: [EV] Рождественские свечи
+xmas_candy: [EV] Рождественские леденцы
+xmas_choco: [EV] Рождественский шоколад
+xmas_cookie: [EV] Рождественские печеньки
+xmas_cracker: [EV] Рождественские крекеры
+xmas_decor: [EV] Рождественские украшения
+xmas_gift: [EV] Рождественские подарки из дерева
+xmas_light: [EV] Рождественские гирлянды
+xmas_ornam: [EV] Рождественские украшения
+xmas_socks: [EV] Рождественские носки
+x_amail: [EV] Christmas Assorted Mail
+x_ameats: [EV] Christmas Assorted Meats
+x_anuts: [EV] Christmas Assorted Nuts
+x_apaints: [EV] Christmas Assorted Paints
+x_beverages1: [EV] Christmas Beverages
+x_beverages2: [EV] Christmas Beverages
+x_buttmilk: [EV] Christmas Butter Milk
+x_cacao: [EV] Christmas Cacao Powder
+x_celvege: [EV] Christmas Celebratory Vegetables
+x_clockmot: [EV] Christmas Clockwork Motors
+x_clothes: [EV] Christmas Festive Clothing
+x_confect: [EV] Christmas Confectionery
+x_craftsupp: [EV] Christmas Craft Supplies
+x_craftwood: [EV] Christmas Craft Wood
+x_deco1: [EV] Christmas Decorations
+x_deco2: [EV] Christmas Decorations
+x_decoglass: [EV] Christmas Decorative Glass
+x_dfruits: [EV] Christmas Dried Fruits
+x_fibrestuff: [EV] Christmas Fibre Stuffing
+x_flour: [EV] Christmas Fine Flour
+x_food: [EV] Christmas Food Parcels
+x_giftparc: [EV] Christmas Gift Parcels
+x_gifts_ch: [EV] Chocolate Gift Packs
+x_gifts_ma: [EV] Christmas Market Hampers
+x_gifts_mo: [EV] Mountain Fun Gift Packs
+x_gifts_po: [EV] Mail & Gift Parcels
+x_gifts_wo: [EV] Master Craft Gift Packs
+x_handmade1: [EV] Christmas Handmade Gifts
+x_handmade2: [EV] Christmas Handmade Gifts
+x_honey: [EV] Christmas Festive Honey
+x_metalsupp: [EV] Christmas Metalwork Supplies
+x_milk: [EV] Christmas Powdered Milk
+x_nattextile: [EV] Christmas Natural Textiles
+x_offsuppl: [EV] Christmas Office Supplies
+x_outdoor: [EV] Christmas Outdoor Clothing
+x_petfood: [EV] Christmas Special Pet Food
+x_rnuts: [EV] Christmas Roasted Nuts
+x_salt: [EV] Christmas Special Salt
+x_sportsupp: [EV] Christmas Sport Supplies
+x_stationery: [EV] Christmas Festive Stationery
+x_sugar: [EV] Christmas Powdered Sugar
+x_woodlam: [EV] Christmas Wood Laminate
+
+[ATS Special Transport]
+aircondition: [ST] Промышленный кондиционер
+art_dumper: [ST] Сочленённый самосвал
+dumper: [ST] Шасси карьерного самосвала
+dumper_hull: [ST] Кузов карьерного самосвала
+dumper_tire: [ST] Огромные шины
+helicopter: [ST] Транспортный вертолёт
+house: [ST] Готовый дом «под ключ»
+lattice: [ST] Большая конструкция
+load_un: [ST] Подземный погрузчик
+mystery_box: [ST] Массивная промышленная деталь
+pilot_boat: [ST] Лоцманское судно
+silo: [ST] Силос
+tank: [ST] Большой резервуар
+wagon: [ST] Вагон
+wagon_r211: [ST] Вагон метро
+windblade: [ST] Лопасть ветрогенератора
+
+[ATS Heavy Cargo Pack]
+asph_miller: Фрезерная машина
+coil: Кабельная катушка
+cott_harvest: Хлопкоуборочный комбайн
+dozer: Тяжёлый бульдозер
+lift_truck: Ричстакер
+lift_truck_s: Шасси ричстакера
+mobile_crane: Внедорожный кран
+mob_crusher: Мобильная дробилка
+mob_screener: Мобильный грохот
+mob_stacker: Мобильный ленточный транспортёр
+scraper: Скрепер
+tractor_c: Гусеничный трактор
+transformer: Трансформатор
+
+[ATS Forest Machinery]
+forwarder: Форвардер
+kb_loader: Кран-манипулятор
+log_harvest: Харвестер
+log_loader: Погрузчик брёвен
+log_stacker: Брёвноукладчик
+mulcher: Мульчер
+skidder: Трелёвочный трактор
+stumper: Корчеватель
+tub_grinder: Дробилка
+
+[ATS Volvo Construction Equipment]
+volvo_a25g: Сочленённый самосвал Volvo A25G
+volvo_bucket: Ковш для камней Volvo SPN P T SEG
+volvo_ec220e: Экскаватор Volvo EC220E
+volvo_l250h: Колёсный погрузчик Volvo L250H
+volvo_rims: Колёса с дисками Volvo
+volvo_sd160b: Компактор Volvo SD160B
+vol_ew240emh: Экскаватор Volvo EW240E MH
+
+[ATS Farm Machinery]
+auger_wag: Шнековый прицеп
+disc_harrows: Дисковые бороны
+fert_spread: Разбрасыватель удобрений
+forage_harv: Кормоуборочный комбайн
+planter: Сеялка
+sprayer: Опрыскиватель
+square_baler: Пресс-подборщик
+tractor_au: Автономный трактор
+tractor_c2: Гусеничный трактор
+windrower: Косилка-плющилка
+
+[ATS JCB Equipment Pack]
+jcb_bhl4cx: Экскаватор-погрузчик JCB 4CX
+jcb_dmp6t2: Мини-самосвал JCB 6T-2
+jcb_dmphtd5e: Электрические самосвалы JCB HTD-5E
+jcb_exc245xr: Экскаватор JCB 245XR
+jcb_exc_dum: Мини-экскаватор JCB 19C-E, самосвал JCB HTD-5E
+jcb_ft4220: Трактор JCB Fastrac 4220
+jcb_g100rs: Генераторы JCB G100RS
+jcb_mexc19ce: Электрический мини-экскаватор JCB 19C-E
+jcb_pw125qe: Аккумулятор JCB 1.25QE
+jcb_th540180: Телескопический погрузчик JCB 540-180
+jcb_wload457: Фронтальный погрузчик JCB 457
+
+[ATS Krone Agriculture]
+kr_bigm450: Косилка-плющилка Krone BiG M 450
+kr_bigp1290: Пресс-подборщик Krone BiG Pack 1290 HDP VC
+kr_bigx1180: Кормоуборочный комбайн Krone BiG X 1180
+kr_ecb880cv: Дисковая косилка Krone EasyCut B 880 CV
+kr_gx440: Прицеп Krone GX 440
+kr_stc1370: Роторный валкователь Krone Swadro TC 1370
+kr_vpv190xc: Пресс-подборщик Krone Vari Pack V 190 XC
+
+[ATS Bobcat Cargo Pack]
+bob_d30: Вилочный погрузчик Bobcat D30
+bob_e10e: Мини-экскаватор Bobcat E10e
+bob_e60: Экскаватор Bobcat E60
+bob_l95: Погрузчик Bobcat L95
+bob_pa127v: Компрессор Bobcat PA12.7v
+bob_s86: Погрузчик Bobcat S86
+bob_tl3070a: Телескопический погрузчик Bobcat TL30.70
