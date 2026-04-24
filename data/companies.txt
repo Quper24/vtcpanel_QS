@@ -69,7 +69,7 @@ ladoga_ru: Ладога авто
 libellula: Libellula
 lintukainen: Lintukainen Oy
 lisette_log: Lisette Logistics
-lkwlog: LkwLog GmbH
+lkwlog: VTC Quper Simulator (LkwLog GmbH)
 low_field: Low Field
 marina: Marina
 marina_fr: Marina
@@ -99,7 +99,7 @@ primel: Primel
 quarry: Steinbruch
 radus: Radus
 radus_ru: Радус
-renar: Renar Logistik
+renar: Quper Simualtor (Renar Logistik)
 renat: Renat
 renor: Renor
 rimaf: RIMAF
