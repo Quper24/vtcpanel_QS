@@ -187,8 +187,9 @@ async function loadCompanies() {
 
 // Функция загрузки стран ETS2 из JSON
 async function loadCountriesETS2() {
-  if (countriesETS2Loaded && countriesETS2Database.length > 0) return countriesETS2Database;
-  
+  if (countriesETS2Loaded && countriesETS2Database.length > 0)
+    return countriesETS2Database;
+
   try {
     const response = await fetch("data/countries_ets2.json");
     if (!response.ok) {
@@ -198,7 +199,9 @@ async function loadCountriesETS2() {
     const data = await response.json();
     countriesETS2Database = Array.isArray(data) ? data : [];
     countriesETS2Loaded = true;
-    console.log(`✅ Загружено ${countriesETS2Database.length} стран/штатов для ETS2`);
+    console.log(
+      `✅ Загружено ${countriesETS2Database.length} стран/штатов для ETS2`,
+    );
     return countriesETS2Database;
   } catch (err) {
     console.warn("Ошибка загрузки countries_ets2.json:", err);
@@ -208,8 +211,9 @@ async function loadCountriesETS2() {
 
 // Функция загрузки стран/штатов ATS из JSON
 async function loadCountriesATS() {
-  if (countriesATSLoaded && countriesATSDatabase.length > 0) return countriesATSDatabase;
-  
+  if (countriesATSLoaded && countriesATSDatabase.length > 0)
+    return countriesATSDatabase;
+
   try {
     const response = await fetch("data/countries_ats.json");
     if (!response.ok) {
@@ -231,7 +235,7 @@ async function loadCountriesATS() {
 function getCurrentCountriesDatabase() {
   const gameSelect = document.getElementById("game");
   if (!gameSelect) return [];
-  
+
   const currentGame = gameSelect.value;
   if (currentGame === "ETS2") {
     return countriesETS2Database;
@@ -243,7 +247,7 @@ function getCurrentCountriesDatabase() {
 // Функция обновления автодополнения для поля страны/штата при смене игры
 function updateStateAutocomplete(gameValue) {
   const stateInputs = ["from_state", "to_state"];
-  stateInputs.forEach(inputId => {
+  stateInputs.forEach((inputId) => {
     const input = document.getElementById(inputId);
     if (input && input.value) {
       // Если поле уже заполнено, не очищаем его
@@ -261,13 +265,13 @@ function initStateAutocomplete(inputId) {
 
   async function showSuggestions() {
     const val = input.value.trim();
-    
+
     // Удаляем предыдущий блок подсказок
     if (currentAutocompleteDiv) {
       currentAutocompleteDiv.remove();
       currentAutocompleteDiv = null;
     }
-    
+
     if (val.length === 0) return;
 
     // Получаем актуальную базу данных в зависимости от выбранной игры
@@ -287,7 +291,7 @@ function initStateAutocomplete(inputId) {
     if (countriesDatabase.length === 0) return;
 
     const searchVal = val.toLowerCase();
-    let matches = countriesDatabase.filter(item => {
+    let matches = countriesDatabase.filter((item) => {
       const itemLower = String(item).toLowerCase();
       return itemLower.includes(searchVal);
     });
@@ -314,14 +318,14 @@ function initStateAutocomplete(inputId) {
   }
 
   // Слушаем ввод текста
-  input.addEventListener("input", function(e) {
+  input.addEventListener("input", function (e) {
     showSuggestions();
   });
 
   // Слушаем изменение игры, чтобы обновить подсказки при фокусе
   const gameSelect = document.getElementById("game");
   if (gameSelect) {
-    gameSelect.addEventListener("change", function() {
+    gameSelect.addEventListener("change", function () {
       if (document.activeElement === input && input.value.trim().length > 0) {
         showSuggestions();
       }
@@ -329,7 +333,7 @@ function initStateAutocomplete(inputId) {
   }
 
   // Закрываем подсказки при клике вне поля
-  document.addEventListener("click", function(e) {
+  document.addEventListener("click", function (e) {
     if (!input.contains(e.target) && currentAutocompleteDiv) {
       currentAutocompleteDiv.remove();
       currentAutocompleteDiv = null;
@@ -340,21 +344,18 @@ function initStateAutocomplete(inputId) {
 function updateGameSpecificFields() {
   const gameSelect = document.getElementById("game");
   if (!gameSelect) return;
-  
-  // При смене игры очищаем поля страны/штата, если они не соответствуют новой игре
-  const fromState = document.getElementById("from_state");
-  const toState = document.getElementById("to_state");
-  
-  // Не очищаем автоматически, просто обновляем hint для пользователя
+
   const currentGame = gameSelect.value;
   const stateHint = document.getElementById("stateHint");
-  if (stateHint) {
-    if (currentGame === "ATS") {
-      stateHint.textContent = "🏛️ Введите штат (например: California, Texas)";
-    } else {
-      stateHint.textContent = "🇪🇺 Введите страну (например: Germany, France)";
-    }
-  }
+  const stateHint2 = document.getElementById("stateHint2");
+
+  const hintText =
+    currentGame === "ATS"
+      ? "🏛️ Введите штат (например: California, Texas)"
+      : "🇪🇺 Введите страну (например: Germany, France)";
+
+  if (stateHint) stateHint.textContent = hintText;
+  if (stateHint2) stateHint2.textContent = hintText;
 }
 
 // Функция для принудительной перезагрузки всех данных
@@ -717,7 +718,7 @@ function updateDistanceUnit() {
       distanceInput.placeholder = "1050";
     }
   }
-  
+
   updateGameSpecificFields();
 }
 
@@ -1270,10 +1271,10 @@ async function renderAdminPanel() {
                         <div id="error_to_city" class="error-message">Обязательное поле</div>
                     </div>
                     <div class="form-group">
-                      <label>🗺️ Штат/Страна <span class="required">*</span></label>
-                      <input type="text" id="from_state" placeholder="Миссури" autocomplete="off">
-                      <div id="stateHint" class="unit-hint" style="font-size: 0.8rem; margin-top: 4px;">🏛️ Введите штат (например: California, Texas)</div>
-                      <div id="error_from_state" class="error-message">Обязательное поле</div>
+                        <label>🗺️ Штат/Страна <span class="required">*</span></label>
+                        <input type="text" id="to_state" placeholder="Орегон" autocomplete="off">
+                        <div id="stateHint2" class="unit-hint" style="font-size: 0.8rem; margin-top: 4px;">🏛️ Введите штат (например: California, Texas)</div>
+                        <div id="error_to_state" class="error-message">Обязательное поле</div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -1329,9 +1330,12 @@ async function renderAdminPanel() {
   updateDistanceUnit();
   loadConvoys();
   setDefaultDateTime();
+
   // Загружаем данные
   await reloadAllData();
 
+  // Загружаем базы данных стран
+  await Promise.all([loadCountriesETS2(), loadCountriesATS()]);
 
   // Инициализация автозаполнения
   initCargoAutocomplete();
