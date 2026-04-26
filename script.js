@@ -362,8 +362,8 @@ function initApp() {
                 <th data-key="name">Имя</th>
                 <th data-key="city">Город</th>
                 <th data-key="active_role" data-diff="true">Должность Δ</th>
-                <th data-key="contracts_total">Контракты(месяц)</th>
-                <th data-key="contracts_weekly" data-diff="true">Контракты(неделя)</th>
+                <th data-key="contracts_total">Контракты (месяц)</th>
+                <th data-key="contracts_weekly" data-diff="true">Контракты (неделя)</th>
                 <th data-key="pokazatel" data-diff="true">Показатель Δ</th>
                 <th data-key="karma" data-diff="true">Карма Δ</th>
                 <th data-key="karma_vtc" data-diff="true">Карма VTC Δ</th>
@@ -848,7 +848,13 @@ function calcEfficiency(employee) {
 }
 
 function getRoleStatus(employee) {
-  const role = employee.active_role;
+  let role = employee.active_role;
+  const changeRole = getRoleChange(employee.id_user)
+  console.log('changeRole: ', changeRole);
+  if (changeRole.changed) {
+    role=changeRole.previousRole
+  }
+  
   const eff = employee.koeff;
 
   const rule = ROLE_RULES[role];
