@@ -12,11 +12,15 @@ let currentJobFileContent = null;
 let cargoDatabase = [];
 let citiesDatabase = [];
 let companiesDatabase = [];
+let countriesETS2Database = [];
+let countriesATSDatabase = [];
 
 // Флаги загрузки
 let cargoLoaded = false;
 let citiesLoaded = false;
 let companiesLoaded = false;
+let countriesETS2Loaded = false;
+let countriesATSLoaded = false;
 
 // Supabase клиент
 const supabaseClient = {
@@ -88,7 +92,7 @@ const supabaseClient = {
   },
 };
 
-// ИСПРАВЛЕННАЯ загрузка словарей из txt файлов
+// Загрузка словарей из txt файлов
 async function loadDictionaryFromTxt(files, targetArray, loadedFlag) {
   // Используем замыкание на переменные
   if (loadedFlag === true && targetArray.length > 0) {
@@ -179,6 +183,178 @@ async function loadCompanies() {
   );
   companiesLoaded = true;
   return companiesDatabase;
+}
+
+// Функция загрузки стран ETS2 из JSON
+async function loadCountriesETS2() {
+  if (countriesETS2Loaded && countriesETS2Database.length > 0) return countriesETS2Database;
+  
+  try {
+    const response = await fetch("data/countries_ets2.json");
+    if (!response.ok) {
+      console.warn("Файл data/countries_ets2.json не найден");
+      return [];
+    }
+    const data = await response.json();
+    countriesETS2Database = Array.isArray(data) ? data : [];
+    countriesETS2Loaded = true;
+    console.log(`✅ Загружено ${countriesETS2Database.length} стран/штатов для ETS2`);
+    return countriesETS2Database;
+  } catch (err) {
+    console.warn("Ошибка загрузки countries_ets2.json:", err);
+    return [];
+  }
+}
+
+// Функция загрузки стран/штатов ATS из JSON
+async function loadCountriesATS() {
+  if (countriesATSLoaded && countriesATSDatabase.length > 0) return countriesATSDatabase;
+  
+  try {
+    const response = await fetch("data/countries_ats.json");
+    if (!response.ok) {
+      console.warn("Файл data/countries_ats.json не найден");
+      return [];
+    }
+    const data = await response.json();
+    countriesATSDatabase = Array.isArray(data) ? data : [];
+    countriesATSLoaded = true;
+    console.log(`✅ Загружено ${countriesATSDatabase.length} штатов для ATS`);
+    return countriesATSDatabase;
+  } catch (err) {
+    console.warn("Ошибка загрузки countries_ats.json:", err);
+    return [];
+  }
+}
+
+// Функция получения текущей базы стран в зависимости от выбранной игры
+function getCurrentCountriesDatabase() {
+  const gameSelect = document.getElementById("game");
+  if (!gameSelect) return [];
+  
+  const currentGame = gameSelect.value;
+  if (currentGame === "ETS2") {
+    return countriesETS2Database;
+  } else {
+    return countriesATSDatabase;
+  }
+}
+
+// Функция обновления автодополнения для поля страны/штата при смене игры
+function updateStateAutocomplete(gameValue) {
+  const stateInputs = ["from_state", "to_state"];
+  stateInputs.forEach(inputId => {
+    const input = document.getElementById(inputId);
+    if (input && input.value) {
+      // Если поле уже заполнено, не очищаем его
+      return;
+    }
+  });
+}
+
+// Автозаполнение для стран/штатов с поддержкой выбора игры
+function initStateAutocomplete(inputId) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+
+  let currentAutocompleteDiv = null;
+
+  async function showSuggestions() {
+    const val = input.value.trim();
+    
+    // Удаляем предыдущий блок подсказок
+    if (currentAutocompleteDiv) {
+      currentAutocompleteDiv.remove();
+      currentAutocompleteDiv = null;
+    }
+    
+    if (val.length === 0) return;
+
+    // Получаем актуальную базу данных в зависимости от выбранной игры
+    let countriesDatabase = [];
+    const gameSelect = document.getElementById("game");
+    if (gameSelect) {
+      const currentGame = gameSelect.value;
+      if (currentGame === "ETS2") {
+        if (countriesETS2Database.length === 0) await loadCountriesETS2();
+        countriesDatabase = countriesETS2Database;
+      } else {
+        if (countriesATSDatabase.length === 0) await loadCountriesATS();
+        countriesDatabase = countriesATSDatabase;
+      }
+    }
+
+    if (countriesDatabase.length === 0) return;
+
+    const searchVal = val.toLowerCase();
+    let matches = countriesDatabase.filter(item => {
+      const itemLower = String(item).toLowerCase();
+      return itemLower.includes(searchVal);
+    });
+
+    if (matches.length === 0) return;
+    matches = matches.slice(0, 15);
+
+    const autocompleteDiv = document.createElement("div");
+    autocompleteDiv.className = "autocomplete-items";
+    currentAutocompleteDiv = autocompleteDiv;
+
+    matches.forEach((match) => {
+      const div = document.createElement("div");
+      div.innerHTML = match;
+      div.addEventListener("click", () => {
+        input.value = match;
+        autocompleteDiv.remove();
+        currentAutocompleteDiv = null;
+        input.dispatchEvent(new Event("input"));
+      });
+      autocompleteDiv.appendChild(div);
+    });
+    input.parentNode.appendChild(autocompleteDiv);
+  }
+
+  // Слушаем ввод текста
+  input.addEventListener("input", function(e) {
+    showSuggestions();
+  });
+
+  // Слушаем изменение игры, чтобы обновить подсказки при фокусе
+  const gameSelect = document.getElementById("game");
+  if (gameSelect) {
+    gameSelect.addEventListener("change", function() {
+      if (document.activeElement === input && input.value.trim().length > 0) {
+        showSuggestions();
+      }
+    });
+  }
+
+  // Закрываем подсказки при клике вне поля
+  document.addEventListener("click", function(e) {
+    if (!input.contains(e.target) && currentAutocompleteDiv) {
+      currentAutocompleteDiv.remove();
+      currentAutocompleteDiv = null;
+    }
+  });
+}
+
+function updateGameSpecificFields() {
+  const gameSelect = document.getElementById("game");
+  if (!gameSelect) return;
+  
+  // При смене игры очищаем поля страны/штата, если они не соответствуют новой игре
+  const fromState = document.getElementById("from_state");
+  const toState = document.getElementById("to_state");
+  
+  // Не очищаем автоматически, просто обновляем hint для пользователя
+  const currentGame = gameSelect.value;
+  const stateHint = document.getElementById("stateHint");
+  if (stateHint) {
+    if (currentGame === "ATS") {
+      stateHint.textContent = "🏛️ Введите штат (например: California, Texas)";
+    } else {
+      stateHint.textContent = "🇪🇺 Введите страну (например: Germany, France)";
+    }
+  }
 }
 
 // Функция для принудительной перезагрузки всех данных
@@ -418,14 +594,32 @@ function fillFormWithImportData(data) {
     if (cargoIdInput) cargoIdInput.value = data.cargo_id;
   }
 
+  // Заполнение города отправления и извлечение страны/штата
   if (data.source_city_display) {
     const fromCityInput = document.getElementById("from_city");
-    if (fromCityInput) fromCityInput.value = data.source_city_display;
+    const fromStateInput = document.getElementById("from_state");
+    if (fromCityInput) {
+      fromCityInput.value = data.source_city_display;
+      // Извлекаем страну/штат из названия города
+      const extractedState = extractStateFromCityName(data.source_city_display);
+      if (fromStateInput && extractedState) {
+        fromStateInput.value = extractedState;
+      }
+    }
   }
 
+  // Заполнение города назначения и извлечение страны/штата
   if (data.target_city_display) {
     const toCityInput = document.getElementById("to_city");
-    if (toCityInput) toCityInput.value = data.target_city_display;
+    const toStateInput = document.getElementById("to_state");
+    if (toCityInput) {
+      toCityInput.value = data.target_city_display;
+      // Извлекаем страну/штат из названия города
+      const extractedState = extractStateFromCityName(data.target_city_display);
+      if (toStateInput && extractedState) {
+        toStateInput.value = extractedState;
+      }
+    }
   }
 
   if (data.source_company_name) {
@@ -480,7 +674,9 @@ function fillFormWithImportData(data) {
     "cargo_name",
     "cargo_id",
     "from_city",
+    "from_state",
     "to_city",
+    "to_state",
     "from_base",
     "to_base",
     "distance",
@@ -521,6 +717,8 @@ function updateDistanceUnit() {
       distanceInput.placeholder = "1050";
     }
   }
+  
+  updateGameSpecificFields();
 }
 
 // Валидация формы
@@ -811,6 +1009,138 @@ function initCompanyAutocomplete(inputId) {
   });
 }
 
+// Функция для установки текущей даты и времени по умолчанию
+function setDefaultDateTime() {
+  const dateInput = document.getElementById("date");
+  const timeStartInput = document.getElementById("time_start");
+  const timeEndInput = document.getElementById("time_end");
+
+  // Установка текущей даты в формате YYYY-MM-DD
+  if (dateInput && !dateInput.value) {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    dateInput.value = `${year}-${month}-${day}`;
+  }
+
+  // Установка текущего времени и времени +2 часа
+  if (timeStartInput && !timeStartInput.value) {
+    const now = new Date();
+    const currentHours = now.getHours();
+    const currentMinutes = now.getMinutes();
+
+    // Форматируем текущее время
+    const startHours = String(currentHours).padStart(2, "0");
+    const startMinutes = String(currentMinutes).padStart(2, "0");
+    timeStartInput.value = `${startHours}:${startMinutes}`;
+
+    // Рассчитываем время +2 часа
+    if (timeEndInput && !timeEndInput.value) {
+      const endDate = new Date();
+      endDate.setHours(currentHours + 2);
+      endDate.setMinutes(currentMinutes);
+
+      const endHours = String(endDate.getHours()).padStart(2, "0");
+      const endMinutes = String(endDate.getMinutes()).padStart(2, "0");
+      timeEndInput.value = `${endHours}:${endMinutes}`;
+    }
+  }
+}
+
+function extractStateFromCityName(cityDisplayName) {
+  if (!cityDisplayName) return "";
+
+  // Ищем скобки в формате " (XX)" или " (XXX)" где X - буквы
+  const match = cityDisplayName.match(/\(([A-Za-z]{2,3})\)/);
+  if (match && match[1]) {
+    return match[1];
+  }
+  return "";
+}
+
+function initCityAutocompleteWithState(inputId, stateInputId) {
+  const input = document.getElementById(inputId);
+  const stateInput = document.getElementById(stateInputId);
+  if (!input || !stateInput) return;
+
+  input.addEventListener("input", async function (e) {
+    const val = this.value.trim();
+    const existingDiv = this.parentNode.querySelector(".autocomplete-items");
+    if (existingDiv) existingDiv.remove();
+    if (val.length === 0) return;
+
+    if (citiesDatabase.length === 0) await loadCities();
+
+    const searchVal = val.toLowerCase();
+    let matches = citiesDatabase.filter(
+      (item) =>
+        item.name.toLowerCase().includes(searchVal) ||
+        item.id.toLowerCase().includes(searchVal),
+    );
+
+    if (matches.length === 0) return;
+    matches = matches.slice(0, 15);
+
+    const autocompleteDiv = document.createElement("div");
+    autocompleteDiv.className = "autocomplete-items";
+
+    matches.forEach((match) => {
+      const div = document.createElement("div");
+      div.innerHTML = `${match.name} [${match.id}]`;
+      div.addEventListener("click", () => {
+        const displayValue = `${match.name} [${match.id}]`;
+        input.value = displayValue;
+
+        // Извлекаем страну/штат из названия города
+        const extractedState = extractStateFromCityName(match.name);
+        if (extractedState) {
+          stateInput.value = extractedState;
+        } else {
+          // Если не нашли в скобках, пробуем искать в самом названии
+          const stateMatch = match.name.match(/\(([A-Za-z]{2,3})\)/);
+          if (stateMatch) {
+            stateInput.value = stateMatch[1];
+          } else {
+            stateInput.value = "";
+          }
+        }
+
+        autocompleteDiv.remove();
+        input.dispatchEvent(new Event("input"));
+        stateInput.dispatchEvent(new Event("input"));
+      });
+      autocompleteDiv.appendChild(div);
+    });
+    this.parentNode.appendChild(autocompleteDiv);
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!input.contains(e.target)) {
+      const items = input.parentNode.querySelectorAll(".autocomplete-items");
+      items.forEach((el) => el.remove());
+    }
+  });
+}
+
+function addCityManualExtraction(inputId, stateInputId) {
+  const cityInput = document.getElementById(inputId);
+  const stateInput = document.getElementById(stateInputId);
+
+  if (!cityInput || !stateInput) return;
+
+  cityInput.addEventListener("blur", function () {
+    const cityValue = this.value;
+    if (cityValue && !stateInput.value) {
+      // Если поле страны пустое, пытаемся извлечь из названия города
+      const extractedState = extractStateFromCityName(cityValue);
+      if (extractedState) {
+        stateInput.value = extractedState;
+      }
+    }
+  });
+}
+
 // Автозаполнение для грузов
 function initCargoAutocomplete() {
   const cargoNameInput = document.getElementById("cargo_name");
@@ -922,10 +1252,11 @@ async function renderAdminPanel() {
                         <div id="error_from_city" class="error-message">Обязательное поле</div>
                     </div>
                     <div class="form-group">
-                        <label>🗺️ Штат/Страна <span class="required">*</span></label>
-                        <input type="text" id="from_state" placeholder="Миссури" autocomplete="off">
-                        <div id="error_from_state" class="error-message">Обязательное поле</div>
-                    </div>
+                      <label>🗺️ Штат/Страна <span class="required">*</span></label>
+                      <input type="text" id="from_state" placeholder="Миссури" autocomplete="off">
+                      <div id="stateHint" class="unit-hint" style="font-size: 0.8rem; margin-top: 4px;">🏛️ Введите штат (например: California, Texas)</div>
+                      <div id="error_from_state" class="error-message">Обязательное поле</div>
+                  </div>
                 </div>
                 <div class="form-group">
                     <label>🏢 База отправления <span class="required">*</span></label>
@@ -939,9 +1270,10 @@ async function renderAdminPanel() {
                         <div id="error_to_city" class="error-message">Обязательное поле</div>
                     </div>
                     <div class="form-group">
-                        <label>🗺️ Штат/Страна <span class="required">*</span></label>
-                        <input type="text" id="to_state" placeholder="Орегон" autocomplete="off">
-                        <div id="error_to_state" class="error-message">Обязательное поле</div>
+                      <label>🗺️ Штат/Страна <span class="required">*</span></label>
+                      <input type="text" id="from_state" placeholder="Миссури" autocomplete="off">
+                      <div id="stateHint" class="unit-hint" style="font-size: 0.8rem; margin-top: 4px;">🏛️ Введите штат (например: California, Texas)</div>
+                      <div id="error_from_state" class="error-message">Обязательное поле</div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -996,16 +1328,21 @@ async function renderAdminPanel() {
   document.getElementById("convoyForm").addEventListener("submit", addConvoy);
   updateDistanceUnit();
   loadConvoys();
-
+  setDefaultDateTime();
   // Загружаем данные
   await reloadAllData();
 
+
   // Инициализация автозаполнения
   initCargoAutocomplete();
-  initCityAutocomplete("from_city");
-  initCityAutocomplete("to_city");
+  initCityAutocompleteWithState("from_city", "from_state");
+  initCityAutocompleteWithState("to_city", "to_state");
+  initStateAutocomplete("from_state");
+  initStateAutocomplete("to_state");
   initCompanyAutocomplete("from_base");
   initCompanyAutocomplete("to_base");
+  addCityManualExtraction("from_city", "from_state");
+  addCityManualExtraction("to_city", "to_state");
 
   // Инициализация импорта файла
   const fileInput = document.getElementById("jobFileInput");
