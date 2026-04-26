@@ -25,11 +25,11 @@ const roleNames = {
 
 const ROLE_RULES = {
   3: { min: 0, max: 1 },   // Стажёр
-  4: { min: 1, max: 10 },  // Младший водитель
-  5: { min: 10, max: 30 }, // Водитель
+  4: { min: 1, max: 5 },  // Младший водитель
+  5: { min: 5, max: 30 }, // Водитель
   6: { min: 30, max: 60 },// Опытный
-  7: { min: 60, max: 80 },// Ведущий
-  8: { min: 80, max: 100 } // Ветеран
+  7: { min: 70, max: 85 },// Ведущий
+  8: { min: 85, max: 200 } // Ветеран
 };
 
 // Загрузка всех JSON файлов из папки data
@@ -736,15 +736,15 @@ const CONFIG = {
     min: 2,
     baseTarget: 14,   // 100 эффективности
     midTarget: 28,    // 150 эффективности
-    highTarget: 42,   // 175 эффективности
+    highTarget: 35,   // 175 эффективности
 
     midBonus: 50,     // 100 → 150
     highBonus: 25,    // 150 → 175
-    extraStep: 0.5    // после 42
+    extraStep: 0.5    // после highTarget
   },
 
   pokazatel: {
-    max: 200 // 100 эффективности
+    max: 150 // 100 эффективности
   },
 
   karma: {
@@ -760,9 +760,9 @@ const CONFIG = {
 
 const WEIGHTS = {
   contracts: 0.4,
-  pokazatel: 0.2,
+  pokazatel: 0.25,
   karma: 0.1,
-  points: 0.3
+  points: 0.25
 };
 
 // Контракты (неделя): 0–100
