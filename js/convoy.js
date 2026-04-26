@@ -1,6 +1,4 @@
-// script.js
-
-// ========== НАСТРОЙКИ SUPABASE (ЗАМЕНИТЕ НА ВАШИ) ==========
+// ========== НАСТРОЙКИ SUPABASE ==========
 const SUPABASE_URL = "https://vpcxtuwhrpgcgdipgnxx.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwY3h0dXdocnBnY2dkaXBnbnh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4NDM0MzgsImV4cCI6MjA5MjQxOTQzOH0.-l17k9yaD2Gx6fXEBSoBCVMoyevVVVOjHCxO51qvlTE";
 // =========================================================
@@ -35,6 +33,22 @@ function getStatusText(status) {
     case 'upcoming': return '🟡 Запланирован';
     case 'ended': return '⚪ Завершён';
     default: return '🟡 Запланирован';
+  }
+}
+
+// Функция для открытия ссылки в новой вкладке
+function openLink(url, name) {
+  if (!url) {
+    alert(`❌ ${name}: ссылка не найдена`);
+    return;
+  }
+  
+  // Проверяем, что ссылка валидная
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    window.open(url, '_blank');
+  } else {
+    // Если ссылка без протокола, добавляем https://
+    window.open('https://' + url, '_blank');
   }
 }
 
@@ -74,7 +88,7 @@ function renderConvoys(filter) {
         <h4>🔧 Создать заказ:</h4>
         <div class="link-buttons">
           ${convoy.trucky_code ? `<button class="link-btn trucky" onclick="copyToClipboard('${escapeHtml(convoy.trucky_code).replace(/'/g, "\\'")}', 'Trucky код')">🚛 Trucky | ${escapeHtml(convoy.trucky_code)}</button>` : ''}
-          ${convoy.cargoman_file ? `<button class="link-btn cargoman" onclick="copyToClipboard('${escapeHtml(convoy.cargoman_file).replace(/'/g, "\\'")}', 'CargoMan ссылка')">📦 CargoMan | Скопировать ссылку</button>` : ''}
+          ${convoy.cargoman_file ? `<button class="link-btn cargoman" onclick="openLink('${escapeHtml(convoy.cargoman_file).replace(/'/g, "\\'")}', 'CargoMan ссылка')">📦 CargoMan | Открыть ссылку</button>` : ''}
         </div>
       </div>
     ` : '';
@@ -152,6 +166,22 @@ function copyToClipboard(text, name) {
   navigator.clipboard.writeText(text);
   alert(`✅ ${name} скопирован!`);
 }
+
+// Функция для открытия ссылки в новой вкладке (глобальная для вызова из HTML)
+window.openLink = function(url, name) {
+  if (!url) {
+    alert(`❌ ${name}: ссылка не найдена`);
+    return;
+  }
+  
+  // Проверяем, что ссылка валидная
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    window.open(url, '_blank');
+  } else {
+    // Если ссылка без протокола, добавляем https://
+    window.open('https://' + url, '_blank');
+  }
+};
 
 function initFilters() {
   document.querySelectorAll('.filter-btn').forEach(btn => {
