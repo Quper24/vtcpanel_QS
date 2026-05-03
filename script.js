@@ -45,6 +45,7 @@ async function loadAllData() {
       "data/2602.json", // 2026 февраль
       "data/2603.json", // 2026 март
       "data/2604.json", // 2026 апрель
+      "data/2605.json", // 2026 май
     ];
 
     const promises = files.map((file) =>
@@ -850,7 +851,6 @@ function calcEfficiency(employee) {
 function getRoleStatus(employee) {
   let role = employee.active_role;
   const changeRole = getRoleChange(employee.id_user)
-  console.log('changeRole: ', changeRole);
   if (changeRole.changed) {
     role=changeRole.previousRole
   }
