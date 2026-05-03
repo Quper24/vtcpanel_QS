@@ -1074,7 +1074,6 @@ function renderTable() {
     let effClass = "";
 if (roleStatus === "up") effClass = "eff-up";
 if (roleStatus === "down") effClass = "eff-down";
-
    tr.innerHTML = `
     <td>
       <img class="avatar" src="${u.image_url || "https://via.placeholder.com/40"}"
@@ -1101,7 +1100,7 @@ if (roleStatus === "down") effClass = "eff-down";
 
     <td class="number">${valueWithDiff(getDiff(u.id_user, "karma_vtc"))}</td>
 
-    <td class="number">${valueWithDiff(getDiff(u.id_user, "point_m"))}</td>
+    <td class="number">${u.point_m || "-"}</td>
 
     <td class="number">${valueWithDiff(getDiff(u.id_user, "point"))}</td>
 
