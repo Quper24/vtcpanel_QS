@@ -40,12 +40,13 @@ async function loadAllData() {
 
     // Предполагаем, что файлы хранятся в папке data
     const files = [
-      "data/2512.json", // 2025 декабрь
-      "data/2601.json", // 2026 январь
-      "data/2602.json", // 2026 февраль
-      "data/2603.json", // 2026 март
-      "data/2604.json", // 2026 апрель
-      "data/2605.json", // 2026 май
+      "data/users/2512.json", // 2025 декабрь
+      "data/users/2601.json", // 2026 январь
+      "data/users/2602.json", // 2026 февраль
+      "data/users/2603.json", // 2026 март
+      "data/users/2604.json", // 2026 апрель
+      "data/users/2605.json", // 2026 май
+      "data/users/2606.json", // 2026 июнь
     ];
 
     const promises = files.map((file) =>
@@ -104,33 +105,84 @@ async function loadAllData() {
 // Загрузка контрактов
 async function loadContracts() {
   try {
-    const response = await fetch("data/contracts.json");
-    if (!response.ok) {
-      console.warn("Файл contracts.json не найден");
-      return;
-    }
+    // Получаем список файлов контрактов
+    const contractFiles = [
+      "data/contracts/contracts2605.json",
+      "data/contracts/contracts2606.json",
+      // Добавьте другие файлы по необходимости
+    ];
 
-    const data = await response.json();
+    const promises = contractFiles.map((file) =>
+      fetch(file)
+        .then((response) => {
+          if (!response.ok) {
+            console.warn(`Файл контрактов ${file} не найден, пропускаем`);
+            return null;
+          }
+          return response.json();
+        })
+        .catch((err) => {
+          console.warn(`Ошибка загрузки ${file}:`, err);
+          return null;
+        }),
+    );
 
-    // Форматируем даты в единый формат
-    Object.keys(data).forEach((dateStr) => {
-      const [day, month, year] = dateStr.split(".");
-      const formattedDate = `${day.padStart(2, "0")}.${month.padStart(2, "0")}.${year}`;
+    const results = await Promise.all(promises);
 
-      contractsData[formattedDate] = {};
-
-      // Проверяем, что данные не пустые
-      if (data[dateStr] && Array.isArray(data[dateStr])) {
-        // Преобразуем массив в объект для быстрого доступа по имени
-        data[dateStr].forEach((contract) => {
-          // Сохраняем оригинальное имя и имя в нижнем регистре
-          const originalName = contract.name;
-          contractsData[formattedDate][originalName] = contract.trips;
-          contractsData[formattedDate][originalName.toLowerCase()] =
-            contract.trips;
-        });
+    // Обрабатываем каждый загруженный файл
+    results.forEach((data, index) => {
+      if (data) {
+        const filename = contractFiles[index];
+        // Извлекаем дату из имени файла (contracts2605.json -> 2605)
+        const dateMatch = filename.match(/contracts(\d{4})\.json/);
+        if (dateMatch) {
+          const dateCode = dateMatch[1]; // "2605"
+          const year = "20" + dateCode.substring(0, 2); // "2026"
+          const month = dateCode.substring(2, 4); // "05"
+          
+          // Создаем дату в формате "дд.мм.гг"
+          // Предполагаем, что контракты за весь месяц, используем 01 число
+          const formattedDate = `01.${month}.${year.substring(2)}`; // "01.05.26"
+          
+          if (!contractsData[formattedDate]) {
+            contractsData[formattedDate] = {};
+          }
+          
+          // Обрабатываем данные контрактов
+          if (Array.isArray(data)) {
+            data.forEach((contract) => {
+              if (contract && contract.name && contract.trips !== undefined) {
+                const originalName = contract.name;
+                contractsData[formattedDate][originalName] = contract.trips;
+                contractsData[formattedDate][originalName.toLowerCase()] = contract.trips;
+              }
+            });
+          } else if (typeof data === 'object') {
+            // Если данные в другом формате (например, объект с датами)
+            Object.entries(data).forEach(([dateStr, contracts]) => {
+              const [day, month, year] = dateStr.split(".");
+              const formattedDateInner = `${day.padStart(2, "0")}.${month.padStart(2, "0")}.${year}`;
+              
+              if (!contractsData[formattedDateInner]) {
+                contractsData[formattedDateInner] = {};
+              }
+              
+              if (Array.isArray(contracts)) {
+                contracts.forEach((contract) => {
+                  if (contract && contract.name && contract.trips !== undefined) {
+                    const originalName = contract.name;
+                    contractsData[formattedDateInner][originalName] = contract.trips;
+                    contractsData[formattedDateInner][originalName.toLowerCase()] = contract.trips;
+                  }
+                });
+              }
+            });
+          }
+        }
       }
     });
+    
+    console.log(`Загружено контрактов за ${Object.keys(contractsData).length} дат`);
   } catch (error) {
     console.error("Ошибка загрузки контрактов:", error);
   }
