@@ -1,172 +1,374 @@
 {
   "08.06.26": [
-  {
-    "name": "albert.h.68",
-    "trips": 14
-  },
-  {
-    "name": "Евгенич 76 RUS",
-    "trips": 8
-  },
-  {
-    "name": "Сга3уСат",
-    "trips": 8
-  },
-  {
-    "name": "VladislavYakubov",
-    "trips": 7
-  },
-  {
-    "name": "loerdrem",
-    "trips": 7
-  },
-  {
-    "name": "Sento67",
-    "trips": 6
-  },
-  {
-    "name": "Vladas25LT",
-    "trips": 6
-  },
-  {
-    "name": "пошли покурим",
-    "trips": 6
-  },
-  {
-    "name": "Dakota",
-    "trips": 5
-  },
-  {
-    "name": "Grigory_Belogrudov",
-    "trips": 5
-  },
-  {
-    "name": "Кащей",
-    "trips": 5
-  },
-  {
-    "name": "AnGor",
-    "trips": 4
-  },
-  {
-    "name": "Niko",
-    "trips": 4
-  },
-  {
-    "name": "Toxa",
-    "trips": 3
-  },
-  {
-    "name": "VitKom",
-    "trips": 3
-  },
-  {
-    "name": "_RedFred_",
-    "trips": 3
-  },
-  {
-    "name": "demon89711",
-    "trips": 3
-  },
-  {
-    "name": "Волчица (Юлька)",
-    "trips": 3
-  },
-  {
-    "name": "Quper",
-    "trips": 2
-  },
-  {
-    "name": "Yurii0811",
-    "trips": 2
-  },
-  {
-    "name": "alexandr12990",
-    "trips": 2
-  },
-  {
-    "name": "eguar77",
-    "trips": 2
-  },
-  {
-    "name": "ssv42",
-    "trips": 2
-  },
-  {
-    "name": "vik750",
-    "trips": 2
-  },
-  {
-    "name": "✮ serge ✮",
-    "trips": 2
-  },
-  {
-    "name": "ARTEM-716.RUS",
-    "trips": 1
-  },
-  {
-    "name": "Alex-nor83",
-    "trips": 1
-  },
-  {
-    "name": "AlfachLTU",
-    "trips": 1
-  },
-  {
-    "name": "Dedan",
-    "trips": 1
-  },
-  {
-    "name": "Frellancer",
-    "trips": 1
-  },
-  {
-    "name": "Leorio_Wand",
-    "trips": 1
-  },
-  {
-    "name": "Maxon4ik",
-    "trips": 1
-  },
-  {
-    "name": "Nemec",
-    "trips": 1
-  },
-  {
-    "name": "SCANIA For ever",
-    "trips": 1
-  },
-  {
-    "name": "SergoBY",
-    "trips": 1
-  },
-  {
-    "name": "Straider",
-    "trips": 1
-  },
-  {
-    "name": "andreypanfil",
-    "trips": 1
-  },
-  {
-    "name": "jackson20.06",
-    "trips": 1
-  },
-  {
-    "name": "maks^",
-    "trips": 1
-  },
-  {
-    "name": "sereginvs34sv",
-    "trips": 1
-  },
-  {
-    "name": "zvuka4",
-    "trips": 1
-  },
-  {
-    "name": "Рыба",
-    "trips": 1
-  }
-]
+    {
+      "name": "albert.h.68",
+      "trips": 14
+    },
+    {
+      "name": "Евгенич 76 RUS",
+      "trips": 8
+    },
+    {
+      "name": "Сга3уСат",
+      "trips": 8
+    },
+    {
+      "name": "VladislavYakubov",
+      "trips": 7
+    },
+    {
+      "name": "loerdrem",
+      "trips": 7
+    },
+    {
+      "name": "Sento67",
+      "trips": 6
+    },
+    {
+      "name": "Vladas25LT",
+      "trips": 6
+    },
+    {
+      "name": "пошли покурим",
+      "trips": 6
+    },
+    {
+      "name": "Dakota",
+      "trips": 5
+    },
+    {
+      "name": "Grigory_Belogrudov",
+      "trips": 5
+    },
+    {
+      "name": "Кащей",
+      "trips": 5
+    },
+    {
+      "name": "AnGor",
+      "trips": 4
+    },
+    {
+      "name": "Niko",
+      "trips": 4
+    },
+    {
+      "name": "Toxa",
+      "trips": 3
+    },
+    {
+      "name": "VitKom",
+      "trips": 3
+    },
+    {
+      "name": "_RedFred_",
+      "trips": 3
+    },
+    {
+      "name": "demon89711",
+      "trips": 3
+    },
+    {
+      "name": "Волчица (Юлька)",
+      "trips": 3
+    },
+    {
+      "name": "Quper",
+      "trips": 2
+    },
+    {
+      "name": "Yurii0811",
+      "trips": 2
+    },
+    {
+      "name": "alexandr12990",
+      "trips": 2
+    },
+    {
+      "name": "eguar77",
+      "trips": 2
+    },
+    {
+      "name": "ssv42",
+      "trips": 2
+    },
+    {
+      "name": "vik750",
+      "trips": 2
+    },
+    {
+      "name": "✮ serge ✮",
+      "trips": 2
+    },
+    {
+      "name": "ARTEM-716.RUS",
+      "trips": 1
+    },
+    {
+      "name": "Alex-nor83",
+      "trips": 1
+    },
+    {
+      "name": "AlfachLTU",
+      "trips": 1
+    },
+    {
+      "name": "Dedan",
+      "trips": 1
+    },
+    {
+      "name": "Frellancer",
+      "trips": 1
+    },
+    {
+      "name": "Leorio_Wand",
+      "trips": 1
+    },
+    {
+      "name": "Maxon4ik",
+      "trips": 1
+    },
+    {
+      "name": "Nemec",
+      "trips": 1
+    },
+    {
+      "name": "SCANIA For ever",
+      "trips": 1
+    },
+    {
+      "name": "SergoBY",
+      "trips": 1
+    },
+    {
+      "name": "Straider",
+      "trips": 1
+    },
+    {
+      "name": "andreypanfil",
+      "trips": 1
+    },
+    {
+      "name": "jackson20.06",
+      "trips": 1
+    },
+    {
+      "name": "maks^",
+      "trips": 1
+    },
+    {
+      "name": "sereginvs34sv",
+      "trips": 1
+    },
+    {
+      "name": "zvuka4",
+      "trips": 1
+    },
+    {
+      "name": "Рыба",
+      "trips": 1
+    }
+  ],
+  "14.06.26": [
+    {
+      "name": "Евгенич 76 RUS",
+      "trips": 16
+    },
+    {
+      "name": "Sento67",
+      "trips": 14
+    },
+    {
+      "name": "VladislavYakubov",
+      "trips": 11
+    },
+    {
+      "name": "Niko",
+      "trips": 9
+    },
+    {
+      "name": "albert.h.68",
+      "trips": 8
+    },
+    {
+      "name": "AlfachLTU",
+      "trips": 7
+    },
+    {
+      "name": "Vladas25LT",
+      "trips": 6
+    },
+    {
+      "name": "✮ serge ✮",
+      "trips": 6
+    },
+    {
+      "name": "DRON",
+      "trips": 5
+    },
+    {
+      "name": "Dakota",
+      "trips": 5
+    },
+    {
+      "name": "Grigory_Belogrudov",
+      "trips": 5
+    },
+    {
+      "name": "jackson20.06",
+      "trips": 5
+    },
+    {
+      "name": "4ypa4yps26",
+      "trips": 4
+    },
+    {
+      "name": "SLAVA3730",
+      "trips": 4
+    },
+    {
+      "name": "alexandr12990",
+      "trips": 4
+    },
+    {
+      "name": "eguar77",
+      "trips": 4
+    },
+    {
+      "name": "ARTEM-716.RUS",
+      "trips": 3
+    },
+    {
+      "name": "AnGor",
+      "trips": 3
+    },
+    {
+      "name": "VitKom",
+      "trips": 3
+    },
+    {
+      "name": "kuziaka799",
+      "trips": 3
+    },
+    {
+      "name": "sereginvs34sv",
+      "trips": 3
+    },
+    {
+      "name": "Leorio_Wand",
+      "trips": 2
+    },
+    {
+      "name": "Lorensas",
+      "trips": 2
+    },
+    {
+      "name": "Maxon4ik",
+      "trips": 2
+    },
+    {
+      "name": "Metamax",
+      "trips": 2
+    },
+    {
+      "name": "Nemec",
+      "trips": 2
+    },
+    {
+      "name": "Toxa",
+      "trips": 2
+    },
+    {
+      "name": "XezzyMan",
+      "trips": 2
+    },
+    {
+      "name": "Yurii0811",
+      "trips": 2
+    },
+    {
+      "name": "_RedFred_",
+      "trips": 2
+    },
+    {
+      "name": "loerdrem",
+      "trips": 2
+    },
+    {
+      "name": "Рыба",
+      "trips": 2
+    },
+    {
+      "name": "Сга3уСат",
+      "trips": 2
+    },
+    {
+      "name": "Alex-nor83",
+      "trips": 1
+    },
+    {
+      "name": "Alexus1967",
+      "trips": 1
+    },
+    {
+      "name": "Dedan",
+      "trips": 1
+    },
+    {
+      "name": "DimaSD 15",
+      "trips": 1
+    },
+    {
+      "name": "Gennadii",
+      "trips": 1
+    },
+    {
+      "name": "HammerFalll",
+      "trips": 1
+    },
+    {
+      "name": "MIRMAKC",
+      "trips": 1
+    },
+    {
+      "name": "Malam",
+      "trips": 1
+    },
+    {
+      "name": "SergoBY",
+      "trips": 1
+    },
+    {
+      "name": "YUREC",
+      "trips": 1
+    },
+    {
+      "name": "_Феникс_™",
+      "trips": 1
+    },
+    {
+      "name": "maks^",
+      "trips": 1
+    },
+    {
+      "name": "pavanisim",
+      "trips": 1
+    },
+    {
+      "name": "vik750",
+      "trips": 1
+    },
+    {
+      "name": "zulf1990",
+      "trips": 1
+    },
+    {
+      "name": "zvuka4",
+      "trips": 1
+    },
+    {
+      "name": "Кащей",
+      "trips": 1
+    }
+  ]
 }
