@@ -4,6 +4,9 @@ const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwY3h0dXdocnBnY2dkaXBnbnh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4NDM0MzgsImV4cCI6MjA5MjQxOTQzOH0.-l17k9yaD2Gx6fXEBSoBCVMoyevVVVOjHCxO51qvlTE";
 // ========================================
 
+const MAX_CONVOYS = 12; // Оставляем только 12 последних
+
+
 let currentConvoys = [];
 let currentUser = null;
 let currentJobFileContent = null;
@@ -688,12 +691,69 @@ function fillFormWithImportData(data) {
   });
 }
 
-// Загрузка конвоев
-async function loadConvoys() {
+// Очистка старых конвоев — оставляем только MAX_CONVOYS последних
+async function cleanupOldConvoys() {
   try {
-    const data = await supabaseClient.get("convoys?select=*&order=id.desc");
-    currentConvoys = Array.isArray(data) ? data : [];
+    // Получаем все ID конвоев (сортировка по убыванию)
+    const data = await supabaseClient.get(
+      "convoys?select=id&order=id.desc"
+    );
+
+    if (!Array.isArray(data) || data.length <= MAX_CONVOYS) {
+      console.log(`📊 Конвоев: ${data.length}. Очистка не требуется.`);
+      return;
+    }
+
+    // ID для удаления (все, кроме первых MAX_CONVOYS)
+    const idsToDelete = data.slice(MAX_CONVOYS).map(item => item.id);
+
+    console.log(`🗑️ Удаляем ${idsToDelete.length} старых конвоев...`);
+
+    // Удаляем пакетами по 50 (чтобы не перегружать запрос)
+    const batchSize = 50;
+    for (let i = 0; i < idsToDelete.length; i += batchSize) {
+      const batch = idsToDelete.slice(i, i + batchSize);
+      const idsString = batch.join(',');
+      await supabaseClient.delete(`convoys?id=in.(${idsString})`);
+    }
+
+    console.log(`✅ Очистка завершена. Осталось ${MAX_CONVOYS} конвоев.`);
+
+  } catch (error) {
+    console.error("❌ Ошибка при очистке:", error);
+  }
+}
+
+// Кэш для конвоев
+let convoyCache = {
+  data: null,
+  lastFetch: 0,
+  cacheDuration: 30000 // 30 секунд
+};
+
+async function loadConvoys(forceRefresh = false) {
+  const now = Date.now();
+
+  // Если кэш свежий и не требуется принудительное обновление
+  if (!forceRefresh && convoyCache.data && (now - convoyCache.lastFetch) < convoyCache.cacheDuration) {
+    console.log("📦 Использую кэшированные данные конвоев");
+    currentConvoys = convoyCache.data;
     renderConvoyList();
+    return;
+  }
+
+  try {
+    // Запрашиваем только MAX_CONVOYS записей (самые свежие)
+    const data = await supabaseClient.get(
+      `convoys?select=*&order=id.desc&limit=${MAX_CONVOYS}`
+    );
+    currentConvoys = Array.isArray(data) ? data : [];
+    convoyCache.data = currentConvoys;
+    convoyCache.lastFetch = now;
+    renderConvoyList();
+
+    console.log(`📊 Загружено ${currentConvoys.length} конвоев`);
+
   } catch (error) {
     console.error("Ошибка загрузки конвоев:", error);
     currentConvoys = [];
@@ -787,6 +847,7 @@ async function addConvoy(event) {
     return;
   }
 
+
   const game = document.getElementById("game").value;
   const distanceValue = document.getElementById("distance").value;
   const distance =
@@ -816,7 +877,11 @@ async function addConvoy(event) {
     job_file_content: jobFileContent, // ← ОТПРАВЛЯЕМ В БАЗУ
   };
 
+
+
   await supabaseClient.post("convoys", newConvoy);
+  await cleanupOldConvoys();
+
   document.getElementById("convoyForm").reset();
   document.getElementById("distance").value = "";
 
@@ -826,13 +891,17 @@ async function addConvoy(event) {
   }
 
   updateDistanceUnit();
-  loadConvoys();
 
+  await loadConvoys(true); // принудительно обновляем список
+
+  // Показываем сообщение
   const successMsg = document.getElementById("successMsg");
   if (successMsg) {
-    successMsg.textContent = "✅ Конвой успешно создан!";
+    successMsg.textContent = `✅ Конвой создан! Осталось ${MAX_CONVOYS} последних.`;
     setTimeout(() => (successMsg.textContent = ""), 3000);
   }
+
+
 }
 
 // Удаление конвоя

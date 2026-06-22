@@ -4,22 +4,44 @@ const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwY3h0dXdocnBnY2dkaXBnbnh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4NDM0MzgsImV4cCI6MjA5MjQxOTQzOH0.-l17k9yaD2Gx6fXEBSoBCVMoyevVVVOjHCxO51qvlTE";
 // =========================================================
 
+const MAX_CONVOYS = 12; // Оставляем только 12 последних
 let allConvoys = [];
+let convoyCache = {
+  data: null,
+  lastFetch: 0,
+  cacheDuration: 30000 // 30 секунд (можно увеличить до 60000)
+};
 
-async function loadConvoys() {
+// Загрузка конвоев с кэшированием и ограничением
+async function loadConvoys(forceRefresh = false) {
+  const now = Date.now();
+
+  // Используем кэш, если он свежий и не требуется принудительное обновление
+  if (!forceRefresh && convoyCache.data && (now - convoyCache.lastFetch) < convoyCache.cacheDuration) {
+    console.log("📦 Использую кэшированные данные конвоев (публичная страница)");
+    allConvoys = convoyCache.data;
+    renderConvoys("all");
+    return;
+  }
+
   try {
+    // Запрашиваем только 12 последних, исключаем job_file_content (он тяжелый)
+    // Можно также фильтровать по статусу, чтобы не грузить завершённые
     const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/convoys?select=*&order=id.desc`,
+      `${SUPABASE_URL}/rest/v1/convoys?select=id,game,status,date,time_start,time_end,from_city,from_state,from_base,to_city,to_state,to_base,distance,cargo_name,cargo_id,trucky_code,notes&order=id.desc&limit=${MAX_CONVOYS}`,
       {
         headers: {
           apikey: SUPABASE_ANON_KEY,
           Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
         },
-      },
+      }
     );
 
     if (!response.ok) throw new Error("Ошибка загрузки");
-    allConvoys = await response.json();
+    const data = await response.json();
+    allConvoys = data;
+    convoyCache.data = data;
+    convoyCache.lastFetch = now;
     renderConvoys("all");
   } catch (error) {
     document.getElementById("convoyGrid").innerHTML = `
@@ -30,6 +52,9 @@ async function loadConvoys() {
     `;
   }
 }
+
+
+
 
 function getStatusText(status) {
   switch (status) {
@@ -44,13 +69,12 @@ function getStatusText(status) {
   }
 }
 
-// Функция для открытия ссылки в новой вкладке
+// Функция для открытия ссылки (без изменений)
 window.openLink = function (url, name) {
   if (!url) {
     alert(`❌ ${name}: ссылка не найдена`);
     return;
   }
-
   if (url.startsWith("http://") || url.startsWith("https://")) {
     window.open(url, "_blank");
   } else {
@@ -58,32 +82,41 @@ window.openLink = function (url, name) {
   }
 };
 
-// Функция для скачивания файла delivery.job
-function downloadJobFile(content, filename = "delivery.job") {
-  if (
-    !content ||
-    content === "null" ||
-    content === "" ||
-    content === "undefined"
-  ) {
-    alert("❌ Файл delivery.job не найден для этого конвоя");
-    return;
+// Функция для скачивания delivery.job (загружаем файл отдельно по требованию)
+async function downloadJobFile(id) {
+  try {
+    // Запрашиваем только job_file_content для конкретного конвоя
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/convoys?select=job_file_content&id=eq.${id}`,
+      {
+        headers: {
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        },
+      }
+    );
+    if (!response.ok) throw new Error("Не удалось загрузить файл");
+    const data = await response.json();
+    if (!data || data.length === 0 || !data[0].job_file_content) {
+      alert("❌ Файл delivery.job не найден для этого конвоя");
+      return;
+    }
+    const content = data[0].job_file_content;
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "delivery.job";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    alert("✅ Файл delivery.job скачан!");
+  } catch (error) {
+    alert("❌ Ошибка при скачивании: " + error.message);
   }
-
-  const blob = new Blob([content], { type: "text/plain" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-
-  alert(
-    "✅ Файл delivery.job скачан! Положите его в папку cargoman",
-  );
 }
+
 
 window.downloadJobFile = downloadJobFile;
 
@@ -129,7 +162,7 @@ function renderConvoys(filter) {
           <h4>🔧 Создать заказ:</h4>
           <div class="link-buttons">
             ${convoy.trucky_code ? `<button class="link-btn trucky" onclick="copyToClipboard('${escapeHtml(convoy.trucky_code).replace(/'/g, "\\'")}', 'Trucky код')">🚛 Trucky | ${escapeHtml(convoy.trucky_code)}</button>` : ""}
-            ${convoy.job_file_content ? `<button class="link-btn jobfile" onclick="downloadJobFile(decodeURIComponent('${encodeURIComponent(convoy.job_file_content)}'), 'delivery.job')">📄 Скачать delivery.job</button>` : ""}
+            <button class="link-btn jobfile" onclick="downloadJobFile(${convoy.id})">📄 Скачать delivery.job</button>
           </div>
         </div>
       `
@@ -227,5 +260,4 @@ function initFilters() {
 document.addEventListener("DOMContentLoaded", () => {
   loadConvoys();
   initFilters();
-  setInterval(loadConvoys, 60000);
 });
