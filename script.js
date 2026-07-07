@@ -47,6 +47,7 @@ async function loadAllData() {
       "data/users/2604.json", // 2026 апрель
       "data/users/2605.json", // 2026 май
       "data/users/2606.json", // 2026 июнь
+      "data/users/2607.json", // 2026 июль
     ];
 
     const promises = files.map((file) =>
@@ -109,6 +110,7 @@ async function loadContracts() {
     const contractFiles = [
       "data/contracts/contracts2605.json",
       "data/contracts/contracts2606.json",
+      "data/contracts/contracts2607.json",
       // Добавьте другие файлы по необходимости
     ];
 
