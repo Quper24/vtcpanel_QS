@@ -47,23 +47,23 @@ const ROLE_RULES_TOTAL = {
 // Конфигурация для расчёта эффективности
 const CONFIG = {
   contracts: {
-    min: 2,
-    baseTarget: 14,
-    midTarget: 28,
-    highTarget: 35,
+    min: 1,
+    baseTarget: 8,
+    midTarget: 12,
+    highTarget: 24,
     midBonus: 50,
     highBonus: 25,
     extraStep: 0.5,
   },
   pokazatel: {
-    max: 150,
+    max: 100,
   },
   karma: {
     max: 2,
   },
   points: {
-    base: 28,
-    step: 4,
+    base: 20,
+    step: 3,
     stepBonus: 5,
   },
 };
