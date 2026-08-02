@@ -27,11 +27,11 @@ const roleNames = {
 // Правила для недельной эффективности
 const ROLE_RULES = {
   3: { min: 0, max: 1 },
-  4: { min: 1, max: 5 },
-  5: { min: 5, max: 30 },
-  6: { min: 30, max: 50 },
-  7: { min: 50, max: 70 },
-  8: { min: 70, max: 300 },
+  4: { min: 1, max: 8 },
+  5: { min: 8, max: 35 },
+  6: { min: 35, max: 60 },
+  7: { min: 60, max: 100 },
+  8: { min: 100, max: 150 },
 };
 
 // Правила для общей эффективности (за 2 недели)
@@ -656,6 +656,7 @@ async function loadAllData() {
       "data/users/2605.json",
       "data/users/2606.json",
       "data/users/2607.json",
+      "data/users/2608.json",
     ];
     const promises = files.map((file) =>
       fetch(file)
@@ -687,6 +688,7 @@ async function loadContracts() {
       "data/contracts/contracts2605.json",
       "data/contracts/contracts2606.json",
       "data/contracts/contracts2607.json",
+      "data/contracts/contracts2608.json",
     ];
     const promises = files.map((file) =>
       fetch(file)
