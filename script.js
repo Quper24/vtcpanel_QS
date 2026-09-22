@@ -71,8 +71,8 @@ const CONFIG = {
 const WEIGHTS = {
   contracts: 0.35,
   pokazatel: 0.25,
-  karma: 0.15,
-  points: 0.25,
+  karma: 0.25,
+  points: 0.15,
 };
 
 // --- Вспомогательные функции ---
