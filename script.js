@@ -658,6 +658,7 @@ async function loadAllData() {
       "data/users/2607.json",
       "data/users/2608.json",
       "data/users/2609.json",
+      "data/users/2610.json",
     ];
     const promises = files.map((file) =>
       fetch(file)
@@ -691,6 +692,7 @@ async function loadContracts() {
       "data/contracts/contracts2607.json",
       "data/contracts/contracts2608.json",
       "data/contracts/contracts2609.json",
+      "data/contracts/contracts2610.json",
     ];
     const promises = files.map((file) =>
       fetch(file)
